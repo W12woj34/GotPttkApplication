@@ -3,7 +3,7 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Referat_Weryfikacjyjny", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Referat_Weryfikacjyjny", schema = "xnWwlKKwT8")
 public class ReferatWeryfikacjyjnyEntity {
     private String id;
     private int rodzaj;

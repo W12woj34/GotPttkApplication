@@ -3,7 +3,7 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Uprawnienia_Przodownika", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Uprawnienia_Przodownika", schema = "xnWwlKKwT8")
 @IdClass(UprawnieniaPrzodownikaEntityPK.class)
 public class UprawnieniaPrzodownikaEntity {
     private String przodownik;

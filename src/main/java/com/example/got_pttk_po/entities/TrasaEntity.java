@@ -3,7 +3,7 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Trasa", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Trasa", schema = "xnWwlKKwT8")
 public class TrasaEntity {
     private int numer;
     private int punkty;

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Arrays;
 
 @Entity
-@Table(name = "Zdjecie", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Zdjecie", schema = "xnWwlKKwT8")
 @IdClass(ZdjecieEntityPK.class)
 public class ZdjecieEntity {
     private int wycieczka;

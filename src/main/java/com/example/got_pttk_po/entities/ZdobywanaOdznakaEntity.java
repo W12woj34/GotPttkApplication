@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Zdobywana_Odznaka", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Zdobywana_Odznaka", schema = "xnWwlKKwT8")
 public class ZdobywanaOdznakaEntity {
     private int id;
     private Date dataZdobycia;

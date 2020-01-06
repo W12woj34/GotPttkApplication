@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Administrator_Danych_GOT", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Administrator_Danych_GOT", schema = "xnWwlKKwT8")
 public class AdministratorDanychGotEntity {
     private String id;
 

@@ -3,7 +3,7 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Punkt_Kontrolny_Sasiedzi", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Punkt_Kontrolny_Sasiedzi", schema = "xnWwlKKwT8")
 @IdClass(PunktKontrolnySasiedziEntityPK.class)
 public class PunktKontrolnySasiedziEntity {
     private String punkt;

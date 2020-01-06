@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Trasa_Wycieczki", schema = "xnWwlKKwT8", catalog = "")
+@Table(name = "Trasa_Wycieczki", schema = "xnWwlKKwT8")
 public class TrasaWycieczkiEntity {
     private int numer;
     private boolean powtozona;
