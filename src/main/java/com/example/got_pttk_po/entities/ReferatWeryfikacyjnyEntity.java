@@ -3,8 +3,8 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Referat_Weryfikacjyjny", schema = "xnWwlKKwT8")
-public class ReferatWeryfikacjyjnyEntity {
+@Table(name = "Referat_Weryfikacyjny", schema = "xnWwlKKwT8")
+public class ReferatWeryfikacyjnyEntity {
     private String id;
     private int rodzaj;
 
@@ -33,7 +33,7 @@ public class ReferatWeryfikacjyjnyEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ReferatWeryfikacjyjnyEntity that = (ReferatWeryfikacjyjnyEntity) o;
+        ReferatWeryfikacyjnyEntity that = (ReferatWeryfikacyjnyEntity) o;
 
         if (rodzaj != that.rodzaj) return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
