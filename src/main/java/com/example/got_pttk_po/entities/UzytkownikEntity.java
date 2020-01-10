@@ -3,7 +3,7 @@ package com.example.got_pttk_po.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Uzytkownik", schema = "xnWwlKKwT8")
+@Table(name = "Uzytkownik")
 public class UzytkownikEntity {
     private String id;
     private String imie;

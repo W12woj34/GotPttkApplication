@@ -23,7 +23,8 @@ class UzytkownikController {
 
     @GetMapping("/users")
     List<UzytkownikEntity> all() {
-        return repository.findAll();
+        List<UzytkownikEntity> result =  repository.findAll();
+        return result;
     }
 
     @PostMapping("/users")
@@ -37,12 +38,12 @@ class UzytkownikController {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    @PutMapping("/employees/{id}")
+    @PutMapping("/user/{id}")
     UzytkownikEntity replaceEmployee(@RequestBody UzytkownikEntity newEmployee, @PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/user/{id}")
     void deleteEmployee(@PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
