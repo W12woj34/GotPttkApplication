@@ -25,7 +25,7 @@ class WycieczkaController {
         return ResponseEntity.ok(service.getAllTrips());
     }
 
-    @GetMapping(value = "tourist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/tourist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<WycieczkaEntity>> allTripsTourist(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getAllTripsTourist());

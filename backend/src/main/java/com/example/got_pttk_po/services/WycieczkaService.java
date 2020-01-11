@@ -18,15 +18,18 @@ public class WycieczkaService {
 
 
     public List<WycieczkaEntity> getAllTrips() {
+
         return repositoryWycieczka.findAll();
     }
 
 
     public List<WycieczkaEntity> getAllTripsTourist() {
+
         return repositoryWycieczka.findAll();
     }
 
     public WycieczkaEntity getOneTrip(Integer id) {
+
         return repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
     }

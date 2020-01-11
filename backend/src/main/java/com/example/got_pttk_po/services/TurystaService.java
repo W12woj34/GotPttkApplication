@@ -25,15 +25,18 @@ public class TurystaService {
 
 
     public List<TurystaEntity> getAllTourists() {
+
         return repositoryTurysta.findAll();
     }
 
     public TurystaEntity getOneTourist(String id) {
+
         return repositoryTurysta.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public List<UzytkownikEntity> getAllTouristsAll() {
+
         List<TurystaEntity> touristsList = repositoryTurysta.findAll();
         List<String> touristIds = new ArrayList<>();
         for (TurystaEntity tourit : touristsList) {
@@ -45,6 +48,7 @@ public class TurystaService {
 
 
     public UzytkownikEntity getOneTouristAll(String id) {
+
         TurystaEntity tourist = repositoryTurysta.findById(id).orElseThrow(() -> new TouristNotFoundException(id));
         return repositoryUzytkownik.findById(tourist.getNazwa()).orElseThrow(() -> new UserNotFoundException(id));
     }

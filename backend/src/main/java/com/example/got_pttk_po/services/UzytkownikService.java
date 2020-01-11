@@ -18,10 +18,12 @@ public class UzytkownikService {
 
 
     public List<UzytkownikEntity> getAllUsers() {
+
         return repository.findAll();
     }
 
     public UzytkownikEntity getOneUser(String id) {
+
         return repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }

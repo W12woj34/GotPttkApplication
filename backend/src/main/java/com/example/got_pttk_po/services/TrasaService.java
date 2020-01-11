@@ -13,20 +13,24 @@ public class TrasaService {
     private final TrasaRepository repositoryTrasa;
 
     TrasaService(TrasaRepository repository) {
+
         this.repositoryTrasa = repository;
     }
 
 
     public List<TrasaEntity> getAllRoutes() {
+
         return repositoryTrasa.findAll();
     }
 
     public List<TrasaEntity> getPossibleRoutes(Integer id) {
+
        TrasaEntity route =  repositoryTrasa.findById(id).orElseThrow(() -> new RouteNotFoundException(id));
         return repositoryTrasa.findByPoczatkowy(route.getKoncowy());
     }
 
     public TrasaEntity getOneRoute(Integer id) {
+
         return repositoryTrasa.findById(id)
                 .orElseThrow(() -> new RouteNotFoundException(id));
     }

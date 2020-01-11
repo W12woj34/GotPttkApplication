@@ -25,15 +25,18 @@ public class PrzodownikService {
 
 
     public List<PrzodownikEntity> getAllLeaders() {
+
         return repositoryPrzodownik.findAll();
     }
 
     public PrzodownikEntity getOneLeader(String id) {
+
         return repositoryPrzodownik.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     public List<UzytkownikEntity> getAllLeadersAll() {
+
         List<PrzodownikEntity> leadersList = repositoryPrzodownik.findAll();
         List<String> leaderIds = new ArrayList<>();
         for (PrzodownikEntity tourit : leadersList) {
@@ -45,6 +48,7 @@ public class PrzodownikService {
 
 
     public UzytkownikEntity getOneLeaderAll(String id) {
+
         PrzodownikEntity leader = repositoryPrzodownik.findById(id).orElseThrow(() -> new LeaderNotFoundException(id));
         return repositoryUzytkownik.findById(leader.getNrLicencji()).orElseThrow(() -> new UserNotFoundException(id));
     }

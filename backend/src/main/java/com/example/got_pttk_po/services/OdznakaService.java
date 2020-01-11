@@ -13,15 +13,18 @@ public class OdznakaService {
     private final OdznakaRepository repositoryOdznaka;
 
     OdznakaService(OdznakaRepository repository) {
+
         this.repositoryOdznaka = repository;
     }
 
 
     public List<OdznakaEntity> getAllBadges() {
+
         return repositoryOdznaka.findAll();
     }
 
     public OdznakaEntity getOneBadge(String id) {
+
         return repositoryOdznaka.findById(id)
                 .orElseThrow(() -> new BadgeNotFoundException(id));
     }

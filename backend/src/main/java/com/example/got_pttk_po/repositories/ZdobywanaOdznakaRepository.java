@@ -9,4 +9,5 @@ public interface ZdobywanaOdznakaRepository extends JpaRepository<ZdobywanaOdzna
 
     List<ZdobywanaOdznakaEntity> findByTurysta(String turysta);
     List<ZdobywanaOdznakaEntity> findByTurystaAndStatus(String turysta, Integer status);
+    List<ZdobywanaOdznakaEntity> findByTurystaOrderByDataZdobyciaDesc(String turysta);
 }
