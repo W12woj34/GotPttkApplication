@@ -28,7 +28,7 @@ class UzytkownikController {
     }
 
     @PostMapping("/users")
-    UzytkownikEntity newEmployee(@RequestBody UzytkownikEntity newEmployee) {
+    UzytkownikEntity newEmployee(@RequestBody UzytkownikEntity newUser) {
         throw new java.lang.UnsupportedOperationException();
     }
 
@@ -39,12 +39,12 @@ class UzytkownikController {
     }
 
     @PutMapping("/user/{id}")
-    UzytkownikEntity replaceEmployee(@RequestBody UzytkownikEntity newEmployee, @PathVariable Long id) {
+    UzytkownikEntity replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
     @DeleteMapping("/user/{id}")
-    void deleteEmployee(@PathVariable Long id) {
+    void deleteUser(@PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
 }
