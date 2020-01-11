@@ -3,6 +3,8 @@ package com.example.got_pttk_po.controllers;
 import java.util.List;
 import com.example.got_pttk_po.entities.OdznakaEntity;
 import com.example.got_pttk_po.services.OdznakaService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,28 +18,33 @@ class OdznakaController {
         this.service = service;
     }
 
-    @GetMapping("")
-    List<OdznakaEntity> allBadges() {
-        return service.getAllBadges();
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<OdznakaEntity>> allBadges() {
+
+        return ResponseEntity.ok(service.getAllBadges());
     }
 
-    @PostMapping("")
-    OdznakaEntity newBadge(@RequestBody OdznakaEntity newBadge) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<OdznakaEntity> oneBadge(@PathVariable String id) {
+
+        return ResponseEntity.ok(service.getOneBadge(id));
+    }
+
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<OdznakaEntity> replaceBadge(@RequestBody OdznakaEntity newBadge, @PathVariable String id) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @GetMapping("/{id}")
-    OdznakaEntity oneBadge(@PathVariable String id) {
-        return service.getOneBadge(id);
-    }
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<OdznakaEntity> newBadge(@RequestBody OdznakaEntity newBadge) {
 
-    @PutMapping("/{id}")
-    OdznakaEntity replaceBadge(@RequestBody OdznakaEntity newBadge, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @DeleteMapping("/{id}")
-    void deleteBadge(@PathVariable String id) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Integer> deleteBadge(@PathVariable String id) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 }

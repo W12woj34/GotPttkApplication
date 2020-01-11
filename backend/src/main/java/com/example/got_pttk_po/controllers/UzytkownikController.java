@@ -3,6 +3,8 @@ package com.example.got_pttk_po.controllers;
 import java.util.List;
 import com.example.got_pttk_po.entities.UzytkownikEntity;
 import com.example.got_pttk_po.services.UzytkownikService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,28 +18,33 @@ class UzytkownikController {
         this.service = service;
     }
 
-    @GetMapping("")
-    List<UzytkownikEntity> allUsers() {
-        return service.getAllUsers();
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<UzytkownikEntity>> allUsers() {
+
+        return ResponseEntity.ok(service.getAllUsers());
     }
 
-    @PostMapping("")
-    UzytkownikEntity newUser(@RequestBody UzytkownikEntity newUser) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UzytkownikEntity> oneUser(@PathVariable String id) {
+
+        return ResponseEntity.ok(service.getOneUser(id));
+    }
+
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UzytkownikEntity> newUser(@RequestBody UzytkownikEntity newUser) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @GetMapping("/{id}")
-    UzytkownikEntity oneUser(@PathVariable String id) {
-        return service.getOneUser(id);
-    }
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UzytkownikEntity> replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable String id) {
 
-    @PutMapping("/{id}")
-    UzytkownikEntity replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable String id) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Integer> deleteUser(@PathVariable String id) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 }

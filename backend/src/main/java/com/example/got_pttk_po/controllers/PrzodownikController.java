@@ -5,6 +5,8 @@ import java.util.List;
 import com.example.got_pttk_po.entities.PrzodownikEntity;
 import com.example.got_pttk_po.entities.UzytkownikEntity;
 import com.example.got_pttk_po.services.PrzodownikService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,38 +20,47 @@ class PrzodownikController {
         this.service = service;
     }
 
-    @GetMapping("")
-    List<PrzodownikEntity> allLeadersId() {
-        return service.getAllLeaders();
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<PrzodownikEntity>> allLeadersId() {
+
+        return ResponseEntity.ok(service.getAllLeaders());
     }
 
-    @GetMapping("/all")
-    List<UzytkownikEntity> allLeadersAll() {
-        return service.getAllLeadersAll();
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<UzytkownikEntity>> allLeadersAll() {
+
+        return ResponseEntity.ok(service.getAllLeadersAll());
     }
 
-    @PostMapping("")
-    PrzodownikEntity newLeader(@RequestBody PrzodownikEntity newLeader) {
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PrzodownikEntity> oneLeaderId(@PathVariable String id) {
+
+        return ResponseEntity.ok(service.getOneLeader(id));
+    }
+
+    @GetMapping(value = "/{id}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UzytkownikEntity> oneLeaderAll(@PathVariable String id) {
+
+        return ResponseEntity.ok(service.getOneLeaderAll(id));
+    }
+
+
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PrzodownikEntity> newLeader(@RequestBody PrzodownikEntity newLeader) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @GetMapping("/{id}")
-    PrzodownikEntity oneLeaderId(@PathVariable String id) {
-        return service.getOneLeader(id);
-    }
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<PrzodownikEntity> replaceLeader(@RequestBody PrzodownikEntity newLeader, @PathVariable String id) {
 
-    @GetMapping("/{id}/all")
-    UzytkownikEntity oneLeaderAll(@PathVariable String id) {
-        return service.getOneLeaderAll(id);
-    }
-
-    @PutMapping("/{id}")
-    PrzodownikEntity replaceLeader(@RequestBody PrzodownikEntity newLeader, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @DeleteMapping("/{id}")
-    void deleteLeader(@PathVariable String id) {
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Integer> deleteLeader(@PathVariable String id) {
+
         throw new java.lang.UnsupportedOperationException();
     }
 }

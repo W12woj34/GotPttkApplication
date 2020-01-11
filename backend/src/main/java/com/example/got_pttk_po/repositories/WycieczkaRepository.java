@@ -12,4 +12,5 @@ public interface WycieczkaRepository extends JpaRepository<WycieczkaEntity, Inte
     List<WycieczkaEntity> findByPrzodownikAndStatus(String leader, Integer status);
     List<WycieczkaEntity> findByOdznaka(Integer badge);
     List<WycieczkaEntity> findByOdznakaIn(Collection<Integer> badges);
+    List<WycieczkaEntity> findByOdznakaInAndStatus(Collection<Integer> badges, Integer status);
 }
