@@ -32,12 +32,12 @@ class UzytkownikController {
     }
 
     @PutMapping("/{id}")
-    UzytkownikEntity replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable Long id) {
+    UzytkownikEntity replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
     @DeleteMapping("/{id}")
-    void deleteUser(@PathVariable Long id) {
+    void deleteUser(@PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 }

@@ -44,12 +44,12 @@ class TurystaController {
     }
 
     @PutMapping("/{id}")
-    TurystaEntity replaceTourist(@RequestBody TurystaEntity newUser, @PathVariable Long id) {
+    TurystaEntity replaceTourist(@RequestBody TurystaEntity newTourist, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
     @DeleteMapping("/{id}")
-    void deleteTourist(@PathVariable Long id) {
+    void deleteTourist(@PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 }

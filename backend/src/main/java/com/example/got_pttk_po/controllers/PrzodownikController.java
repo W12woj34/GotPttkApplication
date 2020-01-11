@@ -29,7 +29,7 @@ class PrzodownikController {
     }
 
     @PostMapping("")
-    PrzodownikEntity newLeader(@RequestBody PrzodownikEntity newTourist) {
+    PrzodownikEntity newLeader(@RequestBody PrzodownikEntity newLeader) {
         throw new java.lang.UnsupportedOperationException();
     }
 
@@ -44,12 +44,12 @@ class PrzodownikController {
     }
 
     @PutMapping("/{id}")
-    PrzodownikEntity replaceLeader(@RequestBody PrzodownikEntity newUser, @PathVariable Long id) {
+    PrzodownikEntity replaceLeader(@RequestBody PrzodownikEntity newLeader, @PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
     @DeleteMapping("/{id}")
-    void deleteLeader(@PathVariable Long id) {
+    void deleteLeader(@PathVariable String id) {
         throw new java.lang.UnsupportedOperationException();
     }
 }
