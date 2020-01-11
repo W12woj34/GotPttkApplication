@@ -2,48 +2,41 @@ package com.example.got_pttk_po.controllers;
 
 import java.util.List;
 import com.example.got_pttk_po.entities.UzytkownikEntity;
-import com.example.got_pttk_po.exceptions.UserNotFoundException;
-import com.example.got_pttk_po.repositories.UzytkownikRepository;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.got_pttk_po.services.UzytkownikService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/users")
 class UzytkownikController {
 
-    private final UzytkownikRepository repository;
+    private final UzytkownikService service;
 
-    UzytkownikController(UzytkownikRepository repository) {
-        this.repository = repository;
+    UzytkownikController(UzytkownikService service) {
+        this.service = service;
     }
 
-    @GetMapping("/users")
-    List<UzytkownikEntity> all() {
-        List<UzytkownikEntity> result =  repository.findAll();
-        return result;
+    @GetMapping("")
+    List<UzytkownikEntity> allUsers() {
+        return service.getAllUsers();
     }
 
-    @PostMapping("/users")
-    UzytkownikEntity newEmployee(@RequestBody UzytkownikEntity newUser) {
+    @PostMapping("")
+    UzytkownikEntity newUser(@RequestBody UzytkownikEntity newUser) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @GetMapping("/user/{id}")
-    UzytkownikEntity one(@PathVariable String id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+    @GetMapping("/{id}")
+    UzytkownikEntity oneUser(@PathVariable String id) {
+        return service.getOneUser(id);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/{id}")
     UzytkownikEntity replaceUser(@RequestBody UzytkownikEntity newUser, @PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     void deleteUser(@PathVariable Long id) {
         throw new java.lang.UnsupportedOperationException();
     }
