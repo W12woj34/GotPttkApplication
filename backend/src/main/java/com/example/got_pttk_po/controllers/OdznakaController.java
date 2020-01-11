@@ -1,4 +1,4 @@
-package com.example.got_pttk_po.controllers;
+package com.example.got_pttk_app.controllers;
 
 public class OdznakaController {
 }
