@@ -80,6 +80,10 @@ public class ZdobywanaOdznakaService {
     }
 
     public ZdobywanaOdznakaEntity addGetBadge(String touristId, String badgeId) {
+        List<ZdobywanaOdznakaEntity> currentGetBadge = repositoryZdobywanaOdznaka.findByTurystaAndStatus(touristId, 0);
+        if(!currentGetBadge.isEmpty()){
+            throw new BadgeNotPossibleException(badgeId);
+        }
         ZdobywanaOdznakaEntity badge = new ZdobywanaOdznakaEntity();
         List<OdznakaEntity> possibleBadges = getAllPossibleBadgesTourist(touristId);
         List<String> possibleIds = new ArrayList<>();
@@ -108,7 +112,7 @@ public class ZdobywanaOdznakaService {
 
         ZdobywanaOdznakaEntity badge = repositoryZdobywanaOdznaka.findById(id)
                 .orElseThrow(() -> new GetBadgeNotFoundException(id));
-        if (badge.getStatus() == 0) {
+        if (badge.getStatus() == 1) {
             throw new GetBadgeIsVerificatedException(id);
         }
         repositoryZdobywanaOdznaka.deleteById(id);
