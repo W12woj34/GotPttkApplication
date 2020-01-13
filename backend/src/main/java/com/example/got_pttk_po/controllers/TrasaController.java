@@ -36,6 +36,12 @@ class TrasaController {
         return ResponseEntity.ok(service.getPossibleRoutes(id));
     }
 
+    @GetMapping(value = "/subgroup/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<TrasaEntity>> possibleRoutes(@PathVariable String id) {
+
+        return ResponseEntity.ok(service.getAllRoutesInSubgroup(id));
+    }
+
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<TrasaEntity> newRoute(@RequestBody TrasaEntity newRoute) {
 

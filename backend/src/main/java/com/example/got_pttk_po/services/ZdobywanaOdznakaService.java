@@ -112,9 +112,10 @@ public class ZdobywanaOdznakaService {
 
         ZdobywanaOdznakaEntity badge = repositoryZdobywanaOdznaka.findById(id)
                 .orElseThrow(() -> new GetBadgeNotFoundException(id));
-        if (badge.getStatus() == 1) {
+        if (badge.getStatus() == 1 || badge.getStatus() == 2) {
             throw new GetBadgeIsVerificatedException(id);
         }
+        //usunac wszystkie wycieczki z tej odznaki
         repositoryZdobywanaOdznaka.deleteById(id);
         return id;
     }

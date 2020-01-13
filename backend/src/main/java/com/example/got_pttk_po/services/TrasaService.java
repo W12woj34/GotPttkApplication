@@ -36,5 +36,7 @@ public class TrasaService {
     }
 
 
-
+    public List<TrasaEntity> getAllRoutesInSubgroup(String id) {
+        return repositoryTrasa.findByPodgrupa(id);
+    }
 }

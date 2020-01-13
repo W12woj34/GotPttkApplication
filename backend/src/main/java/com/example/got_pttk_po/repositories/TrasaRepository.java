@@ -8,4 +8,5 @@ import java.util.List;
 public interface TrasaRepository extends JpaRepository<TrasaEntity, Integer> {
 
     List<TrasaEntity> findByPoczatkowy(String poczatkowy);
+    List<TrasaEntity> findByPodgrupa(String podgrupa);
 }
