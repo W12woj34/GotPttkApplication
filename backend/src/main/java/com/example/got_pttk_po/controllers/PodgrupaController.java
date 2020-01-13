@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/Subgroups")
+@RequestMapping("/subgroups")
 class PodgrupaController {
 
     private final PodgrupaService service;
@@ -25,7 +25,7 @@ class PodgrupaController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PodgrupaEntity> oneSubgroup(@PathVariable Integer id) {
+    ResponseEntity<PodgrupaEntity> oneSubgroup(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getOneSubgroup(id));
     }

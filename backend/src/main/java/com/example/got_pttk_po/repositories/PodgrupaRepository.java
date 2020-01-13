@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface PodgrupaRepository extends JpaRepository<PodgrupaEntity, Integer> {
+public interface PodgrupaRepository extends JpaRepository<PodgrupaEntity, String> {
 
     List<PodgrupaEntity> findByGrupa(String grupa);
 }

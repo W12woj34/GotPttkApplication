@@ -28,7 +28,7 @@ public class PodgrupaService {
         return repositoryPodgrupa.findByGrupa(id);
     }
 
-    public PodgrupaEntity getOneSubgroup(Integer id) {
+    public PodgrupaEntity getOneSubgroup(String id) {
 
         return repositoryPodgrupa.findById(id)
                 .orElseThrow(() -> new SubgroupNotFoundException(id));
