@@ -2,6 +2,7 @@ package com.example.got_pttk_po.controllers;
 
 import java.util.List;
 
+import com.example.got_pttk_po.dto.NewGetBadgeDTO;
 import com.example.got_pttk_po.entities.OdznakaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
 import com.example.got_pttk_po.services.ZdobywanaOdznakaService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/getBadge")
+@RequestMapping("/getBadges")
 class ZdobywanaOdznakaController {
 
     private final ZdobywanaOdznakaService service;
@@ -50,14 +51,14 @@ class ZdobywanaOdznakaController {
         return ResponseEntity.ok(service.getAllPossibleBadgesTourist(id));
     }
 
-    @PostMapping(value = "/{touristId}/{badgeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ZdobywanaOdznakaEntity> newGetBadge(@PathVariable String touristId, @PathVariable String badgeId) {
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZdobywanaOdznakaEntity> newGetBadge(@RequestBody NewGetBadgeDTO newGetBadge) {
 
-        return ResponseEntity.ok(service.addGetBadge(touristId, badgeId));
+        return ResponseEntity.ok(service.addGetBadge(newGetBadge.getTouristId(), newGetBadge.getBadgeId()));
     }
 
-    @PatchMapping(value = "/{getBadgeId}/change/{newBadgeId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ZdobywanaOdznakaEntity> replaceTrip(@RequestBody Integer getBadgeId, @PathVariable String newBadgeId) {
+    @PutMapping(value = "/{getBadgeId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ZdobywanaOdznakaEntity> replaceTrip(@RequestBody String newBadgeId, @PathVariable Integer getBadgeId) {
 
         return ResponseEntity.ok(service.changeBadge(getBadgeId, newBadgeId));
     }
