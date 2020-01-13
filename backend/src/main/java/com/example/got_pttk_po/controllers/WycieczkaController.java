@@ -38,13 +38,13 @@ class WycieczkaController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> newTrip(@RequestBody WycieczkaEntity newTourist) {
+    ResponseEntity<WycieczkaEntity> newTrip(@RequestBody Integer newTripGetBadge) {
 
         throw new java.lang.UnsupportedOperationException();
     }
 
-    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> replaceTrip(@RequestBody WycieczkaEntity newTourist, @PathVariable String id) {
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<WycieczkaEntity> replaceTrip(@PathVariable String id) {
 
         throw new java.lang.UnsupportedOperationException();
     }
