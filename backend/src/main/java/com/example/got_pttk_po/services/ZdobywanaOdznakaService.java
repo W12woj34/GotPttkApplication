@@ -1,12 +1,14 @@
 package com.example.got_pttk_po.services;
 
 import com.example.got_pttk_po.entities.OdznakaEntity;
+import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
 import com.example.got_pttk_po.exceptions.BadgeNotFoundException;
 import com.example.got_pttk_po.exceptions.BadgeNotPossibleException;
 import com.example.got_pttk_po.exceptions.GetBadgeIsVerificatedException;
 import com.example.got_pttk_po.exceptions.GetBadgeNotFoundException;
 import com.example.got_pttk_po.repositories.OdznakaRepository;
+import com.example.got_pttk_po.repositories.WycieczkaRepository;
 import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,15 @@ public class ZdobywanaOdznakaService {
 
     private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
     private final OdznakaRepository repositoryOdznaka;
+    private final WycieczkaRepository repositoryWycieczka;
+    private final WycieczkaService wycieczkaService;
 
-    ZdobywanaOdznakaService(ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka, OdznakaRepository repositoryOdznaka) {
+    ZdobywanaOdznakaService(ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka, OdznakaRepository repositoryOdznaka,
+                            WycieczkaRepository repositoryWycieczka, WycieczkaService wycieczkaService) {
         this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;
         this.repositoryOdznaka = repositoryOdznaka;
+        this.repositoryWycieczka = repositoryWycieczka;
+        this.wycieczkaService = wycieczkaService;
     }
 
     public List<ZdobywanaOdznakaEntity> getAllGetBadges() {
@@ -115,7 +122,13 @@ public class ZdobywanaOdznakaService {
         if (badge.getStatus() == 1 || badge.getStatus() == 2) {
             throw new GetBadgeIsVerificatedException(id);
         }
-        //usunac wszystkie wycieczki z tej odznaki
+
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        List<Integer> tripIds = new ArrayList<>();
+        for(WycieczkaEntity trip : trips){
+            tripIds.add(trip.getNumer());
+        }
+        wycieczkaService.deleteTrips(tripIds);
         repositoryZdobywanaOdznaka.deleteById(id);
         return id;
     }

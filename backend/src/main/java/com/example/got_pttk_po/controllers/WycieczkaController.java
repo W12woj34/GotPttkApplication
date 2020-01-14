@@ -89,7 +89,7 @@ class WycieczkaController {
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Integer> deleteTrip(@PathVariable Integer id) {
 
-        return ResponseEntity.ok(service.deleteIrip(id));
+        return ResponseEntity.ok(service.deleteTrip(id));
     }
 
     @DeleteMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)

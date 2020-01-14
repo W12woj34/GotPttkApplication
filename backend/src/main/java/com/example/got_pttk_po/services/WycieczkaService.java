@@ -93,8 +93,6 @@ public class WycieczkaService {
             WycieczkaEntity trip = new WycieczkaEntity();
             trip.setStatus(0);
             trip.setOdznaka(newTripGetBadge);
-            trip.setDataRozpoczecia(new Date(0));
-            trip.setDataZakonczenia(new Date(0));
 
             return repositoryWycieczka.save(trip);
         } else {
@@ -114,7 +112,7 @@ public class WycieczkaService {
         List<String> groupIds = new ArrayList<>();
         List<PodgrupaEntity> subgroups = new ArrayList<>();
         List<String> subgroupIds = new ArrayList<>();
-        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczka(id);
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
         List<TrasaEntity> routes = new ArrayList<>();
 
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
@@ -211,14 +209,13 @@ public class WycieczkaService {
         return repositoryWycieczka.save(trip);
     }
 
-    public Integer deleteIrip(Integer id) {
+    public Integer deleteTrip(Integer id) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
         if (trip.getStatus() == 0 || trip.getStatus() == 2) {
 
-            List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczka(id);
-            serviceTrasaWycieczki.deleteRoutes(routes);
+            deleteAllRoutesForTrip(id);
 
             repositoryWycieczka.deleteById(id);
         } else {
@@ -236,13 +233,21 @@ public class WycieczkaService {
 
                 idsToDelete.add(trip.getNumer());
 
-                List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczka(id);
-                serviceTrasaWycieczki.deleteRoutes(routes);
+                deleteAllRoutesForTrip(id);
 
                 repositoryWycieczka.deleteById(trip.getNumer());
             }
         }
         return idsToDelete;
+    }
+
+    private void deleteAllRoutesForTrip(Integer id) {
+        List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        List<Integer> routeIds = new ArrayList<>();
+        for(TrasaWycieczkiEntity route : routes){
+            routeIds.add(route.getNumer());
+        }
+        serviceTrasaWycieczki.deleteTripRoutes(routeIds);
     }
 
 
