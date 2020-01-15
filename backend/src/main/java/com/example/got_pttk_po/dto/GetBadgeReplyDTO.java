@@ -22,6 +22,8 @@ public class GetBadgeReplyDTO {
         this.referat = referat;
     }
 
+    public GetBadgeReplyDTO() {
+    }
 
     public int getId() {
         return id;

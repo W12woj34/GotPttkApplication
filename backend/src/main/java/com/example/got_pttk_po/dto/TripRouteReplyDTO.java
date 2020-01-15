@@ -20,6 +20,9 @@ public class TripRouteReplyDTO {
         this.trasa = trasa;
     }
 
+    public TripRouteReplyDTO() {
+    }
+
     public int getNumer() {
         return numer;
     }

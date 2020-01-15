@@ -12,6 +12,9 @@ public class SubgroupReplyDTO {
         this.grupa = grupa;
     }
 
+    public SubgroupReplyDTO() {
+    }
+
     public String getId() {
         return id;
     }

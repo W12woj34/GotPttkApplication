@@ -8,6 +8,9 @@ public class MountainGroupReplyDTO {
         this.nazwa = nazwa;
     }
 
+    public MountainGroupReplyDTO() {
+    }
+
     public String getNazwa() {
         return nazwa;
     }

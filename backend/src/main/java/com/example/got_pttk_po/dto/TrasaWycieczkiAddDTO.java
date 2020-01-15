@@ -14,6 +14,9 @@ public class TrasaWycieczkiAddDTO {
         this.route = route;
     }
 
+    public TrasaWycieczkiAddDTO() {
+    }
+
     public Date getDate() {
         return date;
     }

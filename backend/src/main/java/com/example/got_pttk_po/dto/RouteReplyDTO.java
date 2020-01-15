@@ -20,6 +20,9 @@ public class RouteReplyDTO {
         this.podgrupa = podgrupa;
     }
 
+    public RouteReplyDTO() {
+    }
+
     public int getNumer() {
         return numer;
     }

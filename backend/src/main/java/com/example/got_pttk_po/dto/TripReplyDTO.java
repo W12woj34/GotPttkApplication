@@ -20,6 +20,9 @@ public class TripReplyDTO {
         this.przodownik = przodownik;
     }
 
+    public TripReplyDTO() {
+    }
+
     public int getNumer() {
         return numer;
     }

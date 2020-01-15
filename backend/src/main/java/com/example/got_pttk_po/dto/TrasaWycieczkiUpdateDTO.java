@@ -11,6 +11,9 @@ public class TrasaWycieczkiUpdateDTO  {
 
     }
 
+    public TrasaWycieczkiUpdateDTO() {
+    }
+
     public Date getDate() {
         return date;
     }

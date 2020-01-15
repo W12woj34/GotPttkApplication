@@ -12,6 +12,9 @@ public class UserReplyDTO {
         this.nazwisko = nazwisko;
     }
 
+    public UserReplyDTO() {
+    }
+
     public String getId() {
         return id;
     }

@@ -8,6 +8,9 @@ public class TouristReplyDTO {
         this.nazwa = nazwa;
     }
 
+    public TouristReplyDTO() {
+    }
+
     public String getNazwa() {
         return nazwa;
     }

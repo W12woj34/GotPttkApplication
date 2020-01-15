@@ -8,6 +8,9 @@ public class LeaderReplyDTO {
         this.nr_licencji = nr_licencji;
     }
 
+    public LeaderReplyDTO() {
+    }
+
     public String getNr_licencji() {
         return nr_licencji;
     }

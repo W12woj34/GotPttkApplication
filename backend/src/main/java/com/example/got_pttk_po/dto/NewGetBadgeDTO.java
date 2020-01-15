@@ -10,6 +10,9 @@ public class NewGetBadgeDTO {
         this.badgeId = badgeId;
     }
 
+    public NewGetBadgeDTO() {
+    }
+
     public String getTouristId() {
         return touristId;
     }

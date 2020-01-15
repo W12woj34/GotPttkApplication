@@ -11,6 +11,9 @@ public class BadgeReplyDTO {
         this.wymagane_punkty = wymagane_punkty;
     }
 
+    public BadgeReplyDTO() {
+    }
+
     public String getNazwa() {
         return nazwa;
     }
