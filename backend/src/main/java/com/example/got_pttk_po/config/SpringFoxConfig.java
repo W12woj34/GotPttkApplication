@@ -26,8 +26,8 @@ public class SpringFoxConfig {
 
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
-                .title("eKsiazeczka GOT PTTK")
-                .description("REST API for university project about collecting GOT PTTK badges")
+                .title("Książeczka GOT PTTK online")
+                .description("REST Spring Boot API for GOT PTTK project")
                 .version("1.0")
                 .license("Apache License Version 2.0")
                 .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0")
