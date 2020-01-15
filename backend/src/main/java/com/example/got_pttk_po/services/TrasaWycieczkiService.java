@@ -5,11 +5,12 @@ import com.example.got_pttk_po.dto.TrasaWycieczkiUpdateDTO;
 import com.example.got_pttk_po.entities.TrasaEntity;
 import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
-import com.example.got_pttk_po.exceptions.TripNotFoundException;
-import com.example.got_pttk_po.exceptions.TripRouteInvalidException;
-import com.example.got_pttk_po.exceptions.TripRouteNotFoundException;
+import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
+import com.example.got_pttk_po.exceptions.*;
+import com.example.got_pttk_po.repositories.TrasaRepository;
 import com.example.got_pttk_po.repositories.TrasaWycieczkiRepository;
 import com.example.got_pttk_po.repositories.WycieczkaRepository;
+import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -23,12 +24,17 @@ public class TrasaWycieczkiService {
 
     private final TrasaWycieczkiRepository repositoryTrasaWycieczki;
     private final WycieczkaRepository repositoryWycieczka;
+    private final TrasaRepository repositoryTrasa;
+    private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
     private final TrasaService serviceTrasa;
 
     TrasaWycieczkiService(TrasaWycieczkiRepository repositoryTrasaWycieczki, WycieczkaRepository repositoryWycieczka,
+                          TrasaRepository repositoryTrasa, ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka,
                           TrasaService serviceTrasa) {
         this.repositoryTrasaWycieczki = repositoryTrasaWycieczki;
         this.repositoryWycieczka = repositoryWycieczka;
+        this.repositoryTrasa = repositoryTrasa;
+        this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;
         this.serviceTrasa = serviceTrasa;
     }
 
@@ -150,6 +156,10 @@ public class TrasaWycieczkiService {
         }
 
         repositoryTrasaWycieczki.deleteById(id);
+        WycieczkaEntity trip = repositoryWycieczka.findById(tripRoute.getWycieczka())
+                .orElseThrow(() -> new TripNotFoundException(tripRoute.getWycieczka()));
+        updateTripDate(trip.getNumer());
+        recalculateGetBadgePoints(trip.getOdznaka());
         return id;
     }
 
@@ -187,8 +197,55 @@ public class TrasaWycieczkiService {
             }
         }
         repositoryTrasaWycieczki.deleteByNumerIn(ids);
+        updateTripDate(trip.getNumer());
+        recalculateGetBadgePoints(trip.getOdznaka());
         return ids;
     }
+
+    private void recalculateGetBadgePoints(Integer id) {
+
+        List<Integer> tripIds = new ArrayList<>();
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        for (WycieczkaEntity trip : trips) {
+            tripIds.add(trip.getNumer());
+        }
+
+        int points = 0;
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);
+
+        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
+            if (!tripRoute.isPowtozona()) {
+                TrasaEntity route = repositoryTrasa.findById(tripRoute.getTrasa())
+                        .orElseThrow(() -> new RouteNotFoundException(tripRoute.getTrasa()));
+                points = points + route.getPunkty();
+            }
+        }
+
+        ZdobywanaOdznakaEntity getBadge = repositoryZdobywanaOdznaka.findById(id)
+                .orElseThrow(() -> new GetBadgeNotFoundException(id));
+        getBadge.setPunkty(points);
+        repositoryZdobywanaOdznaka.save(getBadge);
+    }
+
+    private void updateTripDate(Integer id) {
+
+        WycieczkaEntity trip = repositoryWycieczka.findById(id)
+                .orElseThrow(() -> new RouteNotFoundException(id));
+
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+
+        if (tripRoutes.isEmpty()) {
+            trip.setDataRozpoczecia(null);
+            trip.setDataZakonczenia(null);
+        }
+        else{
+            trip.setDataRozpoczecia(tripRoutes.get(tripRoutes.size()-1).getData());
+            trip.setDataZakonczenia(tripRoutes.get(0).getData());
+        }
+
+        repositoryWycieczka.save(trip);
+    }
 }
+
 
 

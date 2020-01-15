@@ -178,7 +178,6 @@ public class WycieczkaService {
     }
 
 
-
     public WycieczkaEntity changeTripStatus(Integer id, Integer status) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
@@ -244,11 +243,24 @@ public class WycieczkaService {
     private void deleteAllRoutesForTrip(Integer id) {
         List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
         List<Integer> routeIds = new ArrayList<>();
-        for(TrasaWycieczkiEntity route : routes){
+        for (TrasaWycieczkiEntity route : routes) {
             routeIds.add(route.getNumer());
         }
         serviceTrasaWycieczki.deleteTripRoutes(routeIds);
     }
 
 
+    public Integer getPoints(Integer id) {
+
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        int points = 0;
+        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
+            if (!tripRoute.isPowtozona()) {
+                TrasaEntity route = repositoryTrasa.findById(tripRoute.getTrasa())
+                        .orElseThrow(() -> new RouteNotFoundException(tripRoute.getTrasa()));
+                points = points + route.getPunkty();
+            }
+        }
+        return points;
+    }
 }

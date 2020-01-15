@@ -62,6 +62,12 @@ class WycieczkaController {
         return ResponseEntity.ok(service.getAllTripBadge(id));
     }
 
+    @GetMapping(value = "/points/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Integer> points(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(service.getPoints(id));
+    }
+
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<WycieczkaEntity> newTrip(@RequestBody Integer newTripGetBadge) {
 
