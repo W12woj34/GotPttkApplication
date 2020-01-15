@@ -2,7 +2,7 @@ package com.example.got_pttk_po.controllers;
 
 import java.util.List;
 
-import com.example.got_pttk_po.entities.WycieczkaEntity;
+import com.example.got_pttk_po.dto.TripReplyDTO;
 import com.example.got_pttk_po.services.WycieczkaService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,44 +20,44 @@ class WycieczkaController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTrips() {
+    ResponseEntity<List<TripReplyDTO>> allTrips() {
 
         return ResponseEntity.ok(service.getAllTrips());
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> oneTrip(@PathVariable Integer id) {
+    ResponseEntity<TripReplyDTO> oneTrip(@PathVariable Integer id) {
 
         return ResponseEntity.ok(service.getOneTrip(id));
     }
 
     @GetMapping(value = "/leader/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTripsLeader(@PathVariable String id) {
+    ResponseEntity<List<TripReplyDTO>> allTripsLeader(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getAllTripsLeader(id));
     }
 
     @GetMapping(value = "/leader/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTripsLeaderStatus(@PathVariable String id, @PathVariable Integer status) {
+    ResponseEntity<List<TripReplyDTO>> allTripsLeaderStatus(@PathVariable String id, @PathVariable Integer status) {
 
         return ResponseEntity.ok(service.getAllTripsLeaderStatus(id, status));
     }
 
 
     @GetMapping(value = "/tourist/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTripsTourist(@PathVariable String id) {
+    ResponseEntity<List<TripReplyDTO>> allTripsTourist(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getAllTripsTourist(id));
     }
 
     @GetMapping(value = "/tourist/{id}/{status}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTripsTouristStatus(@PathVariable String id, @PathVariable Integer status) {
+    ResponseEntity<List<TripReplyDTO>> allTripsTouristStatus(@PathVariable String id, @PathVariable Integer status) {
 
         return ResponseEntity.ok(service.getAllTripsTouristStatus(id, status));
     }
 
     @GetMapping(value = "/getBadge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> allTripBadge(@PathVariable Integer id) {
+    ResponseEntity<List<TripReplyDTO>> allTripBadge(@PathVariable Integer id) {
 
         return ResponseEntity.ok(service.getAllTripBadge(id));
     }
@@ -69,25 +69,25 @@ class WycieczkaController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> newTrip(@RequestBody Integer newTripGetBadge) {
+    ResponseEntity<TripReplyDTO> newTrip(@RequestBody Integer newTripGetBadge) {
 
         return ResponseEntity.ok(service.addTrip(newTripGetBadge));
     }
 
     @PutMapping(value = "/verify/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> verifyTrip(@PathVariable Integer id) {
+    ResponseEntity<TripReplyDTO> verifyTrip(@PathVariable Integer id) {
 
         return ResponseEntity.ok(service.sendTripToVerification(id));
     }
 
     @PutMapping(value = "/verify", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<WycieczkaEntity>> verifyTrip(@RequestBody List<Integer> ids) {
+    ResponseEntity<List<TripReplyDTO>> verifyTrip(@RequestBody List<Integer> ids) {
 
         return ResponseEntity.ok(service.sendTripsToVerification(ids));
     }
 
     @PutMapping(value = "/status/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<WycieczkaEntity> changeTripStatus(@RequestBody Integer status, @PathVariable Integer id) {
+    ResponseEntity<TripReplyDTO> changeTripStatus(@RequestBody Integer status, @PathVariable Integer id) {
 
         return ResponseEntity.ok(service.changeTripStatus(id, status));
     }

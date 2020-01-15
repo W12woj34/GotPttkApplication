@@ -1,7 +1,9 @@
 package com.example.got_pttk_po.services;
 
+import com.example.got_pttk_po.dto.RouteReplyDTO;
 import com.example.got_pttk_po.dto.TrasaWycieczkiAddDTO;
 import com.example.got_pttk_po.dto.TrasaWycieczkiUpdateDTO;
+import com.example.got_pttk_po.dto.TripRouteReplyDTO;
 import com.example.got_pttk_po.entities.TrasaEntity;
 import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
@@ -11,12 +13,14 @@ import com.example.got_pttk_po.repositories.TrasaRepository;
 import com.example.got_pttk_po.repositories.TrasaWycieczkiRepository;
 import com.example.got_pttk_po.repositories.WycieczkaRepository;
 import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -39,24 +43,28 @@ public class TrasaWycieczkiService {
     }
 
 
-    public List<TrasaWycieczkiEntity> getAllTripRoutes() {
+    public List<TripRouteReplyDTO> getAllTripRoutes() {
 
-        return repositoryTrasaWycieczki.findAll();
+        return repositoryTrasaWycieczki.findAll().stream()
+                .map(el -> ModelMapperUtil.map(el, TripRouteReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public TrasaWycieczkiEntity getOneTripRoute(Integer id) {
+    public TripRouteReplyDTO getOneTripRoute(Integer id) {
 
-        return repositoryTrasaWycieczki.findById(id)
+        return repositoryTrasaWycieczki.findById(id).map(el -> ModelMapperUtil.map(el, TripRouteReplyDTO.class))
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
     }
 
 
-    public List<TrasaWycieczkiEntity> getAllTripRoutesForTrip(Integer id) {
+    public List<TripRouteReplyDTO> getAllTripRoutesForTrip(Integer id) {
 
-        return repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        return repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id).stream()
+                .map(el -> ModelMapperUtil.map(el, TripRouteReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public TrasaWycieczkiEntity addTripRoute(TrasaWycieczkiAddDTO newTripRoute) {
+    public TripRouteReplyDTO addTripRoute(TrasaWycieczkiAddDTO newTripRoute) {
         TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();
         WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())
                 .orElseThrow(() -> new TripNotFoundException(newTripRoute.getTrip()));
@@ -84,11 +92,13 @@ public class TrasaWycieczkiService {
             tripRoute.setData(newTripRoute.getDate());
             tripRoute.setWycieczka(newTripRoute.getTrip());
             tripRoute.setTrasa(newTripRoute.getRoute());
-            return repositoryTrasaWycieczki.save(tripRoute);
+            repositoryTrasaWycieczki.save(tripRoute);
+
+            return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
-            List<TrasaEntity> possibleRoutes = serviceTrasa.getPossibleRoutes(newTripRoute.getRoute());
+            List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(newTripRoute.getRoute());
             List<Integer> possibleRouteIds = new ArrayList<>();
-            for (TrasaEntity possibleRoute : possibleRoutes) {
+            for (RouteReplyDTO possibleRoute : possibleRoutes) {
                 possibleRouteIds.add(possibleRoute.getNumer());
             }
             if (!possibleRouteIds.contains(newTripRoute.getRoute())) {
@@ -100,15 +110,16 @@ public class TrasaWycieczkiService {
             }
 
             tripRoute.setIndeks(tripRoutes.size());
-            tripRoute.setData(newTripRoute.getDate());
             tripRoute.setWycieczka(newTripRoute.getTrip());
+            tripRoute.setData(newTripRoute.getDate());
             tripRoute.setTrasa(newTripRoute.getRoute());
 
-            return repositoryTrasaWycieczki.save(tripRoute);
+            repositoryTrasaWycieczki.save(tripRoute);
+            return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         }
     }
 
-    public TrasaWycieczkiEntity modifyTripRoute(TrasaWycieczkiUpdateDTO newTripRoute, Integer id) {
+    public TripRouteReplyDTO modifyTripRoute(TrasaWycieczkiUpdateDTO newTripRoute, Integer id) {
 
         Date newDate = newTripRoute.getDate();
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)
@@ -144,7 +155,8 @@ public class TrasaWycieczkiService {
                 }
             }
         }
-        return repositoryTrasaWycieczki.save(tripRoute);
+        repositoryTrasaWycieczki.save(tripRoute);
+        return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
     }
 
     public Integer deleteTripRoute(Integer id) {

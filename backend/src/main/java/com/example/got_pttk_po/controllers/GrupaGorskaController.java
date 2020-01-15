@@ -3,7 +3,6 @@ package com.example.got_pttk_po.controllers;
 import java.util.List;
 
 import com.example.got_pttk_po.dto.MountainGroupReplyDTO;
-import com.example.got_pttk_po.entities.GrupaGorskaEntity;
 import com.example.got_pttk_po.services.GrupaGorskaService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,19 +26,19 @@ class GrupaGorskaController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<GrupaGorskaEntity> oneGroup(@PathVariable String id) {
+    ResponseEntity<MountainGroupReplyDTO> oneGroup(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getOneGroup(id));
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<GrupaGorskaEntity> replaceGroup(@RequestBody GrupaGorskaEntity newGroup, @PathVariable String id) {
+    ResponseEntity<MountainGroupReplyDTO> replaceGroup(@RequestBody MountainGroupReplyDTO newGroup, @PathVariable String id) {
 
         throw new java.lang.UnsupportedOperationException();
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<GrupaGorskaEntity> newGroup(@RequestBody GrupaGorskaEntity newGroup) {
+    ResponseEntity<MountainGroupReplyDTO> newGroup(@RequestBody MountainGroupReplyDTO newGroup) {
 
         throw new java.lang.UnsupportedOperationException();
     }

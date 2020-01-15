@@ -1,7 +1,8 @@
 package com.example.got_pttk_po.controllers;
 
 import java.util.List;
-import com.example.got_pttk_po.entities.OdznakaEntity;
+
+import com.example.got_pttk_po.dto.BadgeReplyDTO;
 import com.example.got_pttk_po.services.OdznakaService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,25 +20,25 @@ class OdznakaController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<OdznakaEntity>> allBadges() {
+    ResponseEntity<List<BadgeReplyDTO>> allBadges() {
 
         return ResponseEntity.ok(service.getAllBadges());
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OdznakaEntity> oneBadge(@PathVariable String id) {
+    ResponseEntity<BadgeReplyDTO> oneBadge(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getOneBadge(id));
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OdznakaEntity> replaceBadge(@RequestBody OdznakaEntity newBadge, @PathVariable String id) {
+    ResponseEntity<BadgeReplyDTO> replaceBadge(@RequestBody BadgeReplyDTO newBadge, @PathVariable String id) {
 
         throw new java.lang.UnsupportedOperationException();
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<OdznakaEntity> newBadge(@RequestBody OdznakaEntity newBadge) {
+    ResponseEntity<BadgeReplyDTO> newBadge(@RequestBody BadgeReplyDTO newBadge) {
 
         throw new java.lang.UnsupportedOperationException();
     }

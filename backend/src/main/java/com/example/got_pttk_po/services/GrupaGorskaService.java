@@ -31,9 +31,9 @@ public class GrupaGorskaService {
 
 
 
-    public GrupaGorskaEntity getOneGroup(String id) {
+    public MountainGroupReplyDTO getOneGroup(String id) {
 
-        return repositoryGrupaGorska.findById(id)
+        return repositoryGrupaGorska.findById(id).map(el -> ModelMapperUtil.map(el, MountainGroupReplyDTO.class))
                 .orElseThrow(() -> new GroupNotFoundException(id));
     }
 

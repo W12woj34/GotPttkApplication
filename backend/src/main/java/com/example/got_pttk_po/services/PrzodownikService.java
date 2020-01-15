@@ -1,15 +1,18 @@
 package com.example.got_pttk_po.services;
 
+import com.example.got_pttk_po.dto.LeaderReplyDTO;
+import com.example.got_pttk_po.dto.UserReplyDTO;
 import com.example.got_pttk_po.entities.PrzodownikEntity;
-import com.example.got_pttk_po.entities.UzytkownikEntity;
 import com.example.got_pttk_po.exceptions.LeaderNotFoundException;
 import com.example.got_pttk_po.exceptions.UserNotFoundException;
 import com.example.got_pttk_po.repositories.PrzodownikRepository;
 import com.example.got_pttk_po.repositories.UzytkownikRepository;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,18 +27,20 @@ public class PrzodownikService {
     }
 
 
-    public List<PrzodownikEntity> getAllLeaders() {
+    public List<LeaderReplyDTO> getAllLeaders() {
 
-        return repositoryPrzodownik.findAll();
+        return repositoryPrzodownik.findAll().stream()
+                .map(el -> ModelMapperUtil.map(el, LeaderReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public PrzodownikEntity getOneLeader(String id) {
+    public LeaderReplyDTO getOneLeader(String id) {
 
-        return repositoryPrzodownik.findById(id)
+        return repositoryPrzodownik.findById(id).map(el -> ModelMapperUtil.map(el, LeaderReplyDTO.class))
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public List<UzytkownikEntity> getAllLeadersAll() {
+    public List<UserReplyDTO> getAllLeadersAll() {
 
         List<PrzodownikEntity> leadersList = repositoryPrzodownik.findAll();
         List<String> leaderIds = new ArrayList<>();
@@ -43,14 +48,17 @@ public class PrzodownikService {
             repositoryUzytkownik.findById(tourit.getNrLicencji()).orElseThrow(() -> new UserNotFoundException(tourit.getNrLicencji()));
             leaderIds.add(tourit.getNrLicencji());
         }
-        return repositoryUzytkownik.findAllById(leaderIds);
+        return repositoryUzytkownik.findAllById(leaderIds).stream()
+                .map(el -> ModelMapperUtil.map(el, UserReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
 
-    public UzytkownikEntity getOneLeaderAll(String id) {
+    public UserReplyDTO getOneLeaderAll(String id) {
 
         PrzodownikEntity leader = repositoryPrzodownik.findById(id).orElseThrow(() -> new LeaderNotFoundException(id));
-        return repositoryUzytkownik.findById(leader.getNrLicencji()).orElseThrow(() -> new UserNotFoundException(id));
+        return repositoryUzytkownik.findById(leader.getNrLicencji())
+                .map(el -> ModelMapperUtil.map(el, UserReplyDTO.class)).orElseThrow(() -> new UserNotFoundException(id));
     }
 
 }

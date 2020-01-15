@@ -2,8 +2,8 @@ package com.example.got_pttk_po.controllers;
 
 import java.util.List;
 
-import com.example.got_pttk_po.entities.PrzodownikEntity;
-import com.example.got_pttk_po.entities.UzytkownikEntity;
+import com.example.got_pttk_po.dto.LeaderReplyDTO;
+import com.example.got_pttk_po.dto.UserReplyDTO;
 import com.example.got_pttk_po.services.PrzodownikService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,39 +21,39 @@ class PrzodownikController {
     }
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<PrzodownikEntity>> allLeadersId() {
+    ResponseEntity<List<LeaderReplyDTO>> allLeadersId() {
 
         return ResponseEntity.ok(service.getAllLeaders());
     }
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<UzytkownikEntity>> allLeadersAll() {
+    ResponseEntity<List<UserReplyDTO>> allLeadersAll() {
 
         return ResponseEntity.ok(service.getAllLeadersAll());
     }
 
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PrzodownikEntity> oneLeaderId(@PathVariable String id) {
+    ResponseEntity<LeaderReplyDTO> oneLeaderId(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getOneLeader(id));
     }
 
     @GetMapping(value = "/{id}/all", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UzytkownikEntity> oneLeaderAll(@PathVariable String id) {
+    ResponseEntity<UserReplyDTO> oneLeaderAll(@PathVariable String id) {
 
         return ResponseEntity.ok(service.getOneLeaderAll(id));
     }
 
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PrzodownikEntity> newLeader(@RequestBody PrzodownikEntity newLeader) {
+    ResponseEntity<LeaderReplyDTO> newLeader(@RequestBody LeaderReplyDTO newLeader) {
 
         throw new java.lang.UnsupportedOperationException();
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<PrzodownikEntity> replaceLeader(@RequestBody PrzodownikEntity newLeader, @PathVariable String id) {
+    ResponseEntity<LeaderReplyDTO> replaceLeader(@RequestBody LeaderReplyDTO newLeader, @PathVariable String id) {
 
         throw new java.lang.UnsupportedOperationException();
     }
