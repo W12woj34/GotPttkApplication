@@ -1,20 +1,26 @@
 package com.example.got_pttk_po.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Date;
 
-public class TrasaWycieczkiAddDTO {
-
+@ApiModel(description = "Create data for a trip route")
+public class TripRouteAddDTO {
+    @ApiModelProperty(notes = "Trip route date", example = "2010-3-12")
     private Date date;
+    @ApiModelProperty(notes = "Trio route unique trip id", example = "1")
     private Integer trip;
+    @ApiModelProperty(notes = "Trip road unique road id", example = "1")
     private Integer route;
 
-    public TrasaWycieczkiAddDTO(Date date, Integer trip, Integer route) {
+    public TripRouteAddDTO(Date date, Integer trip, Integer route) {
         this.date = date;
         this.trip = trip;
         this.route = route;
     }
 
-    public TrasaWycieczkiAddDTO() {
+    public TripRouteAddDTO() {
     }
 
     public Date getDate() {

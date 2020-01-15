@@ -1,7 +1,11 @@
 package com.example.got_pttk_po.dto;
 
-public class LeaderReplyDTO {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "Response data for a leader id")
+public class LeaderReplyDTO {
+    @ApiModelProperty(notes = "Unique leader id", example = "PR70D0WN1K")
     private String nr_licencji;
 
     public LeaderReplyDTO(String nr_licencji) {

@@ -1,15 +1,25 @@
 package com.example.got_pttk_po.dto;
 
 import java.sql.Date;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "Response data for a user badge")
 public class GetBadgeReplyDTO {
 
+    @ApiModelProperty(notes = "Unique user badge id", example = "1")
     private int id;
+    @ApiModelProperty(notes = "Date of getting badge", example = "2015-03-30")
     private Date data_zdobycia;
+    @ApiModelProperty(notes = "User badge status", example = "0")
     private int status;
+    @ApiModelProperty(notes = "Own points for this badge", example = "153")
     private int punkty;
+    @ApiModelProperty(notes = "Badge owner id", example = "7URY574")
     private String turysta;
+    @ApiModelProperty(notes = "Unique badge name", example = "Mała Brązowa")
     private String odznaka;
+    @ApiModelProperty(notes = "Institute id which give badge status", example = "R3F3R47")
     private String referat;
 
     public GetBadgeReplyDTO(int id, Date data_zdobycia, int status, int punkty, String turysta, String odznaka, String referat) {

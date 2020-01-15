@@ -1,8 +1,8 @@
 package com.example.got_pttk_po.services;
 
 import com.example.got_pttk_po.dto.RouteReplyDTO;
-import com.example.got_pttk_po.dto.TrasaWycieczkiAddDTO;
-import com.example.got_pttk_po.dto.TrasaWycieczkiUpdateDTO;
+import com.example.got_pttk_po.dto.TripRouteAddDTO;
+import com.example.got_pttk_po.dto.TripRouteUpdateDTO;
 import com.example.got_pttk_po.dto.TripRouteReplyDTO;
 import com.example.got_pttk_po.entities.TrasaEntity;
 import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
@@ -64,7 +64,7 @@ public class TrasaWycieczkiService {
                 .collect(Collectors.toList());
     }
 
-    public TripRouteReplyDTO addTripRoute(TrasaWycieczkiAddDTO newTripRoute) {
+    public TripRouteReplyDTO addTripRoute(TripRouteAddDTO newTripRoute) {
         TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();
         WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())
                 .orElseThrow(() -> new TripNotFoundException(newTripRoute.getTrip()));
@@ -119,7 +119,7 @@ public class TrasaWycieczkiService {
         }
     }
 
-    public TripRouteReplyDTO modifyTripRoute(TrasaWycieczkiUpdateDTO newTripRoute, Integer id) {
+    public TripRouteReplyDTO modifyTripRoute(TripRouteUpdateDTO newTripRoute, Integer id) {
 
         Date newDate = newTripRoute.getDate();
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)

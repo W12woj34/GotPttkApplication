@@ -1,8 +1,13 @@
 package com.example.got_pttk_po.dto;
 
-public class NewGetBadgeDTO {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
+@ApiModel(description = "Create data for a user badge")
+public class NewGetBadgeDTO {
+    @ApiModelProperty(notes = "Badge tourist id", example = "7URY5T4")
     private String touristId;
+    @ApiModelProperty(notes = "User badge badge name", example = "Mała Brązowa")
     private String badgeId;
 
     NewGetBadgeDTO(String touristId, String badgeId){

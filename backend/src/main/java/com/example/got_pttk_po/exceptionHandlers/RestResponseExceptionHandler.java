@@ -23,10 +23,10 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object> handleAnyException(Exception ex, WebRequest request) {
         String error = ex.toString();
-        ApiError apiError =
-                new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), error);
+        AppExceptionDTO appException =
+                new AppExceptionDTO(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), error);
         return handleExceptionInternal(
-                ex, apiError, new HttpHeaders(), apiError.getStatus(), request);
+                ex, appException, new HttpHeaders(), appException.getStatus(), request);
     }
 
 
@@ -34,10 +34,10 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
     public ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
         String error =
                 ex.toString();
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        AppExceptionDTO appException =
+                new AppExceptionDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return handleExceptionInternal(
-                ex, apiError, new HttpHeaders(), apiError.getStatus(), request);
+                ex, appException, new HttpHeaders(), appException.getStatus(), request);
 
     }
 
@@ -50,10 +50,10 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
                     violation.getPropertyPath() + ": " + violation.getMessage());
         }
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        AppExceptionDTO appException =
+                new AppExceptionDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
+                appException, new HttpHeaders(), appException.getStatus());
     }
 
 
@@ -71,10 +71,10 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        AppExceptionDTO appException =
+                new AppExceptionDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         return handleExceptionInternal(
-                ex, apiError, headers, apiError.getStatus(), request);
+                ex, appException, headers, appException.getStatus(), request);
     }
 
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
@@ -84,9 +84,9 @@ public class RestResponseExceptionHandler extends ResponseEntityExceptionHandler
         String error =
                 ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        AppExceptionDTO appException =
+                new AppExceptionDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<Object>(
-                apiError, new HttpHeaders(), apiError.getStatus());
+                appException, new HttpHeaders(), appException.getStatus());
     }
 }
