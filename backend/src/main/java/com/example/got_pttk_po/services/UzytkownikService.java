@@ -1,8 +1,6 @@
 package com.example.got_pttk_po.services;
 
-import com.example.got_pttk_po.dto.RouteReplyDTO;
 import com.example.got_pttk_po.dto.UserReplyDTO;
-import com.example.got_pttk_po.entities.UzytkownikEntity;
 import com.example.got_pttk_po.exceptions.UserNotFoundException;
 import com.example.got_pttk_po.repositories.UzytkownikRepository;
 import com.example.got_pttk_po.utils.ModelMapperUtil;

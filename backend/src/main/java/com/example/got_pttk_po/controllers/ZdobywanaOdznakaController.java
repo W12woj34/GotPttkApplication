@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.example.got_pttk_po.dto.BadgeReplyDTO;
 import com.example.got_pttk_po.dto.NewGetBadgeDTO;
-import com.example.got_pttk_po.entities.OdznakaEntity;
 import com.example.got_pttk_po.dto.GetBadgeReplyDTO;
 import com.example.got_pttk_po.services.ZdobywanaOdznakaService;
 import org.springframework.http.MediaType;

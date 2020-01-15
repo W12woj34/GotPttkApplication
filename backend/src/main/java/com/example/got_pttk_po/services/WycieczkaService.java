@@ -1,8 +1,6 @@
 package com.example.got_pttk_po.services;
 
 import com.example.got_pttk_po.dto.TripReplyDTO;
-import com.example.got_pttk_po.dto.TripRouteReplyDTO;
-import com.example.got_pttk_po.dto.UserReplyDTO;
 import com.example.got_pttk_po.entities.*;
 import com.example.got_pttk_po.exceptions.*;
 import com.example.got_pttk_po.repositories.*;

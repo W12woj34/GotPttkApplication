@@ -2,8 +2,6 @@ package com.example.got_pttk_po.services;
 
 import com.example.got_pttk_po.dto.BadgeReplyDTO;
 import com.example.got_pttk_po.dto.GetBadgeReplyDTO;
-import com.example.got_pttk_po.dto.TripReplyDTO;
-import com.example.got_pttk_po.dto.UserReplyDTO;
 import com.example.got_pttk_po.entities.OdznakaEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
