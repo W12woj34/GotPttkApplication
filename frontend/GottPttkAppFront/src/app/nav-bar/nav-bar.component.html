@@ -1,29 +1,43 @@
 <mat-toolbar>
-  <a mat-button routerLink="/dashboard"><strong>Książeczka GOT Online</strong></a> |
+  <a mat-button routerLink="/dashboard"><strong>Książeczka GOT Online</strong></a>
+  |
   <button mat-button>Trasy</button>
 
-  <button mat-button [matMenuTriggerFor]="trips">Wycieczki <mat-icon>keyboard_arrow_down</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="trips">
+    Wycieczki
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
   <mat-menu #trips="matMenu">
     <button mat-menu-item>Przeglądaj wycieczki</button>
     <a mat-menu-item routerLink="/sendTripsForVerification">Przekaż wycieczki do weryfikacji</a>
-    <a mat-menu-item *ngIf="currentUser && currentUser.type == 'Przodownik'" routerLink="/verifyTrips">Weryfikuj wycieczki</a>
+    <a mat-menu-item *ngIf="currentUser && currentUser.type == 'Przodownik'" routerLink="/verifyTrips">Weryfikuj
+      wycieczki</a>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="badges" >Odznaki <mat-icon>keyboard_arrow_down</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="badges">
+    Odznaki
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
   <mat-menu #badges="matMenu">
     <button mat-menu-item>Zarządzaj odznakami</button>
   </mat-menu>
 
   <span class="fill-remaining-space"></span>
 
-  <button mat-button [matMenuTriggerFor]="logoutoptions" *ngIf="currentUser">Jan Kowalski<mat-icon>keyboard_arrow_down</mat-icon></button>
+  <button mat-button [matMenuTriggerFor]="logoutoptions" *ngIf="currentUser">
+    Jan Kowalski
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
   <mat-menu #logoutoptions="matMenu">
     <button mat-menu-item (click)="logout()">Wyloguj</button>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="login" *ngIf="!currentUser">Zaloguj<mat-icon>keyboard_arrow_down</mat-icon></button>
-  <mat-menu #login="matMenu">
-    <button mat-menu-item (click)="loginAsTourist()" *ngIf="currentUser == null">Zaloguj jako turysta</button>
-    <button mat-menu-item (click)="loginAsGuide()" *ngIf="currentUser == null">Zaloguj jako przewodnik</button>
+  <button mat-button [matMenuTriggerFor]="loginoptions" *ngIf="!currentUser">
+    Zaloguj
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
+  <mat-menu #loginoptions="matMenu">
+    <button mat-menu-item (click)="loginAsTourist()">Zaloguj jako turysta</button>
+    <button mat-menu-item (click)="loginAsGuide()">Zaloguj jako przewodnik</button>
   </mat-menu>
 </mat-toolbar>

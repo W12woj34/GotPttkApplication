@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {TripsVerifyComponent} from "./trips-verify/trips-verify.component";
+import {SendTripsForVerificationComponent} from "./send-trips-for-verification/send-trips-for-verification.component";
+
 
 const routes : Routes = [
   {path : 'dashboard', component: DashboardComponent},
   {path : '', redirectTo: '/dashboard', pathMatch: 'full'},
-  {path : 'sendTripsForVerification', component: TripsVerifyComponent}
+  {path : 'sendTripsForVerification', component: SendTripsForVerificationComponent}
 ];
 
 @NgModule({

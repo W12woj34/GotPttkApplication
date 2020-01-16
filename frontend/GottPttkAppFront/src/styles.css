@@ -5,3 +5,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 .custom-dialog-background .mat-dialog-container{
   background-color: #ECF39E;
 }
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+button.goodButton {
+  background-color: #0A650C;
+  color: white;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from "../_models/user";
 
 @Component({
@@ -7,8 +7,10 @@ import {User} from "../_models/user";
   styleUrls: ['./nav-bar.component.css']
 })
 export class NavBarComponent implements OnInit {
-  currentUser : User;
-  constructor() { }
+  currentUser: User;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -17,13 +19,13 @@ export class NavBarComponent implements OnInit {
     this.currentUser = null;
   }
 
-  loginAsTourist () {
+  loginAsTourist() {
     this.currentUser = new User();
     this.currentUser.username = "Jan Kowalski";
     this.currentUser.type = "Turysta";
   }
 
-  loginAsGuide () {
+  loginAsGuide() {
     this.currentUser = new User();
     this.currentUser.username = "Jan Kowalski";
     this.currentUser.type = "Przodownik";

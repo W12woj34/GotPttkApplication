@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {PeriodicElement} from "../trip-table/trip-table.component";
 import {MatTableDataSource} from "@angular/material/table";
+import {PeriodicElement} from "../../send-trips-for-verification/send-trips-for-verification.component";
 
 @Component({
   selector: 'app-table-dialog',
@@ -9,6 +9,8 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./table-dialog.component.css']
 })
 export class TableDialogComponent implements OnInit {
+
+  dialogType: string;
 
   title: string;
   description: string;
@@ -20,8 +22,9 @@ export class TableDialogComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<TableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
-    this.description = data.desc;
+    this.dialogType = data.dialogType;
     this.title = data.title;
+    this.description = data.description;
     this.tableTitle = data.tableTitle;
     this.dataSource = new MatTableDataSource<PeriodicElement>(data.dataSource);
   }
