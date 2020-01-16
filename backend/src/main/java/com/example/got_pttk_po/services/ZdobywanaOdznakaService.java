@@ -1,17 +1,23 @@
 package com.example.got_pttk_po.services;
 
+import com.example.got_pttk_po.dto.BadgeReplyDTO;
+import com.example.got_pttk_po.dto.GetBadgeReplyDTO;
 import com.example.got_pttk_po.entities.OdznakaEntity;
+import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
 import com.example.got_pttk_po.exceptions.BadgeNotFoundException;
 import com.example.got_pttk_po.exceptions.BadgeNotPossibleException;
 import com.example.got_pttk_po.exceptions.GetBadgeIsVerificatedException;
 import com.example.got_pttk_po.exceptions.GetBadgeNotFoundException;
 import com.example.got_pttk_po.repositories.OdznakaRepository;
+import com.example.got_pttk_po.repositories.WycieczkaRepository;
 import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -19,34 +25,45 @@ public class ZdobywanaOdznakaService {
 
     private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
     private final OdznakaRepository repositoryOdznaka;
+    private final WycieczkaRepository repositoryWycieczka;
+    private final WycieczkaService wycieczkaService;
 
-    ZdobywanaOdznakaService(ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka, OdznakaRepository repositoryOdznaka) {
+    ZdobywanaOdznakaService(ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka, OdznakaRepository repositoryOdznaka,
+                            WycieczkaRepository repositoryWycieczka, WycieczkaService wycieczkaService) {
         this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;
         this.repositoryOdznaka = repositoryOdznaka;
+        this.repositoryWycieczka = repositoryWycieczka;
+        this.wycieczkaService = wycieczkaService;
     }
 
-    public List<ZdobywanaOdznakaEntity> getAllGetBadges() {
+    public List<GetBadgeReplyDTO> getAllGetBadges() {
 
-        return repositoryZdobywanaOdznaka.findAll();
+        return repositoryZdobywanaOdznaka.findAll().stream()
+                .map(el -> ModelMapperUtil.map(el, GetBadgeReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<ZdobywanaOdznakaEntity> getAllGetBadgesTourist(String id) {
+    public List<GetBadgeReplyDTO> getAllGetBadgesTourist(String id) {
 
-        return repositoryZdobywanaOdznaka.findByTurysta(id);
+        return repositoryZdobywanaOdznaka.findByTurysta(id).stream()
+                .map(el -> ModelMapperUtil.map(el, GetBadgeReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<ZdobywanaOdznakaEntity> getAllGetBadgesTouristStatus(String id, Integer status) {
+    public List<GetBadgeReplyDTO> getAllGetBadgesTouristStatus(String id, Integer status) {
 
-        return repositoryZdobywanaOdznaka.findByTurystaAndStatus(id, status);
+        return repositoryZdobywanaOdznaka.findByTurystaAndStatus(id, status).stream()
+                .map(el -> ModelMapperUtil.map(el, GetBadgeReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public ZdobywanaOdznakaEntity getOneGetBadge(Integer id) {
+    public GetBadgeReplyDTO getOneGetBadge(Integer id) {
 
-        return repositoryZdobywanaOdznaka.findById(id)
+        return repositoryZdobywanaOdznaka.findById(id).map(el -> ModelMapperUtil.map(el, GetBadgeReplyDTO.class))
                 .orElseThrow(() -> new GetBadgeNotFoundException(id));
     }
 
-    public List<OdznakaEntity> getAllPossibleBadgesTourist(String id) {
+    public List<BadgeReplyDTO> getAllPossibleBadgesTourist(String id) {
         List<ZdobywanaOdznakaEntity> ownGetBadges = repositoryZdobywanaOdznaka.findByTurysta(id);
         List<String> ownGetBadgesIds = new ArrayList<>();
         for (ZdobywanaOdznakaEntity getBadge : ownGetBadges) {
@@ -76,18 +93,20 @@ public class ZdobywanaOdznakaService {
             }
             addCheckPossible(ownBadges, possibleBadges);
         }
-        return possibleBadges;
+        return possibleBadges.stream()
+                .map(el -> ModelMapperUtil.map(el, BadgeReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public ZdobywanaOdznakaEntity addGetBadge(String touristId, String badgeId) {
+    public GetBadgeReplyDTO addGetBadge(String touristId, String badgeId) {
         List<ZdobywanaOdznakaEntity> currentGetBadge = repositoryZdobywanaOdznaka.findByTurystaAndStatus(touristId, 0);
         if(!currentGetBadge.isEmpty()){
             throw new BadgeNotPossibleException(badgeId);
         }
         ZdobywanaOdznakaEntity badge = new ZdobywanaOdznakaEntity();
-        List<OdznakaEntity> possibleBadges = getAllPossibleBadgesTourist(touristId);
+        List<BadgeReplyDTO> possibleBadges = getAllPossibleBadgesTourist(touristId);
         List<String> possibleIds = new ArrayList<>();
-        for (OdznakaEntity possibleBadge : possibleBadges) {
+        for (BadgeReplyDTO possibleBadge : possibleBadges) {
             possibleIds.add(possibleBadge.getNazwa());
         }
         if (!possibleIds.contains(badgeId)) {
@@ -105,7 +124,8 @@ public class ZdobywanaOdznakaService {
                     .orElseThrow(() -> new BadgeNotFoundException(badgeId)).getWymaganePunkty());
         }
 
-        return repositoryZdobywanaOdznaka.save(badge);
+        repositoryZdobywanaOdznaka.save(badge);
+        return  ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
     }
 
     public Integer deleteGetBadge(Integer id) {
@@ -115,25 +135,32 @@ public class ZdobywanaOdznakaService {
         if (badge.getStatus() == 1 || badge.getStatus() == 2) {
             throw new GetBadgeIsVerificatedException(id);
         }
-        //usunac wszystkie wycieczki z tej odznaki
+
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        List<Integer> tripIds = new ArrayList<>();
+        for(WycieczkaEntity trip : trips){
+            tripIds.add(trip.getNumer());
+        }
+        wycieczkaService.deleteTrips(tripIds);
         repositoryZdobywanaOdznaka.deleteById(id);
         return id;
     }
 
-    public ZdobywanaOdznakaEntity changeBadge(Integer getBadgeId, String newBadgeId) {
+    public GetBadgeReplyDTO changeBadge(Integer getBadgeId, String newBadgeId) {
 
         ZdobywanaOdznakaEntity currentBadge = repositoryZdobywanaOdznaka
                 .findById(getBadgeId).orElseThrow(() -> new GetBadgeNotFoundException(getBadgeId));
         OdznakaEntity newBadge = repositoryOdznaka.findById(newBadgeId)
                 .orElseThrow(() -> new BadgeNotFoundException(newBadgeId));
-        List<OdznakaEntity> possibleBadges = getAllPossibleBadgesTourist(currentBadge.getTurysta());
+        List<BadgeReplyDTO> possibleBadges = getAllPossibleBadgesTourist(currentBadge.getTurysta());
         List<String> possibleBadgesIds = new ArrayList<>();
-        for (OdznakaEntity possibleBadge : possibleBadges) {
+        for (BadgeReplyDTO possibleBadge : possibleBadges) {
             possibleBadgesIds.add(possibleBadge.getNazwa());
         }
         if (possibleBadgesIds.contains(newBadge.getNazwa())) {
             currentBadge.setOdznaka(newBadgeId);
-            return repositoryZdobywanaOdznaka.save(currentBadge);
+            repositoryZdobywanaOdznaka.save(currentBadge);
+            return  ModelMapperUtil.map(currentBadge, GetBadgeReplyDTO.class);
         } else {
             throw new BadgeNotPossibleException(newBadgeId);
         }

@@ -1,15 +1,17 @@
 package com.example.got_pttk_po.services;
 
+import com.example.got_pttk_po.dto.TripReplyDTO;
 import com.example.got_pttk_po.entities.*;
 import com.example.got_pttk_po.exceptions.*;
 import com.example.got_pttk_po.repositories.*;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -37,53 +39,56 @@ public class WycieczkaService {
     }
 
 
-    public List<WycieczkaEntity> getAllTrips() {
+    public List<TripReplyDTO> getAllTrips() {
 
-        return repositoryWycieczka.findAll();
+        return repositoryWycieczka.findAll().stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public WycieczkaEntity getOneTrip(Integer id) {
+    public TripReplyDTO getOneTrip(Integer id) {
 
-        return repositoryWycieczka.findById(id)
+        return repositoryWycieczka.findById(id).map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
                 .orElseThrow(() -> new TripNotFoundException(id));
     }
 
-    public List<WycieczkaEntity> getAllTripBadge(Integer id) {
+    public List<TripReplyDTO> getAllTripBadge(Integer id) {
 
-        return repositoryWycieczka.findByOdznaka(id);
+        return repositoryWycieczka.findByOdznaka(id).stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<WycieczkaEntity> getAllTripsTourist(String id) {
+    public List<TripReplyDTO> getAllTripsTourist(String id) {
 
-        return repositoryWycieczka.findByOdznakaIn(getBadgesIdsFromTouristId(id));
+        return repositoryWycieczka.findByOdznakaIn(getBadgesIdsFromTouristId(id)).stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<WycieczkaEntity> getAllTripsTouristStatus(String id, Integer status) {
+    public List<TripReplyDTO> getAllTripsTouristStatus(String id, Integer status) {
 
 
-        return repositoryWycieczka.findByOdznakaInAndStatus(getBadgesIdsFromTouristId(id), status);
+        return repositoryWycieczka.findByOdznakaInAndStatus(getBadgesIdsFromTouristId(id), status).stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    private List<Integer> getBadgesIdsFromTouristId(String id) {
-        List<ZdobywanaOdznakaEntity> badges = repositoryZdobywanaOdznaka.findByTurysta(id);
-        List<Integer> badgesIds = new ArrayList<>();
-        for (ZdobywanaOdznakaEntity badge : badges) {
-            badgesIds.add(badge.getId());
-        }
-        return badgesIds;
+    public List<TripReplyDTO> getAllTripsLeaderStatus(String id, Integer status) {
+
+        return repositoryWycieczka.findByPrzodownikAndStatus(id, status).stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<WycieczkaEntity> getAllTripsLeaderStatus(String id, Integer status) {
+    public List<TripReplyDTO> getAllTripsLeader(String id) {
 
-        return repositoryWycieczka.findByPrzodownikAndStatus(id, status);
+        return repositoryWycieczka.findByPrzodownik(id).stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public List<WycieczkaEntity> getAllTripsLeader(String id) {
-
-        return repositoryWycieczka.findByPrzodownik(id);
-    }
-
-    public WycieczkaEntity addTrip(Integer newTripGetBadge) {
+    public TripReplyDTO addTrip(Integer newTripGetBadge) {
 
         ZdobywanaOdznakaEntity badge = repositoryZdobywanaOdznaka.findById(newTripGetBadge)
                 .orElseThrow(() -> new GetBadgeNotFoundException(newTripGetBadge));
@@ -93,10 +98,9 @@ public class WycieczkaService {
             WycieczkaEntity trip = new WycieczkaEntity();
             trip.setStatus(0);
             trip.setOdznaka(newTripGetBadge);
-            trip.setDataRozpoczecia(new Date(0));
-            trip.setDataZakonczenia(new Date(0));
 
-            return repositoryWycieczka.save(trip);
+            repositoryWycieczka.save(trip);
+            return  ModelMapperUtil.map(trip, TripReplyDTO.class);
         } else {
 
             throw new GetBadgeIsVerificatedException(newTripGetBadge);
@@ -105,7 +109,7 @@ public class WycieczkaService {
 
     }
 
-    public WycieczkaEntity sendTripToVerification(Integer id) {
+    public TripReplyDTO sendTripToVerification(Integer id) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
@@ -114,7 +118,7 @@ public class WycieczkaService {
         List<String> groupIds = new ArrayList<>();
         List<PodgrupaEntity> subgroups = new ArrayList<>();
         List<String> subgroupIds = new ArrayList<>();
-        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczka(id);
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
         List<TrasaEntity> routes = new ArrayList<>();
 
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
@@ -157,13 +161,14 @@ public class WycieczkaService {
         for (String leader : leaders) {
             if (fitness.get(leader) == groupIds.size()) {
                 trip.setPrzodownik(leader);
-                return repositoryWycieczka.save(trip);
+                repositoryWycieczka.save(trip);
+                return  ModelMapperUtil.map(trip, TripReplyDTO.class);
             }
         }
         throw new TripCannotBeVerifiedException(trip.getNumer());
     }
 
-    public List<WycieczkaEntity> sendTripsToVerification(List<Integer> ids) {
+    public List<TripReplyDTO> sendTripsToVerification(List<Integer> ids) {
 
         List<WycieczkaEntity> sentTrips = new ArrayList<>();
         for (Integer id : ids) {
@@ -176,12 +181,13 @@ public class WycieczkaService {
 
             }
         }
-        return sentTrips;
+        return sentTrips.stream()
+                .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
+                .collect(Collectors.toList());
     }
 
 
-
-    public WycieczkaEntity changeTripStatus(Integer id, Integer status) {
+    public TripReplyDTO changeTripStatus(Integer id, Integer status) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
@@ -208,17 +214,17 @@ public class WycieczkaService {
             throw new TripStatusCannotChangeException(id);
         }
 
-        return repositoryWycieczka.save(trip);
+        repositoryWycieczka.save(trip);
+        return  ModelMapperUtil.map(trip, TripReplyDTO.class);
     }
 
-    public Integer deleteIrip(Integer id) {
+    public Integer deleteTrip(Integer id) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
         if (trip.getStatus() == 0 || trip.getStatus() == 2) {
 
-            List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczka(id);
-            serviceTrasaWycieczki.deleteRoutes(routes);
+            deleteAllRoutesForTrip(id);
 
             repositoryWycieczka.deleteById(id);
         } else {
@@ -236,14 +242,46 @@ public class WycieczkaService {
 
                 idsToDelete.add(trip.getNumer());
 
-                List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczka(id);
-                serviceTrasaWycieczki.deleteRoutes(routes);
+                deleteAllRoutesForTrip(id);
 
                 repositoryWycieczka.deleteById(trip.getNumer());
             }
         }
         return idsToDelete;
     }
+
+    public Integer getPoints(Integer id) {
+
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        int points = 0;
+        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
+            if (!tripRoute.isPowtozona()) {
+                TrasaEntity route = repositoryTrasa.findById(tripRoute.getTrasa())
+                        .orElseThrow(() -> new RouteNotFoundException(tripRoute.getTrasa()));
+                points = points + route.getPunkty();
+            }
+        }
+        return points;
+    }
+
+    private void deleteAllRoutesForTrip(Integer id) {
+        List<TrasaWycieczkiEntity> routes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        List<Integer> routeIds = new ArrayList<>();
+        for (TrasaWycieczkiEntity route : routes) {
+            routeIds.add(route.getNumer());
+        }
+        serviceTrasaWycieczki.deleteTripRoutes(routeIds);
+    }
+
+    private List<Integer> getBadgesIdsFromTouristId(String id) {
+        List<ZdobywanaOdznakaEntity> badges = repositoryZdobywanaOdznaka.findByTurysta(id);
+        List<Integer> badgesIds = new ArrayList<>();
+        for (ZdobywanaOdznakaEntity badge : badges) {
+            badgesIds.add(badge.getId());
+        }
+        return badgesIds;
+    }
+
 
 
 }
