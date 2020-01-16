@@ -1,4 +1,11 @@
-mat-toolbar {
+.backBar {
+  background-color: #90A955;
+  color: white;
+  height: 60%;
+  padding-left: 0;
+}
+
+.aboveTable {
   background-color: #ECF39E;
   color: #727272;
 }

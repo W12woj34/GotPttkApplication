@@ -56,9 +56,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 export class SendTripsForVerificationComponent implements OnInit {
 
-  constructor(private dialog: MatDialog,
-              private route: ActivatedRoute,
-              private location: Location) {
+  constructor(private dialog: MatDialog) {
   }
 
   displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_group', 'status', 'sugg_score'];
@@ -103,11 +101,8 @@ export class SendTripsForVerificationComponent implements OnInit {
 
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+    this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
 
-    dialogRef.afterClosed().subscribe(
-      () => this.location.back(),
-    )
   }
 
   openSentDialog() {

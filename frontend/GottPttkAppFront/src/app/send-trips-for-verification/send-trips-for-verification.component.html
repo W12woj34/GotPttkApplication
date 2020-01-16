@@ -1,4 +1,10 @@
-<mat-toolbar>
+<mat-toolbar class="backBar">
+  <a mat-button routerLink="..">
+    <mat-icon>keyboard_arrow_left</mat-icon>Wróć
+  </a>
+</mat-toolbar>
+
+<mat-toolbar class="aboveTable">
   <span>Wybierz wycieczki do weryfikacji</span>
   <span class="fill-remaining-space"></span>
   <button mat-button class="goodButton" *ngIf="!this.selection.isEmpty()" (click)="openSentDialog()" [@fadeInOut]>
