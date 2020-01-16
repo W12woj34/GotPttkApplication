@@ -21,7 +21,7 @@ public class ModelMapperUtil {
      * @param <T>      Type of source object
      * @param entity   Entity to map
      * @param outClass Class of result object
-     * @return New object of <T> type.
+     * @return New object of T type.
      */
 
     public static <D, T> D map(final T entity, Class<D> outClass) {
