@@ -19,7 +19,9 @@ public class PodgrupaService {
         this.repositoryPodgrupa = repository;
     }
 
-
+    /**
+     * @return TripReplyDTO List with subgroups data
+     */
     public List<SubgroupReplyDTO> getAllSubgroups() {
 
         return repositoryPodgrupa.findAll().stream()
@@ -27,6 +29,10 @@ public class PodgrupaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of mountain group
+     * @return TripReplyDTO List with subgroups data
+     */
     public List<SubgroupReplyDTO> getAllSubgroupsFromGroup(String id) {
 
         return repositoryPodgrupa.findByGrupa(id).stream()
@@ -34,6 +40,11 @@ public class PodgrupaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of subgroup
+     * @return SubgroupReplyDTO object with subgroup data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public SubgroupReplyDTO getOneSubgroup(String id) {
 
         return repositoryPodgrupa.findById(id).map(el -> ModelMapperUtil.map(el, SubgroupReplyDTO.class))

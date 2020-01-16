@@ -19,7 +19,9 @@ public class OdznakaService {
         this.repositoryOdznaka = repository;
     }
 
-
+    /**
+     * @return BadgeReplyDTO List with badges data
+     */
     public List<BadgeReplyDTO> getAllBadges() {
 
         return repositoryOdznaka.findAll().stream()
@@ -27,6 +29,11 @@ public class OdznakaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of badge
+     * @return BadgeReplyDTO object with badge data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public BadgeReplyDTO getOneBadge(String id) {
 
         return repositoryOdznaka.findById(id).map(el -> ModelMapperUtil.map(el, BadgeReplyDTO.class))

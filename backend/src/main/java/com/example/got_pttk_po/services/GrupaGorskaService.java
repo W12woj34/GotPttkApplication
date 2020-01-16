@@ -1,7 +1,6 @@
 package com.example.got_pttk_po.services;
 
 import com.example.got_pttk_po.dto.MountainGroupReplyDTO;
-import com.example.got_pttk_po.entities.GrupaGorskaEntity;
 import com.example.got_pttk_po.exceptions.GroupNotFoundException;
 import com.example.got_pttk_po.repositories.GrupaGorskaRepository;
 import com.example.got_pttk_po.utils.ModelMapperUtil;
@@ -20,7 +19,9 @@ public class GrupaGorskaService {
         this.repositoryGrupaGorska = repository;
     }
 
-
+    /**
+     * @return MountainGroupReplyDTO List with mountain group data
+     */
     public List<MountainGroupReplyDTO> getAllGroups() {
 
         return repositoryGrupaGorska.findAll().stream()
@@ -30,7 +31,11 @@ public class GrupaGorskaService {
     }
 
 
-
+    /**
+     * @param id     Id of trip
+     * @return MountainGroupReplyDTO object with mountain group data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public MountainGroupReplyDTO getOneGroup(String id) {
 
         return repositoryGrupaGorska.findById(id).map(el -> ModelMapperUtil.map(el, MountainGroupReplyDTO.class))

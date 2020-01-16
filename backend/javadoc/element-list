@@ -1,0 +1,10 @@
+com.example.got_pttk_po
+com.example.got_pttk_po.config
+com.example.got_pttk_po.controllers
+com.example.got_pttk_po.dto
+com.example.got_pttk_po.entities
+com.example.got_pttk_po.exceptionHandlers
+com.example.got_pttk_po.exceptions
+com.example.got_pttk_po.repositories
+com.example.got_pttk_po.services
+com.example.got_pttk_po.utils

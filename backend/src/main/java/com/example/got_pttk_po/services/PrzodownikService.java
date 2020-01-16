@@ -26,7 +26,10 @@ public class PrzodownikService {
         this.repositoryUzytkownik = repositoryUzytkownik;
     }
 
+    /**
 
+     * @return LeaderReplyDTO object with leader id
+     */
     public List<LeaderReplyDTO> getAllLeaders() {
 
         return repositoryPrzodownik.findAll().stream()
@@ -34,12 +37,21 @@ public class PrzodownikService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of leader
+     * @return LeaderReplyDTO object with leader id
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public LeaderReplyDTO getOneLeader(String id) {
 
         return repositoryPrzodownik.findById(id).map(el -> ModelMapperUtil.map(el, LeaderReplyDTO.class))
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    /**
+     * @return UserReplyDTO List with leaders data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<UserReplyDTO> getAllLeadersAll() {
 
         List<PrzodownikEntity> leadersList = repositoryPrzodownik.findAll();
@@ -54,6 +66,11 @@ public class PrzodownikService {
     }
 
 
+    /**
+     * @param id     Id of leader
+     * @return UserReplyDTO object with leaders data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public UserReplyDTO getOneLeaderAll(String id) {
 
         PrzodownikEntity leader = repositoryPrzodownik.findById(id).orElseThrow(() -> new LeaderNotFoundException(id));

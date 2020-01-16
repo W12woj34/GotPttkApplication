@@ -36,6 +36,9 @@ public class ZdobywanaOdznakaService {
         this.wycieczkaService = wycieczkaService;
     }
 
+    /**
+     * @return GetBadgeReplyDTO oList with users badges data
+     */
     public List<GetBadgeReplyDTO> getAllGetBadges() {
 
         return repositoryZdobywanaOdznaka.findAll().stream()
@@ -43,6 +46,10 @@ public class ZdobywanaOdznakaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id Id of tourist
+     * @return GetBadgeReplyDTO List with users badge sdata
+     */
     public List<GetBadgeReplyDTO> getAllGetBadgesTourist(String id) {
 
         return repositoryZdobywanaOdznaka.findByTurysta(id).stream()
@@ -50,6 +57,11 @@ public class ZdobywanaOdznakaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id Id of user badge
+     * @param status User badge status
+     * @return GetBadgeReplyDTO List with users badges data
+     */
     public List<GetBadgeReplyDTO> getAllGetBadgesTouristStatus(String id, Integer status) {
 
         return repositoryZdobywanaOdznaka.findByTurystaAndStatus(id, status).stream()
@@ -57,12 +69,22 @@ public class ZdobywanaOdznakaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id Id of user badge
+     * @return GetBadgeReplyDTO object with user badge data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public GetBadgeReplyDTO getOneGetBadge(Integer id) {
 
         return repositoryZdobywanaOdznaka.findById(id).map(el -> ModelMapperUtil.map(el, GetBadgeReplyDTO.class))
                 .orElseThrow(() -> new GetBadgeNotFoundException(id));
     }
 
+    /**
+     * @param id Id of tourist
+     * @return BadgeReplyDTO list of possible badges
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<BadgeReplyDTO> getAllPossibleBadgesTourist(String id) {
         List<ZdobywanaOdznakaEntity> ownGetBadges = repositoryZdobywanaOdznaka.findByTurysta(id);
         List<String> ownGetBadgesIds = new ArrayList<>();
@@ -98,9 +120,15 @@ public class ZdobywanaOdznakaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param touristId Id of tourist
+     * @param badgeId Name of badge
+     * @return GetBadgeReplyDTO object with user badge data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public GetBadgeReplyDTO addGetBadge(String touristId, String badgeId) {
         List<ZdobywanaOdznakaEntity> currentGetBadge = repositoryZdobywanaOdznaka.findByTurystaAndStatus(touristId, 0);
-        if(!currentGetBadge.isEmpty()){
+        if (!currentGetBadge.isEmpty()) {
             throw new BadgeNotPossibleException(badgeId);
         }
         ZdobywanaOdznakaEntity badge = new ZdobywanaOdznakaEntity();
@@ -116,7 +144,8 @@ public class ZdobywanaOdznakaService {
         badge.setStatus(0);
         badge.setTurysta(touristId);
         badge.setOdznaka(badgeId);
-        List<ZdobywanaOdznakaEntity> previousBadges = repositoryZdobywanaOdznaka.findByTurystaOrderByDataZdobyciaDesc(touristId);
+        List<ZdobywanaOdznakaEntity> previousBadges = repositoryZdobywanaOdznaka
+                .findByTurystaAndStatusOrderByDataZdobyciaDesc(touristId, 1);
         if (previousBadges.isEmpty() || previousBadges.get(0).getOdznaka().contains("Za Wytrwałość")) {
             badge.setPunkty(0);
         } else {
@@ -125,9 +154,14 @@ public class ZdobywanaOdznakaService {
         }
 
         repositoryZdobywanaOdznaka.save(badge);
-        return  ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
+        return ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
     }
 
+    /**
+     * @param id Id of user badge
+     * @return Integer id of deleted badge
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public Integer deleteGetBadge(Integer id) {
 
         ZdobywanaOdznakaEntity badge = repositoryZdobywanaOdznaka.findById(id)
@@ -136,9 +170,9 @@ public class ZdobywanaOdznakaService {
             throw new GetBadgeIsVerificatedException(id);
         }
 
-        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
         List<Integer> tripIds = new ArrayList<>();
-        for(WycieczkaEntity trip : trips){
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        for (WycieczkaEntity trip : trips) {
             tripIds.add(trip.getNumer());
         }
         wycieczkaService.deleteTrips(tripIds);
@@ -146,6 +180,12 @@ public class ZdobywanaOdznakaService {
         return id;
     }
 
+    /**
+     * @param getBadgeId Id of user badge
+     * @param newBadgeId Name of new badge
+     * @return GetBadgeReplyDTO object with user badge data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public GetBadgeReplyDTO changeBadge(Integer getBadgeId, String newBadgeId) {
 
         ZdobywanaOdznakaEntity currentBadge = repositoryZdobywanaOdznaka
@@ -160,12 +200,16 @@ public class ZdobywanaOdznakaService {
         if (possibleBadgesIds.contains(newBadge.getNazwa())) {
             currentBadge.setOdznaka(newBadgeId);
             repositoryZdobywanaOdznaka.save(currentBadge);
-            return  ModelMapperUtil.map(currentBadge, GetBadgeReplyDTO.class);
+            return ModelMapperUtil.map(currentBadge, GetBadgeReplyDTO.class);
         } else {
             throw new BadgeNotPossibleException(newBadgeId);
         }
     }
 
+    /**
+     * @param ownBadges  List of own badges
+     * @param possibleBadges List of possible badges
+     */
     private void addCheckPossible(List<OdznakaEntity> ownBadges, List<OdznakaEntity> possibleBadges) {
         if (!checkContainsBadge(ownBadges, "Duża Złota")) {
             if (checkContainsBadge(ownBadges, "Duża Srebrna")) {
@@ -189,12 +233,23 @@ public class ZdobywanaOdznakaService {
         }
     }
 
+    /**
+     * @param possibleBadges  List of possible badges
+     * @param badge Name of specific badge
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     private void addPossibleBadge(List<OdznakaEntity> possibleBadges, String badge) {
 
         possibleBadges.add(repositoryOdznaka.findById(badge)
                 .orElseThrow(() -> new BadgeNotFoundException(badge)));
     }
 
+    /**
+     * @param ownBadges  List of own badges
+     * @param badge Name of specific badge
+     * @return is list of bagges contain specific badge
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     private boolean checkContainsBadge(List<OdznakaEntity> ownBadges, String badge) {
 
         return ownBadges.contains(repositoryOdznaka.findById(badge)
