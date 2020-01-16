@@ -10,7 +10,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   flex: 1 1 auto;
 }
 
-button.goodButton {
+.goodButton {
   background-color: #0A650C;
   color: white;
 }

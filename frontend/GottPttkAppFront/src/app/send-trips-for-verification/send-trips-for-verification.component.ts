@@ -1,8 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
 import {SimpleErrorDialogComponent} from "../dialogs/simple-error-dialog/simple-error-dialog.component";

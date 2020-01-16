@@ -20,6 +20,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "./dialogs/simple-error-dialog/simple-error-dialog.component";
 import { TableDialogComponent } from './dialogs/table-dialog/table-dialog.component';
 import { SendTripsForVerificationComponent } from './send-trips-for-verification/send-trips-for-verification.component';
+import { VerifyTripsMainComponent } from './verify-trips-main/verify-trips-main.component';
+import { VerifyTripDetailsComponent } from './verify-trip-details/verify-trip-details.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { SendTripsForVerificationComponent } from './send-trips-for-verification
     WorkInProgressComponent,
     SimpleErrorDialogComponent,
     TableDialogComponent,
-    SendTripsForVerificationComponent
+    SendTripsForVerificationComponent,
+    VerifyTripsMainComponent,
+    VerifyTripDetailsComponent
   ],
   imports: [
     BrowserModule,
