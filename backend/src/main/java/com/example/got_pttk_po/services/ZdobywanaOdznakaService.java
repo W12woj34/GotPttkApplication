@@ -100,7 +100,7 @@ public class ZdobywanaOdznakaService {
 
     public GetBadgeReplyDTO addGetBadge(String touristId, String badgeId) {
         List<ZdobywanaOdznakaEntity> currentGetBadge = repositoryZdobywanaOdznaka.findByTurystaAndStatus(touristId, 0);
-        if(!currentGetBadge.isEmpty()){
+        if (!currentGetBadge.isEmpty()) {
             throw new BadgeNotPossibleException(badgeId);
         }
         ZdobywanaOdznakaEntity badge = new ZdobywanaOdznakaEntity();
@@ -116,7 +116,8 @@ public class ZdobywanaOdznakaService {
         badge.setStatus(0);
         badge.setTurysta(touristId);
         badge.setOdznaka(badgeId);
-        List<ZdobywanaOdznakaEntity> previousBadges = repositoryZdobywanaOdznaka.findByTurystaOrderByDataZdobyciaDesc(touristId);
+        List<ZdobywanaOdznakaEntity> previousBadges = repositoryZdobywanaOdznaka
+                .findByTurystaAndStatusOrderByDataZdobyciaDesc(touristId, 1);
         if (previousBadges.isEmpty() || previousBadges.get(0).getOdznaka().contains("Za Wytrwałość")) {
             badge.setPunkty(0);
         } else {
@@ -125,7 +126,7 @@ public class ZdobywanaOdznakaService {
         }
 
         repositoryZdobywanaOdznaka.save(badge);
-        return  ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
+        return ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
     }
 
     public Integer deleteGetBadge(Integer id) {
@@ -136,9 +137,9 @@ public class ZdobywanaOdznakaService {
             throw new GetBadgeIsVerificatedException(id);
         }
 
-        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
         List<Integer> tripIds = new ArrayList<>();
-        for(WycieczkaEntity trip : trips){
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        for (WycieczkaEntity trip : trips) {
             tripIds.add(trip.getNumer());
         }
         wycieczkaService.deleteTrips(tripIds);
@@ -160,7 +161,7 @@ public class ZdobywanaOdznakaService {
         if (possibleBadgesIds.contains(newBadge.getNazwa())) {
             currentBadge.setOdznaka(newBadgeId);
             repositoryZdobywanaOdznaka.save(currentBadge);
-            return  ModelMapperUtil.map(currentBadge, GetBadgeReplyDTO.class);
+            return ModelMapperUtil.map(currentBadge, GetBadgeReplyDTO.class);
         } else {
             throw new BadgeNotPossibleException(newBadgeId);
         }

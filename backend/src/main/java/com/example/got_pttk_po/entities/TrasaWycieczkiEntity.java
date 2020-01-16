@@ -5,7 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "Trasa_Wycieczki", schema = "xnWwlKKwT8")
-public class TrasaWycieczkiEntity {
+public class TrasaWycieczkiEntity implements Comparable<TrasaWycieczkiEntity> {
     private int numer;
     private boolean powtozona;
     private int indeks;
@@ -99,5 +99,11 @@ public class TrasaWycieczkiEntity {
         result = 31 * result + wycieczka;
         result = 31 * result + trasa;
         return result;
+    }
+
+
+    @Override
+    public int compareTo(TrasaWycieczkiEntity o) {
+        return data.compareTo(o.getData());
     }
 }

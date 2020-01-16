@@ -9,12 +9,10 @@ import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
 import com.example.got_pttk_po.exceptions.*;
-import com.example.got_pttk_po.repositories.TrasaRepository;
-import com.example.got_pttk_po.repositories.TrasaWycieczkiRepository;
-import com.example.got_pttk_po.repositories.WycieczkaRepository;
-import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
+import com.example.got_pttk_po.repositories.*;
 import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -30,15 +28,17 @@ public class TrasaWycieczkiService {
     private final WycieczkaRepository repositoryWycieczka;
     private final TrasaRepository repositoryTrasa;
     private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
+    private final OdznakaRepository repositoryOdznaka;
     private final TrasaService serviceTrasa;
 
     TrasaWycieczkiService(TrasaWycieczkiRepository repositoryTrasaWycieczki, WycieczkaRepository repositoryWycieczka,
                           TrasaRepository repositoryTrasa, ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka,
-                          TrasaService serviceTrasa) {
+                          OdznakaRepository repositoryOdznaka, TrasaService serviceTrasa) {
         this.repositoryTrasaWycieczki = repositoryTrasaWycieczki;
         this.repositoryWycieczka = repositoryWycieczka;
         this.repositoryTrasa = repositoryTrasa;
         this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;
+        this.repositoryOdznaka = repositoryOdznaka;
         this.serviceTrasa = serviceTrasa;
     }
 
@@ -68,13 +68,9 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();
         WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())
                 .orElseThrow(() -> new TripNotFoundException(newTripRoute.getTrip()));
-        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(trip.getOdznaka());
-        List<Integer> tripIds = new ArrayList<>();
-        for (WycieczkaEntity oneTrip : trips) {
-            tripIds.add(oneTrip.getNumer());
-        }
 
-        List<TrasaWycieczkiEntity> badgeRoutes = repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);
+        List<TrasaWycieczkiEntity> badgeRoutes = getAllTripRoutesForGetBadge(trip.getOdznaka());
+
         List<Integer> badgeRouteIds = new ArrayList<>();
         for (TrasaWycieczkiEntity badgeRoute : badgeRoutes) {
             badgeRouteIds.add(badgeRoute.getTrasa());
@@ -171,6 +167,7 @@ public class TrasaWycieczkiService {
         WycieczkaEntity trip = repositoryWycieczka.findById(tripRoute.getWycieczka())
                 .orElseThrow(() -> new TripNotFoundException(tripRoute.getWycieczka()));
         updateTripDate(trip.getNumer());
+        updatePowtozonaProperty(trip.getOdznaka());
         recalculateGetBadgePoints(trip.getOdznaka());
         return id;
     }
@@ -210,20 +207,51 @@ public class TrasaWycieczkiService {
         }
         repositoryTrasaWycieczki.deleteByNumerIn(ids);
         updateTripDate(trip.getNumer());
+        updatePowtozonaProperty(trip.getOdznaka());
         recalculateGetBadgePoints(trip.getOdznaka());
         return ids;
     }
 
-    private void recalculateGetBadgePoints(Integer id) {
+    @Transactional
+    protected void updatePowtozonaProperty(int getBadgeId) {
 
-        List<Integer> tripIds = new ArrayList<>();
-        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
-        for (WycieczkaEntity trip : trips) {
-            tripIds.add(trip.getNumer());
+        List<TrasaWycieczkiEntity> tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);
+        List<Integer> routeIds = new ArrayList<>();
+        for(TrasaWycieczkiEntity tripRoute : tripRoutes){
+            routeIds.add(tripRoute.getTrasa());
+        }
+        tripRoutes.sort(TrasaWycieczkiEntity::compareTo);
+        for(TrasaWycieczkiEntity tripRoute: tripRoutes){
+            if(routeIds.contains(tripRoute.getTrasa())){
+                tripRoute.setPowtozona(true);
+            }
+            else{
+                tripRoute.setPowtozona(false);
+            }
+            repositoryTrasaWycieczki.save(tripRoute);
         }
 
-        int points = 0;
-        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);
+    }
+
+    private void recalculateGetBadgePoints(Integer getBadgeId) {
+
+        getAllTripRoutesForGetBadge(getBadgeId);
+        List<TrasaWycieczkiEntity> tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);
+
+        ZdobywanaOdznakaEntity getBadge = repositoryZdobywanaOdznaka.findById(getBadgeId)
+                .orElseThrow(() -> new GetBadgeNotFoundException(getBadgeId));
+
+        List<ZdobywanaOdznakaEntity> previousBadges = repositoryZdobywanaOdznaka
+                .findByTurystaAndStatusOrderByDataZdobyciaDesc(getBadge.getTurysta(), 1);
+
+        int points;
+        if (previousBadges.isEmpty() || previousBadges.get(0).getOdznaka().contains("Za Wytrwałość")) {
+            points = 0;
+        } else {
+            points = previousBadges.get(0).getPunkty() - repositoryOdznaka.findById(getBadge.getOdznaka())
+                    .orElseThrow(() -> new BadgeNotFoundException(getBadge.getOdznaka())).getWymaganePunkty();
+        }
+
 
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
             if (!tripRoute.isPowtozona()) {
@@ -233,10 +261,18 @@ public class TrasaWycieczkiService {
             }
         }
 
-        ZdobywanaOdznakaEntity getBadge = repositoryZdobywanaOdznaka.findById(id)
-                .orElseThrow(() -> new GetBadgeNotFoundException(id));
         getBadge.setPunkty(points);
         repositoryZdobywanaOdznaka.save(getBadge);
+    }
+
+    private List<TrasaWycieczkiEntity> getAllTripRoutesForGetBadge(Integer id) {
+        List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
+        List<Integer> tripIds = new ArrayList<>();
+        for (WycieczkaEntity trip : trips) {
+            tripIds.add(trip.getNumer());
+        }
+
+        return repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);
     }
 
     private void updateTripDate(Integer id) {
