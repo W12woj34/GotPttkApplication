@@ -1,0 +1,14 @@
+mat-toolbar {
+  background-color: #132A13;
+  color: white;
+}
+
+button.mat-button {
+  border-radius: 0;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}

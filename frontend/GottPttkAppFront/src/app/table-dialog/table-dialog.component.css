@@ -1,0 +1,18 @@
+table {
+  background-color: #ECF39E;
+  width: 765px;
+}
+
+th {
+  background-color: #D7DD90;
+}
+
+.customTableHeight {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+* {
+  color: #727272;
+}

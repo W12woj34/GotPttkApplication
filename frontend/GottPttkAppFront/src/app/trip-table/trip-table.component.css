@@ -1,0 +1,44 @@
+table {
+  width: 100%;
+  background-color: #ECF39E;
+  max-height: available;
+}
+
+th {
+  background-color: #D7DD90;
+  color: #727272;
+  font-size: medium;
+}
+
+td {
+  color: #727272;
+}
+
+mat-paginator{
+  background-color: #ECF39E;
+}
+
+button.mat-button {
+  border-radius: 0;
+}
+
+mat-toolbar {
+  background-color: #ECF39E;
+  color: #727272;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+}
