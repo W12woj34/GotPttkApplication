@@ -42,7 +42,9 @@ public class TrasaWycieczkiService {
         this.serviceTrasa = serviceTrasa;
     }
 
-
+    /**
+     * @return TripRouteReplyDTO List with trip routes data
+     */
     public List<TripRouteReplyDTO> getAllTripRoutes() {
 
         return repositoryTrasaWycieczki.findAll().stream()
@@ -50,13 +52,22 @@ public class TrasaWycieczkiService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id Id of trip route
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public TripRouteReplyDTO getOneTripRoute(Integer id) {
 
         return repositoryTrasaWycieczki.findById(id).map(el -> ModelMapperUtil.map(el, TripRouteReplyDTO.class))
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
     }
 
-
+    /**
+     * @param id Id of  trip route
+     * @return TripRouteReplyDTO List with trip routes data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<TripRouteReplyDTO> getAllTripRoutesForTrip(Integer id) {
 
         return repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id).stream()
@@ -64,6 +75,11 @@ public class TrasaWycieczkiService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param newTripRoute TripRouteReplyDTO object with initial trip route data
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public TripRouteReplyDTO addTripRoute(TripRouteAddDTO newTripRoute) {
         TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();
         WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())
@@ -90,7 +106,7 @@ public class TrasaWycieczkiService {
             tripRoute.setTrasa(newTripRoute.getRoute());
             repositoryTrasaWycieczki.save(tripRoute);
 
-            return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
+            return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
             List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(newTripRoute.getRoute());
             List<Integer> possibleRouteIds = new ArrayList<>();
@@ -111,10 +127,16 @@ public class TrasaWycieczkiService {
             tripRoute.setTrasa(newTripRoute.getRoute());
 
             repositoryTrasaWycieczki.save(tripRoute);
-            return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
+            return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         }
     }
 
+    /**
+     * @param newTripRoute TripRouteUpdateDTO object with trip route data to modify
+     * @param id           Id of trip route
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public TripRouteReplyDTO modifyTripRoute(TripRouteUpdateDTO newTripRoute, Integer id) {
 
         Date newDate = newTripRoute.getDate();
@@ -152,9 +174,14 @@ public class TrasaWycieczkiService {
             }
         }
         repositoryTrasaWycieczki.save(tripRoute);
-        return  ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
+        return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
     }
 
+    /**
+     * @param id Id of trip route
+     * @return Id of deleted trip route
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public Integer deleteTripRoute(Integer id) {
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
@@ -172,6 +199,11 @@ public class TrasaWycieczkiService {
         return id;
     }
 
+    /**
+     * @param ids List of trip routes ids
+     * @return Integer List with deleted trip routes ids
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<Integer> deleteTripRoutes(List<Integer> ids) {
         List<TrasaWycieczkiEntity> deleteTripRoutes = repositoryTrasaWycieczki.findByNumerIn(ids);
         if (deleteTripRoutes.size() != ids.size()) {
@@ -212,20 +244,22 @@ public class TrasaWycieczkiService {
         return ids;
     }
 
+    /**
+     * @param getBadgeId Id of user badge
+     */
     @Transactional
     protected void updatePowtozonaProperty(int getBadgeId) {
 
         List<TrasaWycieczkiEntity> tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);
         List<Integer> routeIds = new ArrayList<>();
-        for(TrasaWycieczkiEntity tripRoute : tripRoutes){
+        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
             routeIds.add(tripRoute.getTrasa());
         }
         tripRoutes.sort(TrasaWycieczkiEntity::compareTo);
-        for(TrasaWycieczkiEntity tripRoute: tripRoutes){
-            if(routeIds.contains(tripRoute.getTrasa())){
+        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
+            if (routeIds.contains(tripRoute.getTrasa())) {
                 tripRoute.setPowtozona(true);
-            }
-            else{
+            } else {
                 tripRoute.setPowtozona(false);
             }
             repositoryTrasaWycieczki.save(tripRoute);
@@ -233,6 +267,10 @@ public class TrasaWycieczkiService {
 
     }
 
+    /**
+     * @param getBadgeId of user badge
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     private void recalculateGetBadgePoints(Integer getBadgeId) {
 
         getAllTripRoutesForGetBadge(getBadgeId);
@@ -265,6 +303,10 @@ public class TrasaWycieczkiService {
         repositoryZdobywanaOdznaka.save(getBadge);
     }
 
+    /**
+     * @param id     Id of user badge
+     * @return TripRouteReplyDTO List with trip routes data
+     */
     private List<TrasaWycieczkiEntity> getAllTripRoutesForGetBadge(Integer id) {
         List<WycieczkaEntity> trips = repositoryWycieczka.findByOdznaka(id);
         List<Integer> tripIds = new ArrayList<>();
@@ -275,6 +317,10 @@ public class TrasaWycieczkiService {
         return repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);
     }
 
+    /**
+     * @param id     Id of trip route
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     private void updateTripDate(Integer id) {
 
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
@@ -285,9 +331,8 @@ public class TrasaWycieczkiService {
         if (tripRoutes.isEmpty()) {
             trip.setDataRozpoczecia(null);
             trip.setDataZakonczenia(null);
-        }
-        else{
-            trip.setDataRozpoczecia(tripRoutes.get(tripRoutes.size()-1).getData());
+        } else {
+            trip.setDataRozpoczecia(tripRoutes.get(tripRoutes.size() - 1).getData());
             trip.setDataZakonczenia(tripRoutes.get(0).getData());
         }
 

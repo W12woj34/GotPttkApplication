@@ -16,6 +16,13 @@ public class ModelMapperUtil {
                 .setMatchingStrategy(MatchingStrategies.STRICT);
     }
 
+    /**
+     * @param <D>      Type of result object
+     * @param <T>      Type of source object
+     * @param entity   Entity to map
+     * @param outClass Class of result object
+     * @return New object of <T> type.
+     */
 
     public static <D, T> D map(final T entity, Class<D> outClass) {
 

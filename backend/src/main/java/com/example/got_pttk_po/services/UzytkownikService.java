@@ -18,7 +18,9 @@ public class UzytkownikService {
         this.repository = repository;
     }
 
-
+    /**
+     * @return UserReplyDTO List with users data
+     */
     public List<UserReplyDTO> getAllUsers() {
 
         return repository.findAll().stream()
@@ -26,6 +28,11 @@ public class UzytkownikService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of user
+     * @return UserReplyDTO List with user data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public UserReplyDTO getOneUser(String id) {
 
         return repository.findById(id).map(el -> ModelMapperUtil.map(el, UserReplyDTO.class))

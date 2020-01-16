@@ -20,6 +20,9 @@ public class TrasaService {
         this.repositoryTrasa = repository;
     }
 
+    /**
+     * @return RouteReplyDTO List with routes data
+     */
     public List<RouteReplyDTO> getAllRoutes() {
 
         return repositoryTrasa.findAll().stream()
@@ -27,6 +30,11 @@ public class TrasaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of route
+     * @return RouteReplyDTO List with possible routes data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<RouteReplyDTO> getPossibleRoutes(Integer id) {
 
        TrasaEntity route =  repositoryTrasa.findById(id).orElseThrow(() -> new RouteNotFoundException(id));
@@ -35,12 +43,22 @@ public class TrasaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of route
+     * @return RouteReplyDTO object with route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public RouteReplyDTO getOneRoute(Integer id) {
 
         return repositoryTrasa.findById(id).map(el -> ModelMapperUtil.map(el, RouteReplyDTO.class))
                 .orElseThrow(() -> new RouteNotFoundException(id));
     }
 
+    /**
+     * @param id     Id of route
+     * @return  RouteReplyDTO List with routes data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<RouteReplyDTO> getAllRoutesInSubgroup(String id) {
         return repositoryTrasa.findByPodgrupa(id).stream()
                 .map(el -> ModelMapperUtil.map(el, RouteReplyDTO.class))

@@ -26,7 +26,10 @@ public class TurystaService {
         this.repositoryUzytkownik = repositoryUzytkownik;
     }
 
-
+    /**
+     * @return TouristReplyDTO List with tourists ids
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<TouristReplyDTO> getAllTourists() {
 
         return repositoryTurysta.findAll().stream()
@@ -34,12 +37,21 @@ public class TurystaService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param id     Id of tourist
+     * @return TouristReplyDTO object with user id
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public TouristReplyDTO getOneTourist(String id) {
 
         return repositoryTurysta.findById(id).map(el -> ModelMapperUtil.map(el, TouristReplyDTO.class))
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    /**
+     * @return UserReplyDTO List with tourists data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public List<UserReplyDTO> getAllTouristsAll() {
 
         List<TurystaEntity> touristsList = repositoryTurysta.findAll();
@@ -54,6 +66,11 @@ public class TurystaService {
     }
 
 
+    /**
+     * @param id     Id of tourist
+     * @return UserReplyDTO object with tourist data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     public UserReplyDTO getOneTouristAll(String id) {
 
         TurystaEntity tourist = repositoryTurysta.findById(id).orElseThrow(() -> new TouristNotFoundException(id));
