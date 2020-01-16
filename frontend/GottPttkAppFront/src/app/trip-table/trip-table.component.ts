@@ -6,6 +6,8 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "../simple-error-dialog/simple-error-dialog.component";
 import {ActivatedRoute} from "@angular/router";
 import { Location } from '@angular/common';
+import {TableDialogComponent} from "../table-dialog/table-dialog.component";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 export interface PeriodicElement {
   position: number;
@@ -67,7 +69,13 @@ const SENT_DATA: PeriodicElement[] = [
 @Component({
   selector: 'app-trip-table',
   templateUrl: './trip-table.component.html',
-  styleUrls: ['./trip-table.component.css']
+  styleUrls: ['./trip-table.component.css'],
+  animations: [trigger('fadeInOut', [
+    state('void', style({
+      opacity: 0
+    })),
+    transition('void <=> *', animate(100)),
+  ]),]
 })
 export class TripTableComponent implements OnInit {
 
@@ -111,6 +119,8 @@ export class TripTableComponent implements OnInit {
     dialogConfig.height = '550px';
 
     dialogConfig.panelClass = 'custom-dialog-background';
+
+    this.dialog.open(TableDialogComponent, dialogConfig);
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

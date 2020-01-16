@@ -18,18 +18,12 @@ mat-paginator{
   background-color: #ECF39E;
 }
 
-button.mat-button {
-  border-radius: 0;
-}
-
 mat-toolbar {
   background-color: #ECF39E;
   color: #727272;
 }
 
 .fill-remaining-space {
-  /* This fills the remaining space, by using flexbox.
-     Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
 

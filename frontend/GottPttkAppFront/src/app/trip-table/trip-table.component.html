@@ -3,7 +3,7 @@
 
   <span class="fill-remaining-space"></span>
 
-  <button mat-button style="background-color: #0A650C; color: white" *ngIf="!this.selection.isEmpty()" (click)="openSentDialog()">
+  <button mat-button style="background-color: #0A650C; color: white" *ngIf="!this.selection.isEmpty()" (click)="openSentDialog()" [@fadeInOut]>
     Przekaż {{this.selection.selected.length}} wycieczki <mat-icon>send</mat-icon>
   </button>
 </mat-toolbar>
