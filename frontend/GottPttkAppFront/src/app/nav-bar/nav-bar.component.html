@@ -8,7 +8,7 @@
     <mat-icon>keyboard_arrow_down</mat-icon>
   </button>
   <mat-menu #trips="matMenu">
-    <button mat-menu-item>Przeglądaj wycieczki</button>
+    <a mat-menu-item routerLink="/manageTrips">Przeglądaj wycieczki</a>
     <a mat-menu-item routerLink="/sendTripsForVerification">Przekaż wycieczki do weryfikacji</a>
     <a mat-menu-item *ngIf="currentUser && currentUser.type == 'Przodownik'" routerLink="/verifyTrips">Weryfikuj
       wycieczki</a>

@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import { Router} from "@angular/router";
 import { Location } from '@angular/common';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {YesNoDialogComponent} from "../dialogs/yes-no-dialog/yes-no-dialog.component";
+import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
 
 export interface PeriodicElement {
   position: number;
@@ -43,7 +43,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class VerifyTripDetailsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
               private location: Location,
               private dialog: MatDialog) { }
 
@@ -72,7 +72,14 @@ export class VerifyTripDetailsComponent implements OnInit {
 
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    this.dialog.open(YesNoDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(YesNoDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'yes') {
+        this.router.navigate(['/verifyTrips'])
+      } else {
+        this.router.navigate(['/dashboard'])      }
+    })
   }
 
   verifyNegative() {
@@ -83,13 +90,18 @@ export class VerifyTripDetailsComponent implements OnInit {
     dialogConfig.data = {
       title: 'Wycieczka została zweryfikowana negatywnie',
       desc: 'Czy chcesz dalej weryfikować wycieczki?',
-      nolink: '/dashboard',
-      yeslink: '/verifyTrips'
     };
 
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    this.dialog.open(YesNoDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(YesNoDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'yes') {
+        this.router.navigate(['/verifyTrips'])
+      } else {
+        this.router.navigate(['/dashboard'])      }
+    })
   }
 
   goBack(): void {

@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {PeriodicElement} from "../../send-trips-for-verification/send-trips-for-verification.component";
+import {PeriodicElement} from "../../trips/send-trips-for-verification/send-trips-for-verification.component";
 
 @Component({
   selector: 'app-table-dialog',

@@ -1,0 +1,61 @@
+<mat-toolbar class="backBar">
+  <a mat-button routerLink="..">
+    <mat-icon>keyboard_arrow_left</mat-icon>Wróć
+  </a>
+</mat-toolbar>
+
+<mat-toolbar class="aboveTable">
+  <span>Lista twoich wycieczek</span>
+  <span class="fill-remaining-space"></span>
+  <button mat-button class="goodButton">
+    Dodaj wycieczkę <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="begin_date">
+    <th mat-header-cell *matHeaderCellDef>Data rozpoczęcia</th>
+    <td mat-cell *matCellDef="let element"> {{element.begin_date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="end_date">
+    <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
+    <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="mnt_group">
+    <th mat-header-cell *matHeaderCellDef>Grupa górska</th>
+    <td mat-cell *matCellDef="let element"> {{element.mnt_group}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="score">
+    <th mat-header-cell *matHeaderCellDef>Punkty</th>
+    <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="buttons">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button class="badButton" (click)="checkIfCanDelete(element.id)">
+        Usuń <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button mat-button class="editButton" (click)="checkIfCanEdit(element.id)">
+        Edytuj <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+
+<div class="footer">
+  <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -19,14 +19,16 @@ import {MatPaginatorIntlPol} from "./mat-paginator-intl-pol";
 import {MatDialogModule} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "./dialogs/simple-error-dialog/simple-error-dialog.component";
 import { TableDialogComponent } from './dialogs/table-dialog/table-dialog.component';
-import { SendTripsForVerificationComponent } from './send-trips-for-verification/send-trips-for-verification.component';
-import { VerifyTripsMainComponent } from './verify-trips-main/verify-trips-main.component';
-import { VerifyTripDetailsComponent } from './verify-trip-details/verify-trip-details.component';
+import { SendTripsForVerificationComponent } from './trips/send-trips-for-verification/send-trips-for-verification.component';
+import { VerifyTripsMainComponent } from './trips/verify-trips-main/verify-trips-main.component';
+import { VerifyTripDetailsComponent } from './trips/verify-trip-details/verify-trip-details.component';
 import {MatDividerModule} from "@angular/material/divider";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import { YesNoDialogComponent } from './dialogs/yes-no-dialog/yes-no-dialog.component';
+import { ManageTripsComponent } from './trips/manage-trips/manage-trips.component';
+import { AddTripComponent } from './add-trip/add-trip.component';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import { YesNoDialogComponent } from './dialogs/yes-no-dialog/yes-no-dialog.comp
     SendTripsForVerificationComponent,
     VerifyTripsMainComponent,
     VerifyTripDetailsComponent,
-    YesNoDialogComponent
+    YesNoDialogComponent,
+    ManageTripsComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,

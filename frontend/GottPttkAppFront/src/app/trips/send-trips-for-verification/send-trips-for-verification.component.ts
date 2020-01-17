@@ -3,9 +3,11 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
-import {SimpleErrorDialogComponent} from "../dialogs/simple-error-dialog/simple-error-dialog.component";
-import {TableDialogComponent} from "../dialogs/table-dialog/table-dialog.component";
+import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
+import {TableDialogComponent} from "../../dialogs/table-dialog/table-dialog.component";
 import {MatPaginator} from "@angular/material/paginator";
+import {ActivatedRoute} from "@angular/router";
+import {Location} from "@angular/common";
 
 export interface PeriodicElement {
   position: number;
@@ -53,7 +55,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 export class SendTripsForVerificationComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+              private route: ActivatedRoute,
+              private location: Location) {
   }
 
   displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_group', 'status', 'sugg_score'];
@@ -98,7 +102,11 @@ export class SendTripsForVerificationComponent implements OnInit {
 
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.goBack();
+    })
 
   }
 
@@ -143,6 +151,10 @@ export class SendTripsForVerificationComponent implements OnInit {
         this.dialog.open(TableDialogComponent, dialogConfig);
       }
     })
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
