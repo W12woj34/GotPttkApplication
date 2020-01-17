@@ -1,0 +1,84 @@
+.backBar {
+  background-color: #90A955;
+  color: white;
+  height: 60%;
+  padding-left: 0;
+}
+
+.aboveDetails {
+  background-color: #ECF39E;
+  color: #727272;
+}
+
+.goodButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.badButton {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+mat-divider {
+  border-color: #727272;
+}
+
+h2 {
+  background-color: #ECF39E;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 16px;
+  padding-top: 16px;
+  font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
+  color: #727272;
+}
+
+.customFlex {
+  display: flex;
+}
+
+.leftSide {
+  flex: 75%;
+  width: 1100px;
+  padding: 16px;
+  background-color: #ECF39E;
+}
+
+.rightSide {
+  flex: 25%;
+  padding-left: 16px;
+  background-color: #ECF39E;
+}
+
+.customTableSize {
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table {
+  width: -webkit-fill-available;
+  width: -moz-available;
+  background-color: #ECF39E;
+}
+
+th {
+  background-color: #D7DD90;
+  color: #727272;
+  font-size: medium;
+}
+
+td {
+  color: #727272;
+}
+
+mat-paginator {
+  background-color: #ECF39E;
+}
+
+mat-form-field {
+  max-width: 40px;
+  font-weight: bold;
+  text-align: center;
+}

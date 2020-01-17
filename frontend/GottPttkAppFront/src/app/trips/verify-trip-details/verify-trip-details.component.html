@@ -1,0 +1,81 @@
+<mat-toolbar class="backBar">
+  <button mat-button (click)="goBack()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    Wróć
+  </button>
+</mat-toolbar>
+
+<mat-toolbar class="aboveDetails">
+  <span>Szczegóły wycieczki</span>
+  <span class="fill-remaining-space"></span>
+  <button mat-button class="badButton" (click)="verifyNegative()">
+    Zweryfikuj negatywnie
+    <mat-icon>clear</mat-icon>
+  </button>
+  <button mat-button class="goodButton" (click)="verifyPositive()">
+    Zweryfikuj pozytywnie
+    <mat-icon>done</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-divider></mat-divider>
+
+<h2>Lista tras:</h2>
+
+<div class="customFlex">
+  <div class="leftSide">
+    <div class="customTableSize">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Data przejścia</th>
+          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Kategoria</th>
+          <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="start_point">
+          <th mat-header-cell *matHeaderCellDef>Punkt początkowy</th>
+          <td mat-cell *matCellDef="let element"> {{element.start_point}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="end_point">
+          <th mat-header-cell *matHeaderCellDef>Punkt końcowy</th>
+          <td mat-cell *matCellDef="let element"> {{element.end_point}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_back">
+          <th mat-header-cell *matHeaderCellDef>Czy powrotna?</th>
+          <td mat-cell *matCellDef="let element"> {{element.is_back}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_repeated">
+          <th mat-header-cell *matHeaderCellDef>Czy powtórzona?</th>
+          <td mat-cell *matCellDef="let element"> {{element.is_repeated}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="points">
+          <th mat-header-cell *matHeaderCellDef>Punkty</th>
+          <td mat-cell *matCellDef="let element; let i =index">
+            <mat-form-field *ngIf="element.category == 'Niezdef.'" color="accent">
+              <input matInput type="number" [(ngModel)]="pointsToSend[i] = element.points" value="{{element.points}}">
+            </mat-form-field>
+            <div *ngIf="element.category == 'Zdef.'">
+              {{element.points}}
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+    <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
+  </div>
+  <div class="rightSide">
+    <h2>Suma punktów: 20</h2>
+  </div>
+</div>

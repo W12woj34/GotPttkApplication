@@ -1,0 +1,57 @@
+<mat-toolbar class="backBar">
+  <a mat-button routerLink="..">
+    <mat-icon>keyboard_arrow_left</mat-icon>Wróć
+  </a>
+</mat-toolbar>
+
+<mat-toolbar class="aboveTable">
+  <span>Lista wycieczek do weryfikacji</span>
+</mat-toolbar>
+
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="first_name">
+    <th mat-header-cell *matHeaderCellDef>Imię</th>
+    <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="last_name">
+    <th mat-header-cell *matHeaderCellDef>Nazwisko</th>
+    <td mat-cell *matCellDef="let element"> {{element.last_name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef>Nazwa użytkownika</th>
+    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="begin_date">
+    <th mat-header-cell *matHeaderCellDef>Data rozpoczęcia</th>
+    <td mat-cell *matCellDef="let element"> {{element.begin_date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="end_date">
+    <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
+    <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="mnt_group">
+    <th mat-header-cell *matHeaderCellDef>Grupa górska</th>
+    <td mat-cell *matCellDef="let element"> {{element.mnt_group}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="verify_button">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <a mat-button class="goodButton" routerLink="/verifyTripDetails/{{element.id}}">Zweryfikuj</a>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+
+<div class="footer">
+  <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
+</div>

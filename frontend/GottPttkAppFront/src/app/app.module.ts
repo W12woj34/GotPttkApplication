@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TripTableComponent } from './trip-table/trip-table.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { MatPaginatorModule } from '@angular/material';
@@ -12,27 +11,40 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import {MatMenuModule} from "@angular/material/menu";
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { TripsVerifyComponent } from './trips-verify/trips-verify.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { WorkInProgressComponent } from './work-in-progress/work-in-progress.component';
 import {MatPaginatorIntl} from "@angular/material/paginator";
 import {MatPaginatorIntlPol} from "./mat-paginator-intl-pol";
 import {MatDialogModule} from "@angular/material/dialog";
-import {SimpleErrorDialogComponent} from "./simple-error-dialog/simple-error-dialog.component";
-import { TableDialogComponent } from './table-dialog/table-dialog.component';
+import {SimpleErrorDialogComponent} from "./dialogs/simple-error-dialog/simple-error-dialog.component";
+import { TableDialogComponent } from './dialogs/table-dialog/table-dialog.component';
+import { SendTripsForVerificationComponent } from './trips/send-trips-for-verification/send-trips-for-verification.component';
+import { VerifyTripsMainComponent } from './trips/verify-trips-main/verify-trips-main.component';
+import { VerifyTripDetailsComponent } from './trips/verify-trip-details/verify-trip-details.component';
+import {MatDividerModule} from "@angular/material/divider";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
+import { YesNoDialogComponent } from './dialogs/yes-no-dialog/yes-no-dialog.component';
+import { ManageTripsComponent } from './trips/manage-trips/manage-trips.component';
+import { AddTripComponent } from './add-trip/add-trip.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TripTableComponent,
     NavBarComponent,
     DashboardComponent,
-    TripsVerifyComponent,
     WorkInProgressComponent,
     SimpleErrorDialogComponent,
-    TableDialogComponent
+    TableDialogComponent,
+    SendTripsForVerificationComponent,
+    VerifyTripsMainComponent,
+    VerifyTripDetailsComponent,
+    YesNoDialogComponent,
+    ManageTripsComponent,
+    AddTripComponent
   ],
   imports: [
     BrowserModule,
@@ -45,10 +57,14 @@ import { TableDialogComponent } from './table-dialog/table-dialog.component';
     AppRoutingModule,
     MatIconModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],
-  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent]
+  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent]
 })
 export class AppModule { }

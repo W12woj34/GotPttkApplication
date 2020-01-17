@@ -1,7 +1,18 @@
+.backBar {
+  background-color: #90A955;
+  color: white;
+  height: 60%;
+  padding-left: 0;
+}
+
+.aboveTable {
+  background-color: #ECF39E;
+  color: #727272;
+}
+
 table {
   width: 100%;
   background-color: #ECF39E;
-  max-height: available;
 }
 
 th {
@@ -14,17 +25,8 @@ td {
   color: #727272;
 }
 
-mat-paginator{
+mat-paginator {
   background-color: #ECF39E;
-}
-
-mat-toolbar {
-  background-color: #ECF39E;
-  color: #727272;
-}
-
-.fill-remaining-space {
-  flex: 1 1 auto;
 }
 
 .footer {
@@ -32,7 +34,4 @@ mat-toolbar {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: red;
-  color: white;
-  text-align: center;
 }

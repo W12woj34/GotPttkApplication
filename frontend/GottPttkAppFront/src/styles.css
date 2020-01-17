@@ -1,7 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #ECF39E }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #ECF39E; scrollbar-color: #727272 #ecf39e}
 .custom-dialog-background .mat-dialog-container{
   background-color: #ECF39E;
 }
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+.goodButton {
+  background-color: #0A650C;
+  color: white;
+}
+
+.badButton {
+  background-color: #7E1717;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  background-color: #ECF39E;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #727272;
+  border-radius: 10px;
+}
+

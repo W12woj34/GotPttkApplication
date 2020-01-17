@@ -1,0 +1,37 @@
+.backBar {
+  background-color: #90A955;
+  color: white;
+  height: 60%;
+  padding-left: 0;
+}
+
+.aboveTable {
+  background-color: #ECF39E;
+  color: #727272;
+}
+
+table {
+  width: 100%;
+  background-color: #ECF39E;
+}
+
+th {
+  background-color: #D7DD90;
+  color: #727272;
+  font-size: medium;
+}
+
+td {
+  color: #727272;
+}
+
+mat-paginator {
+  background-color: #ECF39E;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
