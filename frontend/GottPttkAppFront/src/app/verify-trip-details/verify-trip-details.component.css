@@ -39,26 +39,27 @@ h2 {
 }
 
 .leftSide {
-  flex: 60%;
+  flex: 75%;
+  width: 1100px;
   padding: 16px;
   background-color: #ECF39E;
 }
 
 .rightSide {
-  flex: 40%;
+  flex: 25%;
   padding-left: 16px;
   background-color: #ECF39E;
 }
 
 .customTableSize {
-  width: 1000px;
   max-height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 table {
-  width: inherit;
+  width: -webkit-fill-available;
+  width: -moz-available;
   background-color: #ECF39E;
 }
 
