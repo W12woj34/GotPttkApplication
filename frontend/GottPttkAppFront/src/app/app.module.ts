@@ -23,6 +23,10 @@ import { SendTripsForVerificationComponent } from './send-trips-for-verification
 import { VerifyTripsMainComponent } from './verify-trips-main/verify-trips-main.component';
 import { VerifyTripDetailsComponent } from './verify-trip-details/verify-trip-details.component';
 import {MatDividerModule} from "@angular/material/divider";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
+import { YesNoDialogComponent } from './dialogs/yes-no-dialog/yes-no-dialog.component';
 
 
 @NgModule({
@@ -35,7 +39,8 @@ import {MatDividerModule} from "@angular/material/divider";
     TableDialogComponent,
     SendTripsForVerificationComponent,
     VerifyTripsMainComponent,
-    VerifyTripDetailsComponent
+    VerifyTripDetailsComponent,
+    YesNoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -49,10 +54,13 @@ import {MatDividerModule} from "@angular/material/divider";
     MatIconModule,
     MatToolbarModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],
-  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent]
+  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent]
 })
 export class AppModule { }

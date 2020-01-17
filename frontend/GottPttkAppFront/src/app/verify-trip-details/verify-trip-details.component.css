@@ -24,7 +24,6 @@ mat-divider {
   border-color: #727272;
 }
 
-
 h2 {
   background-color: #ECF39E;
   margin-top: 0;
@@ -33,6 +32,34 @@ h2 {
   padding-top: 16px;
   font: 500 20px/32px Roboto, "Helvetica Neue", sans-serif;
   color: #727272;
+}
+
+.customFlex {
+  display: flex;
+}
+
+.leftSide {
+  flex: 60%;
+  padding: 16px;
+  background-color: #ECF39E;
+}
+
+.rightSide {
+  flex: 40%;
+  padding-left: 16px;
+  background-color: #ECF39E;
+}
+
+.customTableSize {
+  width: 1000px;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table {
+  width: inherit;
+  background-color: #ECF39E;
 }
 
 th {
@@ -45,22 +72,12 @@ td {
   color: #727272;
 }
 
-table {
-  width: inherit;
-  background-color: #ECF39E;
-}
-
-.customTableSize {
-  width: 1000px;
-  padding-left: 16px;
-  padding-top: 16px;
-  background-color: #ECF39E;
-}
-
 mat-paginator {
   background-color: #ECF39E;
 }
 
-.customFlex {
-  display: flex;
+mat-form-field {
+  max-width: 40px;
+  font-weight: bold;
+  text-align: center;
 }
