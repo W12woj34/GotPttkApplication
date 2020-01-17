@@ -22,6 +22,7 @@ import { TableDialogComponent } from './dialogs/table-dialog/table-dialog.compon
 import { SendTripsForVerificationComponent } from './send-trips-for-verification/send-trips-for-verification.component';
 import { VerifyTripsMainComponent } from './verify-trips-main/verify-trips-main.component';
 import { VerifyTripDetailsComponent } from './verify-trip-details/verify-trip-details.component';
+import {MatDividerModule} from "@angular/material/divider";
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { VerifyTripDetailsComponent } from './verify-trip-details/verify-trip-de
     AppRoutingModule,
     MatIconModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDividerModule
   ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],

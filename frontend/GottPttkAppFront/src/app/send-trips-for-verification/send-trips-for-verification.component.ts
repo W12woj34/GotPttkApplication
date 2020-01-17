@@ -37,7 +37,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 18, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
   {position: 19, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
   {position: 20, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-
 ];
 
 @Component({

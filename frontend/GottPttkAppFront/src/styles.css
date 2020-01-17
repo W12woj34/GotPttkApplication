@@ -14,3 +14,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   background-color: #0A650C;
   color: white;
 }
+
+.badButton {
+  background-color: #7E1717;
+  color: white;
+}
