@@ -23,7 +23,6 @@ public class ModelMapperUtil {
      * @param outClass Class of result object
      * @return New object of T type.
      */
-
     public static <D, T> D map(final T entity, Class<D> outClass) {
 
         return modelMapper.map(entity, outClass);

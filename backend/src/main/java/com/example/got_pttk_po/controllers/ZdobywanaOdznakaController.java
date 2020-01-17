@@ -96,7 +96,7 @@ class ZdobywanaOdznakaController {
             @ApiResponse(code = 200, message = "OK", response = GetBadgeReplyDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),
             @ApiResponse(code = 500, message = "Internal server error", response = AppExceptionDTO.class)})
-    ResponseEntity<GetBadgeReplyDTO> replaceTrip(@RequestBody GetBadgeUpdateDTO dto, @PathVariable Integer getBadgeId) {
+    ResponseEntity<GetBadgeReplyDTO> replaceGetBadge(@RequestBody GetBadgeUpdateDTO dto, @PathVariable Integer getBadgeId) {
 
         return ResponseEntity.ok(service.changeBadge(getBadgeId, dto.getNewBadgeId()));
     }
