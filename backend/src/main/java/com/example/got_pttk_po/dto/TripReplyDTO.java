@@ -9,7 +9,7 @@ import java.sql.Date;
 public class TripReplyDTO {
     @ApiModelProperty(notes = "Unique trip id", example = "1")
     private int numer;
-    @ApiModelProperty(notes = "Trip status", example = "01")
+    @ApiModelProperty(notes = "Trip status; 0 - not verified, 1 - positively verified, 2 - negatively verified, 3 - forwarded", example = "01")
     private int status;
     @ApiModelProperty(notes = "Trip start date", example = "2011-11-12")
     private Date dataRozpoczecia;

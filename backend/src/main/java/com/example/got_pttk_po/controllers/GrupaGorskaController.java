@@ -46,4 +46,15 @@ class GrupaGorskaController {
         return ResponseEntity.ok(service.getOneGroup(id));
     }
 
+    @GetMapping(value = "/trip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "List of group for specific trip")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = MountainGroupReplyDTO.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),
+            @ApiResponse(code = 500, message = "Internal server error", response = AppExceptionDTO.class)})
+    ResponseEntity<List<MountainGroupReplyDTO>> groups(@PathVariable Integer id) {
+
+        return ResponseEntity.ok(service.getGroups(id));
+    }
+
 }

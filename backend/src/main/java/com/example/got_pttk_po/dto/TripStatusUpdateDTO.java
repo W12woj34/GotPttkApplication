@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Update data for a trip status")
 public class TripStatusUpdateDTO {
 
-    @ApiModelProperty(notes = "Status of a trip", example = "0")
+    @ApiModelProperty(notes = "Status of a trip; 0 - not verified, 1 - positively verified, 2 - negatively verified, 3 - forwarded", example = "0")
    private int status;
 
     public TripStatusUpdateDTO(int status) {
