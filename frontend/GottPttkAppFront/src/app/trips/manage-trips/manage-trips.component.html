@@ -1,15 +1,15 @@
 <mat-toolbar class="backBar">
-  <a mat-button routerLink="..">
+  <button mat-button (click)="goBack()">
     <mat-icon>keyboard_arrow_left</mat-icon>Wróć
-  </a>
+  </button>
 </mat-toolbar>
 
 <mat-toolbar class="aboveTable">
   <span>Lista twoich wycieczek</span>
   <span class="fill-remaining-space"></span>
-  <button mat-button class="goodButton">
+  <a mat-button class="goodButton" routerLink="/addTrip">
     Dodaj wycieczkę <mat-icon>add</mat-icon>
-  </button>
+  </a>
 </mat-toolbar>
 
 <table mat-table [dataSource]="dataSource">

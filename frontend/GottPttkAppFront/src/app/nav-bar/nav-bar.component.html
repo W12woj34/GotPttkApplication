@@ -14,13 +14,9 @@
       wycieczki</a>
   </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="badges">
+  <a mat-button routerLink="/manageBadges">
     Odznaki
-    <mat-icon>keyboard_arrow_down</mat-icon>
-  </button>
-  <mat-menu #badges="matMenu">
-    <button mat-menu-item>Zarządzaj odznakami</button>
-  </mat-menu>
+  </a>
 
   <span class="fill-remaining-space"></span>
 

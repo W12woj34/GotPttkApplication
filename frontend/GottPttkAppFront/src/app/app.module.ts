@@ -28,7 +28,11 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import { YesNoDialogComponent } from './dialogs/yes-no-dialog/yes-no-dialog.component';
 import { ManageTripsComponent } from './trips/manage-trips/manage-trips.component';
-import { AddTripComponent } from './add-trip/add-trip.component';
+import { AddTripComponent } from './trips/add-trip/add-trip.component';
+import { EditTripComponent } from './trips/edit-trip/edit-trip.component';
+import { ManageBadgesComponent } from './manage-badges/manage-badges.component';
+import { ChoiceDialogComponent } from './dialogs/choice-dialog/choice-dialog.component';
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -44,7 +48,10 @@ import { AddTripComponent } from './add-trip/add-trip.component';
     VerifyTripDetailsComponent,
     YesNoDialogComponent,
     ManageTripsComponent,
-    AddTripComponent
+    AddTripComponent,
+    EditTripComponent,
+    ManageBadgesComponent,
+    ChoiceDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -61,10 +68,11 @@ import { AddTripComponent } from './add-trip/add-trip.component';
     MatDividerModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
   ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],
-  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent]
+  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent, ChoiceDialogComponent]
 })
 export class AppModule { }
