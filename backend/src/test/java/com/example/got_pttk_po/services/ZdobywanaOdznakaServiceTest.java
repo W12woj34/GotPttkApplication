@@ -64,7 +64,7 @@ public class ZdobywanaOdznakaServiceTest {
         assertThat(addGetBadge.getId()).isEqualTo(getBadge.getId());
         assertThat(addGetBadge.getOdznaka()).isEqualTo(getBadge.getOdznaka());
         assertThat(addGetBadge.getPunkty()).isEqualTo(0);
-        assertThat(addGetBadge.getData_zdobycia()).isEqualTo(null);
+        assertThat(addGetBadge.getDataZdobycia()).isEqualTo(null);
         assertThat(addGetBadge.getReferat()).isEqualTo(null);
         assertThat(addGetBadge.getStatus()).isEqualTo(0);
         assertThat(addGetBadge.getTurysta()).isEqualTo(getBadge.getTurysta());

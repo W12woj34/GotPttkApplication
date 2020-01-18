@@ -12,7 +12,7 @@ public class RouteReplyDTO {
     @ApiModelProperty(notes = "Length of a route", example = "600")
     private int dlugosc;
     @ApiModelProperty(notes = "If the route is upslope", example = "true")
-    private boolean czy_w_gore;
+    private boolean czyWGore;
     @ApiModelProperty(notes = "Start point id", example = "P0C74TK0WY")
     private String poczatkowy;
     @ApiModelProperty(notes = "End point id", example = "K0NC0WY")
@@ -20,11 +20,11 @@ public class RouteReplyDTO {
     @ApiModelProperty(notes = "Route mountain subgroup id", example = "Ł01")
     private String podgrupa;
 
-    public RouteReplyDTO(int numer, int punkty, int dlugosc, boolean czy_w_gore, String poczatkowy, String koncowy, String podgrupa) {
+    public RouteReplyDTO(int numer, int punkty, int dlugosc, boolean czyWGore, String poczatkowy, String koncowy, String podgrupa) {
         this.numer = numer;
         this.punkty = punkty;
         this.dlugosc = dlugosc;
-        this.czy_w_gore = czy_w_gore;
+        this.czyWGore = czyWGore;
         this.poczatkowy = poczatkowy;
         this.koncowy = koncowy;
         this.podgrupa = podgrupa;
@@ -57,12 +57,12 @@ public class RouteReplyDTO {
         this.dlugosc = dlugosc;
     }
 
-    public boolean isCzy_w_gore() {
-        return czy_w_gore;
+    public boolean isCzyWGore() {
+        return czyWGore;
     }
 
-    public void setCzy_w_gore(boolean czy_w_gore) {
-        this.czy_w_gore = czy_w_gore;
+    public void setCzyWGore(boolean czy_w_gore) {
+        this.czyWGore = czy_w_gore;
     }
 
     public String getPoczatkowy() {

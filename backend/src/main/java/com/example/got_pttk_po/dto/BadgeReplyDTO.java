@@ -8,11 +8,11 @@ public class BadgeReplyDTO {
     @ApiModelProperty(notes = "Unique badge name", example = "Mała Brązowa")
     private String nazwa;
     @ApiModelProperty(notes = "Points needed to get badge", example = "300")
-    private int wymagane_punkty;
+    private int wymaganePunkty;
 
-    public BadgeReplyDTO(String nazwa, int wymagane_punkty) {
+    public BadgeReplyDTO(String nazwa, int wymaganePunkty) {
         this.nazwa = nazwa;
-        this.wymagane_punkty = wymagane_punkty;
+        this.wymaganePunkty = wymaganePunkty;
     }
 
     public BadgeReplyDTO() {
@@ -26,12 +26,12 @@ public class BadgeReplyDTO {
         this.nazwa = nazwa;
     }
 
-    public int getWymagane_punkty() {
-        return wymagane_punkty;
+    public int getWymaganePunkty() {
+        return wymaganePunkty;
     }
 
-    public void setWymagane_punkty(int wymagane_punkty) {
-        this.wymagane_punkty = wymagane_punkty;
+    public void setWymaganePunkty(int wymaganePunkty) {
+        this.wymaganePunkty = wymaganePunkty;
     }
 
 
