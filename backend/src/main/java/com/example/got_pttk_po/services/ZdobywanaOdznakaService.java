@@ -5,11 +5,9 @@ import com.example.got_pttk_po.dto.GetBadgeReplyDTO;
 import com.example.got_pttk_po.entities.OdznakaEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
-import com.example.got_pttk_po.exceptions.BadgeNotFoundException;
-import com.example.got_pttk_po.exceptions.BadgeNotPossibleException;
-import com.example.got_pttk_po.exceptions.GetBadgeIsVerificatedException;
-import com.example.got_pttk_po.exceptions.GetBadgeNotFoundException;
+import com.example.got_pttk_po.exceptions.*;
 import com.example.got_pttk_po.repositories.OdznakaRepository;
+import com.example.got_pttk_po.repositories.TurystaRepository;
 import com.example.got_pttk_po.repositories.WycieczkaRepository;
 import com.example.got_pttk_po.repositories.ZdobywanaOdznakaRepository;
 import com.example.got_pttk_po.utils.ModelMapperUtil;
@@ -26,13 +24,15 @@ public class ZdobywanaOdznakaService {
     private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
     private final OdznakaRepository repositoryOdznaka;
     private final WycieczkaRepository repositoryWycieczka;
+    private final TurystaRepository repositoryTurysta;
     private final WycieczkaService wycieczkaService;
 
     ZdobywanaOdznakaService(ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka, OdznakaRepository repositoryOdznaka,
-                            WycieczkaRepository repositoryWycieczka, WycieczkaService wycieczkaService) {
+                            WycieczkaRepository repositoryWycieczka, TurystaRepository repositoryTurysta, WycieczkaService wycieczkaService) {
         this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;
         this.repositoryOdznaka = repositoryOdznaka;
         this.repositoryWycieczka = repositoryWycieczka;
+        this.repositoryTurysta = repositoryTurysta;
         this.wycieczkaService = wycieczkaService;
     }
 
@@ -86,6 +86,7 @@ public class ZdobywanaOdznakaService {
      * @throws RuntimeException when one of given or needed elements don't exist
      */
     public List<BadgeReplyDTO> getAllPossibleBadgesTourist(String id) {
+        repositoryTurysta.findById(id).orElseThrow(() -> new TouristNotFoundException(id));
         List<ZdobywanaOdznakaEntity> ownGetBadges = repositoryZdobywanaOdznaka.findByTurysta(id);
         List<String> ownGetBadgesIds = new ArrayList<>();
         for (ZdobywanaOdznakaEntity getBadge : ownGetBadges) {
@@ -127,6 +128,7 @@ public class ZdobywanaOdznakaService {
      * @throws RuntimeException when one of given or needed elements don't exist
      */
     public GetBadgeReplyDTO addGetBadge(String touristId, String badgeId) {
+        repositoryTurysta.findById(touristId).orElseThrow(() -> new TouristNotFoundException(touristId));
         List<ZdobywanaOdznakaEntity> currentGetBadge = repositoryZdobywanaOdznaka.findByTurystaAndStatus(touristId, 0);
         if (!currentGetBadge.isEmpty()) {
             throw new BadgeNotPossibleException(badgeId);

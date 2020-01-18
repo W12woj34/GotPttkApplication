@@ -87,7 +87,6 @@ public class WycieczkaService {
      * @return TripReplyDTO List with trips data
      */
     public List<TripReplyDTO> getAllTripsTouristStatus(String id, Integer status) {
-
         return repositoryWycieczka.findByOdznakaInAndStatus(getBadgesIdsFromTouristId(id), status).stream()
                 .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
                 .collect(Collectors.toList());
@@ -253,7 +252,11 @@ public class WycieczkaService {
                 throw new TripStatusCannotChangeException(id);
             }
         } else if (status == 3) {
-            throw new TripStatusCannotChangeException(id);
+            if (trip.getStatus() == 0) {
+                trip.setStatus(status);
+            } else {
+                throw new TripStatusCannotChangeException(id);
+            }
 
         } else {
             throw new TripStatusCannotChangeException(id);

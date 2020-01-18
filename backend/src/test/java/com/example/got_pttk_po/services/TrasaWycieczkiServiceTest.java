@@ -54,7 +54,7 @@ public class TrasaWycieczkiServiceTest {
 
 
     @Test
-    public void shouldReturnListOfTripRoutesIdIfDelete() {
+    public void shouldReturnTripRouteIdIfDelete() {
         ZdobywanaOdznakaEntity badge1 = new ZdobywanaOdznakaEntity();
         badge1.setId(1);
         WycieczkaEntity trip1 = new WycieczkaEntity();
