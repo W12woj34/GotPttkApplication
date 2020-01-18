@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class TrasaEntity {
     private int numer;
     private int punkty;
-    private int dlugsc;
+    private int dlugosc;
     private boolean czyWGore;
     private String poczatkowy;
     private String koncowy;
@@ -34,13 +34,13 @@ public class TrasaEntity {
     }
 
     @Basic
-    @Column(name = "dlugsc")
-    public int getDlugsc() {
-        return dlugsc;
+    @Column(name = "dlugosc")
+    public int getDlugosc() {
+        return dlugosc;
     }
 
-    public void setDlugsc(int dlugsc) {
-        this.dlugsc = dlugsc;
+    public void setDlugosc(int dlugosc) {
+        this.dlugosc = dlugosc;
     }
 
     @Basic
@@ -92,7 +92,7 @@ public class TrasaEntity {
 
         if (numer != that.numer) return false;
         if (punkty != that.punkty) return false;
-        if (dlugsc != that.dlugsc) return false;
+        if (dlugosc != that.dlugosc) return false;
         if (czyWGore != that.czyWGore) return false;
         if (poczatkowy != null ? !poczatkowy.equals(that.poczatkowy) : that.poczatkowy != null) return false;
         if (koncowy != null ? !koncowy.equals(that.koncowy) : that.koncowy != null) return false;
@@ -105,7 +105,7 @@ public class TrasaEntity {
     public int hashCode() {
         int result = numer;
         result = 31 * result + punkty;
-        result = 31 * result + dlugsc;
+        result = 31 * result + dlugosc;
         result = 31 * result + (czyWGore ? 1 : 0);
         result = 31 * result + (poczatkowy != null ? poczatkowy.hashCode() : 0);
         result = 31 * result + (koncowy != null ? koncowy.hashCode() : 0);
