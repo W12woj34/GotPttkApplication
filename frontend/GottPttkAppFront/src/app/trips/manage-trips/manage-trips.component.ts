@@ -4,6 +4,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
 import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
 import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 export interface TripElement {
   position: number;
@@ -33,7 +34,8 @@ const ELEMENT_DATA: TripElement[] = [
 export class ManageTripsComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
-              private router: Router) { }
+              private router: Router,
+              private location: Location) { }
 
   displayedColumns: string[] = [ 'begin_date', 'end_date', 'mnt_group', 'status', 'score', 'buttons'];
   dataSource = new MatTableDataSource<TripElement>(ELEMENT_DATA);
@@ -53,7 +55,7 @@ export class ManageTripsComponent implements OnInit {
     if(id==5) {
       this.openErrorDialog('Nie możesz edytować tej wycieczki', 'Ta wycieczka została przesłana do weryfikacji lub jest już zweryfikowana.');
     } else {
-      this.router.navigate(['/editTrip/:id',id])
+      this.router.navigate(['/editTrip',id])
     }
   }
 
@@ -103,6 +105,10 @@ export class ManageTripsComponent implements OnInit {
     dialogConfig.panelClass = 'custom-dialog-background';
 
     this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
