@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {User} from "../_models/user";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,7 +10,7 @@ import {User} from "../_models/user";
 export class NavBarComponent implements OnInit {
   currentUser: User;
 
-  constructor() {
+  constructor(private router: Router,) {
   }
 
   ngOnInit() {
@@ -17,6 +18,7 @@ export class NavBarComponent implements OnInit {
 
   logout() {
     this.currentUser = null;
+    this.router.navigate(['/dashboard']);
   }
 
   loginAsTourist() {

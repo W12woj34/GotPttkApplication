@@ -1,15 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #ECF39E; scrollbar-color: #727272 #ecf39e}
-.custom-dialog-background .mat-dialog-container{
+
+/*Dialog styles*/
+.mat-dialog-container{
   background-color: #ECF39E;
+  color: #727272;
+}
+
+/*Toolbar styles*/
+.titleBar {
+  background-color: #ECF39E;
+  color: #727272;
 }
 
 .fill-remaining-space {
   flex: 1 1 auto;
 }
 
+.mat-divider {
+  border-color: #727272;
+}
+
+/*Buttons styles*/
 .goodButton {
   background-color: #0A650C;
   color: white;
@@ -20,6 +32,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   color: white;
 }
 
+.editButton {
+  color: white;
+  background-color: #90A955;
+}
+
+/*Scrollbar styles*/
 ::-webkit-scrollbar {
   background-color: #ECF39E;
   width: 8px;
@@ -28,5 +46,52 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 ::-webkit-scrollbar-thumb {
   background-color: #727272;
   border-radius: 10px;
+}
+
+/*Columns layout style (flex)*/
+.columns {
+  background-color: #ecf39e;
+  display: flex;
+  padding-left: 16px;
+  padding-top: 16px;
+}
+
+/*Headers styles*/
+h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #727272;
+  font-weight: normal;
+}
+
+h2 {
+  color: #727272;
+  font-weight: normal;
+}
+
+/*Table styles*/
+.mat-table {
+  background-color: #ecf39e;
+  width: -webkit-fill-available;
+  width: -moz-available;
+}
+
+.mat-header-cell {
+  background-color: #D7DD90;
+}
+
+.mat-cell {
+  color: #727272;
+}
+
+.mat-paginator {
+  background-color: #D7DD90;
+}
+
+.paginator-on-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 

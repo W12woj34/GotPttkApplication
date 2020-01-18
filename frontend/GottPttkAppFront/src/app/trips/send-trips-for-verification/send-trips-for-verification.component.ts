@@ -10,7 +10,6 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 
 export interface PeriodicElement {
-  position: number;
   begin_date: string;
   end_date: string;
   mnt_group: string;
@@ -19,26 +18,26 @@ export interface PeriodicElement {
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 2, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 3, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 4, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 5, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 6, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 7, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 8, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 9, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 10, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 11, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 12, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 13, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 14, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 15, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 16, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 17, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 18, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 19, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {position: 20, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
+  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
 ];
 
 @Component({
@@ -74,13 +73,6 @@ export class SendTripsForVerificationComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

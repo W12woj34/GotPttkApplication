@@ -1,10 +1,6 @@
-<mat-toolbar class="backBar">
-  <button mat-button (click)="goBack()">
-    <mat-icon>keyboard_arrow_left</mat-icon>Wróć
-  </button>
-</mat-toolbar>
+<app-back-bar [mainComponent]="this"></app-back-bar>
 
-<mat-toolbar class="aboveTable">
+<mat-toolbar class="titleBar">
   <span>Edycja wycieczki</span>
   <span class="fill-remaining-space"></span>
   <button mat-button class="goodButton" (click)="submitTrip()">
@@ -15,9 +11,9 @@
 
 <mat-divider></mat-divider>
 
-<div class="section">
+<div class="columns">
   <div>
-    <div class="startDate">
+    <div>
       <h4>Data rozpoczęcia wycieczki:</h4>
       <mat-form-field>
         <input matInput value="{{startDate}}" disabled>
@@ -31,7 +27,7 @@
     </div>
   </div>
   <div>
-    <div class="endDate">
+    <div class="right">
       <h4>Data zakończenia wycieczki:</h4>
       <mat-form-field>
         <input matInput value="{{endDate}}" disabled>
@@ -99,6 +95,6 @@
 
 </table>
 
-<div class="footer">
+<div class="paginator-on-bottom">
   <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
 </div>

@@ -33,6 +33,7 @@ import { EditTripComponent } from './trips/edit-trip/edit-trip.component';
 import { ManageBadgesComponent } from './manage-badges/manage-badges.component';
 import { ChoiceDialogComponent } from './dialogs/choice-dialog/choice-dialog.component';
 import {MatSelectModule} from "@angular/material/select";
+import { BackBarComponent } from './back-bar/back-bar.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {MatSelectModule} from "@angular/material/select";
     AddTripComponent,
     EditTripComponent,
     ManageBadgesComponent,
-    ChoiceDialogComponent
+    ChoiceDialogComponent,
+    BackBarComponent
   ],
   imports: [
     BrowserModule,
