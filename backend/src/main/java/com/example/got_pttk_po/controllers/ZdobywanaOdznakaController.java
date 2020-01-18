@@ -85,7 +85,7 @@ class ZdobywanaOdznakaController {
             @ApiResponse(code = 200, message = "OK", response = GetBadgeReplyDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),
             @ApiResponse(code = 500, message = "Internal server error", response = AppExceptionDTO.class)})
-    ResponseEntity<GetBadgeReplyDTO> newGetBadge(@RequestBody NewGetBadgeDTO dto) {
+    ResponseEntity<GetBadgeReplyDTO> newGetBadge(@RequestBody GetBadgeAddDTO dto) {
 
         return ResponseEntity.ok(service.addGetBadge(dto.getTouristId(), dto.getBadgeId()));
     }

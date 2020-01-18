@@ -4,18 +4,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "Create data for a user badge")
-public class NewGetBadgeDTO {
+public class GetBadgeAddDTO {
     @ApiModelProperty(notes = "Badge tourist id", example = "7URY5T4")
     private String touristId;
     @ApiModelProperty(notes = "User badge badge name", example = "Mała Brązowa")
     private String badgeId;
 
-    NewGetBadgeDTO(String touristId, String badgeId){
+    GetBadgeAddDTO(String touristId, String badgeId){
         this.touristId = touristId;
         this.badgeId = badgeId;
     }
 
-    public NewGetBadgeDTO() {
+    public GetBadgeAddDTO() {
     }
 
     public String getTouristId() {

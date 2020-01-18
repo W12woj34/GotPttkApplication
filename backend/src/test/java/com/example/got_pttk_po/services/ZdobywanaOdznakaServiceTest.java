@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class ZdobywanaOdznakaServiceTest {
     public void shouldReturnGetBadgeIfAdd() {
         OdznakaEntity badge = new OdznakaEntity();
                 badge.setNazwa("Popularna");
-        NewGetBadgeDTO newGetBadge = new NewGetBadgeDTO();
+        GetBadgeAddDTO newGetBadge = new GetBadgeAddDTO();
         newGetBadge.setBadgeId("Popularna");
         newGetBadge.setTouristId("1");
         when(repositoryTurysta.findById(getBadge.getTurysta())).thenReturn(Optional.of(new TurystaEntity()));
