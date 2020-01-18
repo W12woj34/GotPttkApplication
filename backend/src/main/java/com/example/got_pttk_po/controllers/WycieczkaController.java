@@ -105,7 +105,7 @@ class WycieczkaController {
     @GetMapping(value = "/points/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Number of points for specific trip")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = Integer.class),
+            @ApiResponse(code = 200, message = "OK", response = String.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),
             @ApiResponse(code = 500, message = "Internal server error", response = AppExceptionDTO.class)})
     ResponseEntity<Integer> points(@PathVariable Integer id) {
