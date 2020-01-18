@@ -49,7 +49,7 @@ class TrasaWycieczkiController {
         return ResponseEntity.ok(service.getOneTripRoute(id));
     }
 
-    @GetMapping(value = "wycieczka/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "trip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "List of all trip routes in specific trip")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = TripRouteReplyDTO.class, responseContainer = "List"),

@@ -186,7 +186,7 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
         List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());
-        if (tripRoute.getIndeks() != tripRoutes.size()) {
+        if (tripRoute.getIndeks() != tripRoutes.size() - 1) {
             throw new TripRouteInvalidException(id);
         }
 
@@ -212,7 +212,7 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity route = repositoryTrasaWycieczki.findById(ids.get(0))
                 .orElseThrow(() -> new TripRouteNotFoundException(ids.get(0)));
         WycieczkaEntity trip = repositoryWycieczka.findById(route.getWycieczka())
-                .orElseThrow(() -> new TripNotFoundException(ids.get(0)));
+                .orElseThrow(() -> new TripNotFoundException(route.getWycieczka()));
         int tripId = trip.getNumer();
         for (TrasaWycieczkiEntity deleteTrip : deleteTripRoutes) {
             if (deleteTrip.getWycieczka() != tripId) {
@@ -255,7 +255,7 @@ public class TrasaWycieczkiService {
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
             routeIds.add(tripRoute.getTrasa());
         }
-        tripRoutes.sort(TrasaWycieczkiEntity::compareTo);
+        Collections.sort(tripRoutes);
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
             if (routeIds.contains(tripRoute.getTrasa())) {
                 tripRoute.setPowtozona(true);

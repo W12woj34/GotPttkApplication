@@ -253,11 +253,8 @@ public class WycieczkaService {
                 throw new TripStatusCannotChangeException(id);
             }
         } else if (status == 3) {
-            if (trip.getStatus() == 0) {
-                trip.setStatus(status);
-            } else {
-                throw new TripStatusCannotChangeException(id);
-            }
+            throw new TripStatusCannotChangeException(id);
+
         } else {
             throw new TripStatusCannotChangeException(id);
         }
