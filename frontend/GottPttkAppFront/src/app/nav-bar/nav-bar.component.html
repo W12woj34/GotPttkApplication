@@ -1,6 +1,7 @@
 <mat-toolbar>
   <a mat-button routerLink="/dashboard"><strong>Książeczka GOT Online</strong></a>
   |
+  <div *ngIf="currentUser">
   <button mat-button>Trasy</button>
 
   <button mat-button [matMenuTriggerFor]="trips">
@@ -10,22 +11,23 @@
   <mat-menu #trips="matMenu">
     <a mat-menu-item routerLink="/manageTrips">Przeglądaj wycieczki</a>
     <a mat-menu-item routerLink="/sendTripsForVerification">Przekaż wycieczki do weryfikacji</a>
-    <a mat-menu-item *ngIf="currentUser && currentUser.type == 'Przodownik'" routerLink="/verifyTrips">Weryfikuj
+    <a mat-menu-item *ngIf="currentUser.type == 'Przodownik'" routerLink="/verifyTrips">Weryfikuj
       wycieczki</a>
   </mat-menu>
 
   <a mat-button routerLink="/manageBadges">
     Odznaki
   </a>
+  </div>
 
   <span class="fill-remaining-space"></span>
 
   <button mat-button [matMenuTriggerFor]="logoutoptions" *ngIf="currentUser">
-    Jan Kowalski
+    {{currentUser.firstName}} {{currentUser.lastName}} ({{currentUser.type}})
     <mat-icon>keyboard_arrow_down</mat-icon>
   </button>
   <mat-menu #logoutoptions="matMenu">
-    <button mat-menu-item (click)="logout()">Wyloguj</button>
+    <a mat-menu-item (click)="logout()">Wyloguj</a>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="loginoptions" *ngIf="!currentUser">
@@ -34,6 +36,6 @@
   </button>
   <mat-menu #loginoptions="matMenu">
     <button mat-menu-item (click)="loginAsTourist()">Zaloguj jako turysta</button>
-    <button mat-menu-item (click)="loginAsGuide()">Zaloguj jako przewodnik</button>
+    <button mat-menu-item (click)="loginAsGuide()">Zaloguj jako przodownik</button>
   </mat-menu>
 </mat-toolbar>

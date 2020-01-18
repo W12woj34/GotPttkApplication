@@ -1,17 +1,12 @@
-<mat-toolbar class="backBar">
-  <button mat-button (click)="goBack()">
-    <mat-icon>keyboard_arrow_left</mat-icon>
-    Wróć
-  </button>
-</mat-toolbar>
+<app-back-bar [mainComponent]="this"></app-back-bar>
 
-<mat-toolbar class="aboveTable">
+<mat-toolbar class="titleBar">
   <span>Twoje odznaki</span>
 </mat-toolbar>
 
 <mat-divider></mat-divider>
 
-<div class="section">
+<div class="columns">
   <div class="left">
     <h4>Poprzednio zdobyte odznaki:</h4>
     <div class="customTableSize">

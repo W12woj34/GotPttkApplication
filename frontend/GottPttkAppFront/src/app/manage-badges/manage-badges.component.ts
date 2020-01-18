@@ -31,6 +31,7 @@ export class ManageBadgesComponent implements OnInit {
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
 
   ngOnInit() {
+    this.checkIfLoggedIn();
     this.checkIfNextBadgeNeeded()
   }
 
@@ -52,7 +53,12 @@ export class ManageBadgesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result == 'Za wytrwałość - mała') {
         this.goBack();
+      } else {
       }})
+  }
+
+  checkIfLoggedIn(){
+
   }
 
   goBack(): void {

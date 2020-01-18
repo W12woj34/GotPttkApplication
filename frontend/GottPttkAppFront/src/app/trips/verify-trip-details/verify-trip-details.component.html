@@ -1,10 +1,6 @@
-<mat-toolbar class="backBar">
-  <button mat-button (click)="goBack()">
-    <mat-icon>keyboard_arrow_left</mat-icon>Wróć
-  </button>
-</mat-toolbar>
+<app-back-bar [mainComponent]="this"></app-back-bar>
 
-<mat-toolbar class="aboveDetails">
+<mat-toolbar class="titleBar">
   <span>Szczegóły wycieczki</span>
   <span class="fill-remaining-space"></span>
   <button mat-button class="badButton" (click)="verifyNegative()">
@@ -21,8 +17,8 @@
 
 <h2>Lista tras:</h2>
 
-<div class="customFlex">
-  <div class="leftSide">
+<div class="columns">
+  <div class="left">
     <div class="customTableSize">
       <table mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="date">
@@ -74,7 +70,7 @@
     </div>
     <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
   </div>
-  <div class="rightSide">
+  <div class="right">
     <h2>Suma punktów: 20</h2>
   </div>
 </div>
