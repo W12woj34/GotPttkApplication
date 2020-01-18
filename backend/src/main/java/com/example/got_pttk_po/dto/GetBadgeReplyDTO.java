@@ -10,7 +10,7 @@ public class GetBadgeReplyDTO {
     @ApiModelProperty(notes = "Unique user badge id", example = "1")
     private int id;
     @ApiModelProperty(notes = "Date of getting badge", example = "2015-03-30")
-    private Date data_zdobycia;
+    private Date dataZdobycia;
     @ApiModelProperty(notes = "User badge status", example = "0")
     private int status;
     @ApiModelProperty(notes = "Own points for this badge", example = "153")
@@ -22,9 +22,9 @@ public class GetBadgeReplyDTO {
     @ApiModelProperty(notes = "Institute id which give badge status", example = "R3F3R47")
     private String referat;
 
-    public GetBadgeReplyDTO(int id, Date data_zdobycia, int status, int punkty, String turysta, String odznaka, String referat) {
+    public GetBadgeReplyDTO(int id, Date dataZdobycia, int status, int punkty, String turysta, String odznaka, String referat) {
         this.id = id;
-        this.data_zdobycia = data_zdobycia;
+        this.dataZdobycia = dataZdobycia;
         this.status = status;
         this.punkty = punkty;
         this.turysta = turysta;
@@ -43,12 +43,12 @@ public class GetBadgeReplyDTO {
         this.id = id;
     }
 
-    public Date getData_zdobycia() {
-        return data_zdobycia;
+    public Date getDataZdobycia() {
+        return dataZdobycia;
     }
 
-    public void setData_zdobycia(Date data_zdobycia) {
-        this.data_zdobycia = data_zdobycia;
+    public void setDataZdobycia(Date dataZdobycia) {
+        this.dataZdobycia = dataZdobycia;
     }
 
     public int getStatus() {
