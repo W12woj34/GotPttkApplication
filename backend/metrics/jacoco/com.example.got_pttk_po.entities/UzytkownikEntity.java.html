@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UzytkownikEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.entities</a> &gt; <span class="el_source">UzytkownikEntity.java</span></div><h1>UzytkownikEntity.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.entities;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;Uzytkownik&quot;)
+<span class="nc" id="L7">public class UzytkownikEntity {</span>
+    private String id;
+    private String imie;
+    private String nazwisko;
+    private String haslo;
+
+    @Id
+    @Column(name = &quot;id&quot;)
+    public String getId() {
+<span class="nc" id="L16">        return id;</span>
+    }
+
+    public void setId(String id) {
+<span class="nc" id="L20">        this.id = id;</span>
+<span class="nc" id="L21">    }</span>
+
+    @Basic
+    @Column(name = &quot;imie&quot;)
+    public String getImie() {
+<span class="nc" id="L26">        return imie;</span>
+    }
+
+    public void setImie(String imie) {
+<span class="nc" id="L30">        this.imie = imie;</span>
+<span class="nc" id="L31">    }</span>
+
+    @Basic
+    @Column(name = &quot;nazwisko&quot;)
+    public String getNazwisko() {
+<span class="nc" id="L36">        return nazwisko;</span>
+    }
+
+    public void setNazwisko(String nazwisko) {
+<span class="nc" id="L40">        this.nazwisko = nazwisko;</span>
+<span class="nc" id="L41">    }</span>
+
+    @Basic
+    @Column(name = &quot;haslo&quot;)
+    public String getHaslo() {
+<span class="nc" id="L46">        return haslo;</span>
+    }
+
+    public void setHaslo(String haslo) {
+<span class="nc" id="L50">        this.haslo = haslo;</span>
+<span class="nc" id="L51">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="nc" id="L58">        UzytkownikEntity that = (UzytkownikEntity) o;</span>
+
+<span class="nc bnc" id="L60" title="All 6 branches missed.">        if (id != null ? !id.equals(that.id) : that.id != null) return false;</span>
+<span class="nc bnc" id="L61" title="All 6 branches missed.">        if (imie != null ? !imie.equals(that.imie) : that.imie != null) return false;</span>
+<span class="nc bnc" id="L62" title="All 6 branches missed.">        if (nazwisko != null ? !nazwisko.equals(that.nazwisko) : that.nazwisko != null) return false;</span>
+<span class="nc bnc" id="L63" title="All 6 branches missed.">        if (haslo != null ? !haslo.equals(that.haslo) : that.haslo != null) return false;</span>
+
+<span class="nc" id="L65">        return true;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        int result = id != null ? id.hashCode() : 0;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        result = 31 * result + (imie != null ? imie.hashCode() : 0);</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        result = 31 * result + (nazwisko != null ? nazwisko.hashCode() : 0);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        result = 31 * result + (haslo != null ? haslo.hashCode() : 0);</span>
+<span class="nc" id="L74">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

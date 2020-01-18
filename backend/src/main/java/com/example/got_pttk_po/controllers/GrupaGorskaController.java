@@ -47,7 +47,7 @@ class GrupaGorskaController {
     }
 
     @GetMapping(value = "/trip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "List of group for specific trip")
+    @ApiOperation(value = "List of groups for specific trip")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = MountainGroupReplyDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),

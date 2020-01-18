@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NewGetBadgeDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.dto</a> &gt; <span class="el_source">NewGetBadgeDTO.java</span></div><h1>NewGetBadgeDTO.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = &quot;Create data for a user badge&quot;)
+public class NewGetBadgeDTO {
+    @ApiModelProperty(notes = &quot;Badge tourist id&quot;, example = &quot;7URY5T4&quot;)
+    private String touristId;
+    @ApiModelProperty(notes = &quot;User badge badge name&quot;, example = &quot;Mała Brązowa&quot;)
+    private String badgeId;
+
+<span class="nc" id="L13">    NewGetBadgeDTO(String touristId, String badgeId){</span>
+<span class="nc" id="L14">        this.touristId = touristId;</span>
+<span class="nc" id="L15">        this.badgeId = badgeId;</span>
+<span class="nc" id="L16">    }</span>
+
+<span class="nc" id="L18">    public NewGetBadgeDTO() {</span>
+<span class="nc" id="L19">    }</span>
+
+    public String getTouristId() {
+<span class="nc" id="L22">        return touristId;</span>
+    }
+
+    public String getBadgeId() {
+<span class="nc" id="L26">        return badgeId;</span>
+    }
+
+    public void setTouristId(String touristId) {
+<span class="nc" id="L30">        this.touristId = touristId;</span>
+<span class="nc" id="L31">    }</span>
+
+    public void setBadgeId(String badgeId) {
+<span class="nc" id="L34">        this.badgeId = badgeId;</span>
+<span class="nc" id="L35">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

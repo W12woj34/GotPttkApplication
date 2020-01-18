@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TrasaEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.entities</a> &gt; <span class="el_source">TrasaEntity.java</span></div><h1>TrasaEntity.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.entities;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = &quot;Trasa&quot;, schema = &quot;xnWwlKKwT8&quot;)
+<span class="nc" id="L7">public class TrasaEntity {</span>
+    private int numer;
+    private int punkty;
+    private int dlugosc;
+    private boolean czyWGore;
+    private String poczatkowy;
+    private String koncowy;
+    private String podgrupa;
+
+    @Id
+    @Column(name = &quot;numer&quot;)
+    public int getNumer() {
+<span class="nc" id="L19">        return numer;</span>
+    }
+
+    public void setNumer(int numer) {
+<span class="nc" id="L23">        this.numer = numer;</span>
+<span class="nc" id="L24">    }</span>
+
+    @Basic
+    @Column(name = &quot;punkty&quot;)
+    public int getPunkty() {
+<span class="nc" id="L29">        return punkty;</span>
+    }
+
+    public void setPunkty(int punkty) {
+<span class="nc" id="L33">        this.punkty = punkty;</span>
+<span class="nc" id="L34">    }</span>
+
+    @Basic
+    @Column(name = &quot;dlugosc&quot;)
+    public int getDlugosc() {
+<span class="nc" id="L39">        return dlugosc;</span>
+    }
+
+    public void setDlugosc(int dlugosc) {
+<span class="nc" id="L43">        this.dlugosc = dlugosc;</span>
+<span class="nc" id="L44">    }</span>
+
+    @Basic
+    @Column(name = &quot;czy_w_gore&quot;)
+    public boolean isCzyWGore() {
+<span class="nc" id="L49">        return czyWGore;</span>
+    }
+
+    public void setCzyWGore(boolean czyWGore) {
+<span class="nc" id="L53">        this.czyWGore = czyWGore;</span>
+<span class="nc" id="L54">    }</span>
+
+    @Basic
+    @Column(name = &quot;poczatkowy&quot;)
+    public String getPoczatkowy() {
+<span class="nc" id="L59">        return poczatkowy;</span>
+    }
+
+    public void setPoczatkowy(String poczatkowy) {
+<span class="nc" id="L63">        this.poczatkowy = poczatkowy;</span>
+<span class="nc" id="L64">    }</span>
+
+    @Basic
+    @Column(name = &quot;koncowy&quot;)
+    public String getKoncowy() {
+<span class="nc" id="L69">        return koncowy;</span>
+    }
+
+    public void setKoncowy(String koncowy) {
+<span class="nc" id="L73">        this.koncowy = koncowy;</span>
+<span class="nc" id="L74">    }</span>
+
+    @Basic
+    @Column(name = &quot;podgrupa&quot;)
+    public String getPodgrupa() {
+<span class="nc" id="L79">        return podgrupa;</span>
+    }
+
+    public void setPodgrupa(String podgrupa) {
+<span class="nc" id="L83">        this.podgrupa = podgrupa;</span>
+<span class="nc" id="L84">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="nc" id="L91">        TrasaEntity that = (TrasaEntity) o;</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (numer != that.numer) return false;</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (punkty != that.punkty) return false;</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (dlugosc != that.dlugosc) return false;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (czyWGore != that.czyWGore) return false;</span>
+<span class="nc bnc" id="L97" title="All 6 branches missed.">        if (poczatkowy != null ? !poczatkowy.equals(that.poczatkowy) : that.poczatkowy != null) return false;</span>
+<span class="nc bnc" id="L98" title="All 6 branches missed.">        if (koncowy != null ? !koncowy.equals(that.koncowy) : that.koncowy != null) return false;</span>
+<span class="nc bnc" id="L99" title="All 6 branches missed.">        if (podgrupa != null ? !podgrupa.equals(that.podgrupa) : that.podgrupa != null) return false;</span>
+
+<span class="nc" id="L101">        return true;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L106">        int result = numer;</span>
+<span class="nc" id="L107">        result = 31 * result + punkty;</span>
+<span class="nc" id="L108">        result = 31 * result + dlugosc;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        result = 31 * result + (czyWGore ? 1 : 0);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        result = 31 * result + (poczatkowy != null ? poczatkowy.hashCode() : 0);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        result = 31 * result + (koncowy != null ? koncowy.hashCode() : 0);</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        result = 31 * result + (podgrupa != null ? podgrupa.hashCode() : 0);</span>
+<span class="nc" id="L113">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

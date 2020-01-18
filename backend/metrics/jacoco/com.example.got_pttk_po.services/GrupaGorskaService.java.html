@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GrupaGorskaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.services</a> &gt; <span class="el_source">GrupaGorskaService.java</span></div><h1>GrupaGorskaService.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.services;
+
+import com.example.got_pttk_po.dto.MountainGroupReplyDTO;
+import com.example.got_pttk_po.entities.PodgrupaEntity;
+import com.example.got_pttk_po.entities.TrasaEntity;
+import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
+import com.example.got_pttk_po.exceptions.GroupNotFoundException;
+import com.example.got_pttk_po.exceptions.TripNotFoundException;
+import com.example.got_pttk_po.repositories.*;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@Service
+public class GrupaGorskaService {
+
+    private final GrupaGorskaRepository repositoryGrupaGorska;
+    private final WycieczkaRepository repositoryWycieczka;
+    private final TrasaWycieczkiRepository repositoryTrasaWycieczki;
+    private final PodgrupaRepository repositoryPodgrupa;
+    private final TrasaRepository repositoryTrasa;
+
+<span class="nc" id="L27">    GrupaGorskaService(GrupaGorskaRepository repository, WycieczkaRepository repositoryWycieczka, TrasaWycieczkiRepository repositoryTrasaWycieczki, PodgrupaRepository repositoryPodgrupa, TrasaRepository repositoryTrasa) {</span>
+
+<span class="nc" id="L29">        this.repositoryGrupaGorska = repository;</span>
+<span class="nc" id="L30">        this.repositoryWycieczka = repositoryWycieczka;</span>
+<span class="nc" id="L31">        this.repositoryTrasaWycieczki = repositoryTrasaWycieczki;</span>
+<span class="nc" id="L32">        this.repositoryPodgrupa = repositoryPodgrupa;</span>
+<span class="nc" id="L33">        this.repositoryTrasa = repositoryTrasa;</span>
+<span class="nc" id="L34">    }</span>
+
+    /**
+     * @return MountainGroupReplyDTO List with mountain group data
+     */
+    public List&lt;MountainGroupReplyDTO&gt; getAllGroups() {
+
+<span class="nc" id="L41">        return repositoryGrupaGorska.findAll().stream()</span>
+<span class="nc" id="L42">                .map(el -&gt; ModelMapperUtil.map(el, MountainGroupReplyDTO.class))</span>
+<span class="nc" id="L43">                .collect(Collectors.toList());</span>
+
+    }
+
+
+    /**
+     * @param id     Id of trip
+     * @return MountainGroupReplyDTO object with mountain group data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public MountainGroupReplyDTO getOneGroup(String id) {
+
+<span class="nc" id="L55">        return repositoryGrupaGorska.findById(id).map(el -&gt; ModelMapperUtil.map(el, MountainGroupReplyDTO.class))</span>
+<span class="nc" id="L56">                .orElseThrow(() -&gt; new GroupNotFoundException(id));</span>
+    }
+
+    /**
+     * @param id Id of trip
+     * @return String List with groups ids
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public List&lt;MountainGroupReplyDTO&gt; getGroups(Integer id) {
+
+<span class="nc" id="L66">        repositoryWycieczka.findById(id).orElseThrow(() -&gt; new TripNotFoundException(id));</span>
+<span class="nc" id="L67">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);</span>
+<span class="nc" id="L68">        List&lt;Integer&gt; routesIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for(TrasaWycieczkiEntity tripRoute : tripRoutes){</span>
+<span class="nc" id="L70">            routesIds.add(tripRoute.getTrasa());</span>
+<span class="nc" id="L71">        }</span>
+<span class="nc" id="L72">        List&lt;TrasaEntity&gt; routes = repositoryTrasa.findByNumerIn(routesIds);</span>
+<span class="nc" id="L73">        List&lt;String&gt; subgroupsIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        for(TrasaEntity route : routes){</span>
+<span class="nc" id="L75">            subgroupsIds.add(route.getPodgrupa());</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc" id="L77">        List&lt;PodgrupaEntity&gt; subgroups = repositoryPodgrupa.findByIdIn(subgroupsIds);</span>
+<span class="nc" id="L78">        List&lt;String&gt; groups = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        for(PodgrupaEntity subgroup : subgroups){</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if(!groups.contains(subgroup.getGrupa())){</span>
+<span class="nc" id="L81">                groups.add(subgroup.getGrupa());</span>
+            }
+<span class="nc" id="L83">        }</span>
+<span class="nc" id="L84">        return repositoryGrupaGorska.findByNazwaIn(groups).stream()</span>
+<span class="nc" id="L85">                .map(el -&gt; ModelMapperUtil.map(el, MountainGroupReplyDTO.class))</span>
+<span class="nc" id="L86">                .collect(Collectors.toList());</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

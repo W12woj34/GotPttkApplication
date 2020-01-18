@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TripReplyDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.dto</a> &gt; <span class="el_source">TripReplyDTO.java</span></div><h1>TripReplyDTO.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.sql.Date;
+
+@ApiModel(description = &quot;Response data for a trip&quot;)
+public class TripReplyDTO {
+    @ApiModelProperty(notes = &quot;Unique trip id&quot;, example = &quot;1&quot;)
+    private int numer;
+    @ApiModelProperty(notes = &quot;Trip status; 0 - not verified, 1 - positively verified, 2 - negatively verified, 3 - forwarded&quot;, example = &quot;01&quot;)
+    private int status;
+    @ApiModelProperty(notes = &quot;Trip start date&quot;, example = &quot;2011-11-12&quot;)
+    private Date dataRozpoczecia;
+    @ApiModelProperty(notes = &quot;Trip end date&quot;, example = &quot;2011-11-13&quot;)
+    private Date dataZakonczenia;
+    @ApiModelProperty(notes = &quot;User badge id for a trip&quot;, example = &quot;1&quot;)
+    private int odznaka;
+    @ApiModelProperty(notes = &quot;Id of leader who verify trip&quot;, example = &quot;PR70D0WN1K&quot;)
+    private String przodownik;
+
+<span class="nc" id="L23">    public TripReplyDTO(int numer, int status, Date dataRozpoczecia, Date dataZakonczenia, int odznaka, String przodownik) {</span>
+<span class="nc" id="L24">        this.numer = numer;</span>
+<span class="nc" id="L25">        this.status = status;</span>
+<span class="nc" id="L26">        this.dataRozpoczecia = dataRozpoczecia;</span>
+<span class="nc" id="L27">        this.dataZakonczenia = dataZakonczenia;</span>
+<span class="nc" id="L28">        this.odznaka = odznaka;</span>
+<span class="nc" id="L29">        this.przodownik = przodownik;</span>
+<span class="nc" id="L30">    }</span>
+
+<span class="nc" id="L32">    public TripReplyDTO() {</span>
+<span class="nc" id="L33">    }</span>
+
+    public int getNumer() {
+<span class="nc" id="L36">        return numer;</span>
+    }
+
+    public void setNumer(int numer) {
+<span class="nc" id="L40">        this.numer = numer;</span>
+<span class="nc" id="L41">    }</span>
+
+    public int getStatus() {
+<span class="nc" id="L44">        return status;</span>
+    }
+
+    public void setStatus(int status) {
+<span class="nc" id="L48">        this.status = status;</span>
+<span class="nc" id="L49">    }</span>
+
+    public Date getDataRozpoczecia() {
+<span class="nc" id="L52">        return dataRozpoczecia;</span>
+    }
+
+    public void setDataRozpoczecia(Date dataRozpoczecia) {
+<span class="nc" id="L56">        this.dataRozpoczecia = dataRozpoczecia;</span>
+<span class="nc" id="L57">    }</span>
+
+    public Date getDataZakonczenia() {
+<span class="nc" id="L60">        return dataZakonczenia;</span>
+    }
+
+    public void setDataZakonczenia(Date dataZakonczenia) {
+<span class="nc" id="L64">        this.dataZakonczenia = dataZakonczenia;</span>
+<span class="nc" id="L65">    }</span>
+
+    public int getOdznaka() {
+<span class="nc" id="L68">        return odznaka;</span>
+    }
+
+    public void setOdznaka(int odznaka) {
+<span class="nc" id="L72">        this.odznaka = odznaka;</span>
+<span class="nc" id="L73">    }</span>
+
+    public String getPrzodownik() {
+<span class="nc" id="L76">        return przodownik;</span>
+    }
+
+    public void setPrzodownik(String przodownik) {
+<span class="nc" id="L80">        this.przodownik = przodownik;</span>
+<span class="nc" id="L81">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

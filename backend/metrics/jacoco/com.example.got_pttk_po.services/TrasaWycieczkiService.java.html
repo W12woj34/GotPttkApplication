@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TrasaWycieczkiService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.services</a> &gt; <span class="el_source">TrasaWycieczkiService.java</span></div><h1>TrasaWycieczkiService.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.services;
+
+import com.example.got_pttk_po.dto.RouteReplyDTO;
+import com.example.got_pttk_po.dto.TripRouteAddDTO;
+import com.example.got_pttk_po.dto.TripRouteUpdateDTO;
+import com.example.got_pttk_po.dto.TripRouteReplyDTO;
+import com.example.got_pttk_po.entities.TrasaEntity;
+import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
+import com.example.got_pttk_po.entities.WycieczkaEntity;
+import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
+import com.example.got_pttk_po.exceptions.*;
+import com.example.got_pttk_po.repositories.*;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@Service
+public class TrasaWycieczkiService {
+
+    private final TrasaWycieczkiRepository repositoryTrasaWycieczki;
+    private final WycieczkaRepository repositoryWycieczka;
+    private final TrasaRepository repositoryTrasa;
+    private final ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka;
+    private final OdznakaRepository repositoryOdznaka;
+    private final TrasaService serviceTrasa;
+
+    TrasaWycieczkiService(TrasaWycieczkiRepository repositoryTrasaWycieczki, WycieczkaRepository repositoryWycieczka,
+                          TrasaRepository repositoryTrasa, ZdobywanaOdznakaRepository repositoryZdobywanaOdznaka,
+<span class="fc" id="L36">                          OdznakaRepository repositoryOdznaka, TrasaService serviceTrasa) {</span>
+<span class="fc" id="L37">        this.repositoryTrasaWycieczki = repositoryTrasaWycieczki;</span>
+<span class="fc" id="L38">        this.repositoryWycieczka = repositoryWycieczka;</span>
+<span class="fc" id="L39">        this.repositoryTrasa = repositoryTrasa;</span>
+<span class="fc" id="L40">        this.repositoryZdobywanaOdznaka = repositoryZdobywanaOdznaka;</span>
+<span class="fc" id="L41">        this.repositoryOdznaka = repositoryOdznaka;</span>
+<span class="fc" id="L42">        this.serviceTrasa = serviceTrasa;</span>
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * @return TripRouteReplyDTO List with trip routes data
+     */
+    public List&lt;TripRouteReplyDTO&gt; getAllTripRoutes() {
+
+<span class="nc" id="L50">        return repositoryTrasaWycieczki.findAll().stream()</span>
+<span class="nc" id="L51">                .map(el -&gt; ModelMapperUtil.map(el, TripRouteReplyDTO.class))</span>
+<span class="nc" id="L52">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * @param id Id of trip route
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public TripRouteReplyDTO getOneTripRoute(Integer id) {
+
+<span class="nc" id="L62">        return repositoryTrasaWycieczki.findById(id).map(el -&gt; ModelMapperUtil.map(el, TripRouteReplyDTO.class))</span>
+<span class="nc" id="L63">                .orElseThrow(() -&gt; new TripRouteNotFoundException(id));</span>
+    }
+
+    /**
+     * @param id Id of  trip route
+     * @return TripRouteReplyDTO List with trip routes data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public List&lt;TripRouteReplyDTO&gt; getAllTripRoutesForTrip(Integer id) {
+
+<span class="nc" id="L73">        return repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id).stream()</span>
+<span class="nc" id="L74">                .map(el -&gt; ModelMapperUtil.map(el, TripRouteReplyDTO.class))</span>
+<span class="nc" id="L75">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * @param newTripRoute TripRouteReplyDTO object with initial trip route data
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public TripRouteReplyDTO addTripRoute(TripRouteAddDTO newTripRoute) {
+<span class="nc" id="L84">        TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();</span>
+<span class="nc" id="L85">        WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())</span>
+<span class="nc" id="L86">                .orElseThrow(() -&gt; new TripNotFoundException(newTripRoute.getTrip()));</span>
+
+<span class="nc" id="L88">        List&lt;TrasaWycieczkiEntity&gt; badgeRoutes = getAllTripRoutesForGetBadge(trip.getOdznaka());</span>
+
+<span class="nc" id="L90">        List&lt;Integer&gt; badgeRouteIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        for (TrasaWycieczkiEntity badgeRoute : badgeRoutes) {</span>
+<span class="nc" id="L92">            badgeRouteIds.add(badgeRoute.getTrasa());</span>
+<span class="nc" id="L93">        }</span>
+
+<span class="nc" id="L95">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(newTripRoute.getTrip());</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (badgeRouteIds.contains(newTripRoute.getRoute())) {</span>
+<span class="nc" id="L98">            tripRoute.setPowtozona(true);</span>
+        } else {
+<span class="nc" id="L100">            tripRoute.setPowtozona(false);</span>
+        }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (tripRoutes.isEmpty()) {</span>
+<span class="nc" id="L103">            tripRoute.setIndeks(0);</span>
+<span class="nc" id="L104">            tripRoute.setData(newTripRoute.getDate());</span>
+<span class="nc" id="L105">            tripRoute.setWycieczka(newTripRoute.getTrip());</span>
+<span class="nc" id="L106">            tripRoute.setTrasa(newTripRoute.getRoute());</span>
+<span class="nc" id="L107">            repositoryTrasaWycieczki.save(tripRoute);</span>
+
+<span class="nc" id="L109">            return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);</span>
+        } else {
+<span class="nc" id="L111">            List&lt;RouteReplyDTO&gt; possibleRoutes = serviceTrasa.getPossibleRoutes(newTripRoute.getRoute());</span>
+<span class="nc" id="L112">            List&lt;Integer&gt; possibleRouteIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            for (RouteReplyDTO possibleRoute : possibleRoutes) {</span>
+<span class="nc" id="L114">                possibleRouteIds.add(possibleRoute.getNumer());</span>
+<span class="nc" id="L115">            }</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (!possibleRouteIds.contains(newTripRoute.getRoute())) {</span>
+<span class="nc" id="L117">                throw new TripRouteInvalidException(-1);</span>
+            }
+
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (newTripRoute.getDate().compareTo(tripRoutes.get(0).getData()) &lt; 0) {</span>
+<span class="nc" id="L121">                throw new TripRouteInvalidException(-1);</span>
+            }
+
+<span class="nc" id="L124">            tripRoute.setIndeks(tripRoutes.size());</span>
+<span class="nc" id="L125">            tripRoute.setWycieczka(newTripRoute.getTrip());</span>
+<span class="nc" id="L126">            tripRoute.setData(newTripRoute.getDate());</span>
+<span class="nc" id="L127">            tripRoute.setTrasa(newTripRoute.getRoute());</span>
+
+<span class="nc" id="L129">            repositoryTrasaWycieczki.save(tripRoute);</span>
+<span class="nc" id="L130">            return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);</span>
+        }
+    }
+
+    /**
+     * @param newTripRoute TripRouteUpdateDTO object with trip route data to modify
+     * @param id           Id of trip route
+     * @return TripRouteReplyDTO object with trip route data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public TripRouteReplyDTO modifyTripRoute(TripRouteUpdateDTO newTripRoute, Integer id) {
+
+<span class="nc" id="L142">        Date newDate = newTripRoute.getDate();</span>
+<span class="nc" id="L143">        TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)</span>
+<span class="nc" id="L144">                .orElseThrow(() -&gt; new TripRouteNotFoundException(id));</span>
+
+<span class="nc" id="L146">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        for (int i = 0; i &lt; tripRoutes.size(); i++) {</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            if (tripRoutes.get(i).getNumer() == tripRoute.getNumer()) {</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                if (i == 0) {</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                    if (i + 1 != tripRoutes.size()) {</span>
+<span class="nc bnc" id="L152" title="All 2 branches missed.">                        if (newDate.compareTo(tripRoutes.get(i + 1).getData()) &gt; 0) {</span>
+<span class="nc" id="L153">                            throw new TripRouteInvalidException(id);</span>
+                        }
+<span class="nc" id="L155">                        tripRoute.setData(newDate);</span>
+                    } else {
+<span class="nc" id="L157">                        tripRoute.setData(newDate);</span>
+                    }
+
+                } else {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                    if (i + 1 != tripRoutes.size()) {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                        if (newDate.compareTo(tripRoutes.get(i + 1).getData()) &gt; 0 ||</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">                                newDate.compareTo(tripRoutes.get(i - 1).getData()) &lt; 0) {</span>
+<span class="nc" id="L164">                            throw new TripRouteInvalidException(id);</span>
+                        }
+<span class="nc" id="L166">                        tripRoute.setData(newDate);</span>
+                    } else {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">                        if (newDate.compareTo(tripRoutes.get(i - 1).getData()) &lt; 0) {</span>
+<span class="nc" id="L169">                            throw new TripRouteInvalidException(id);</span>
+                        }
+<span class="nc" id="L171">                        tripRoute.setData(newDate);</span>
+                    }
+                }
+            }
+        }
+<span class="nc" id="L176">        repositoryTrasaWycieczki.save(tripRoute);</span>
+<span class="nc" id="L177">        return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);</span>
+    }
+
+    /**
+     * @param id Id of trip route
+     * @return Id of deleted trip route
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public Integer deleteTripRoute(Integer id) {
+<span class="nc" id="L186">        TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)</span>
+<span class="nc" id="L187">                .orElseThrow(() -&gt; new TripRouteNotFoundException(id));</span>
+<span class="nc" id="L188">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        if (tripRoute.getIndeks() != tripRoutes.size() - 1) {</span>
+<span class="nc" id="L190">            throw new TripRouteInvalidException(id);</span>
+        }
+
+<span class="nc" id="L193">        repositoryTrasaWycieczki.deleteById(id);</span>
+<span class="nc" id="L194">        WycieczkaEntity trip = repositoryWycieczka.findById(tripRoute.getWycieczka())</span>
+<span class="nc" id="L195">                .orElseThrow(() -&gt; new TripNotFoundException(tripRoute.getWycieczka()));</span>
+<span class="nc" id="L196">        updateTripDate(trip.getNumer());</span>
+<span class="nc" id="L197">        updatePowtozonaProperty(trip.getOdznaka());</span>
+<span class="nc" id="L198">        recalculateGetBadgePoints(trip.getOdznaka());</span>
+<span class="nc" id="L199">        return id;</span>
+    }
+
+    /**
+     * @param ids List of trip routes ids
+     * @return Integer List with deleted trip routes ids
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public List&lt;Integer&gt; deleteTripRoutes(List&lt;Integer&gt; ids) {
+<span class="nc" id="L208">        List&lt;TrasaWycieczkiEntity&gt; deleteTripRoutes = repositoryTrasaWycieczki.findByNumerIn(ids);</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        if (deleteTripRoutes.size() != ids.size()) {</span>
+<span class="nc" id="L210">            throw new TripRouteInvalidException(-1);</span>
+        }
+<span class="nc" id="L212">        TrasaWycieczkiEntity route = repositoryTrasaWycieczki.findById(ids.get(0))</span>
+<span class="nc" id="L213">                .orElseThrow(() -&gt; new TripRouteNotFoundException(ids.get(0)));</span>
+<span class="nc" id="L214">        WycieczkaEntity trip = repositoryWycieczka.findById(route.getWycieczka())</span>
+<span class="nc" id="L215">                .orElseThrow(() -&gt; new TripNotFoundException(route.getWycieczka()));</span>
+<span class="nc" id="L216">        int tripId = trip.getNumer();</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">        for (TrasaWycieczkiEntity deleteTrip : deleteTripRoutes) {</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            if (deleteTrip.getWycieczka() != tripId) {</span>
+<span class="nc" id="L219">                throw new TripRouteInvalidException(deleteTrip.getNumer());</span>
+            }
+<span class="nc" id="L221">        }</span>
+<span class="nc" id="L222">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(trip.getNumer());</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">        for (int i = 0; i &lt; tripRoutes.size(); i++) {</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">            if (deleteTripRoutes.contains(tripRoutes.get(i))) {</span>
+<span class="nc" id="L225">                tripRoutes.remove(i);</span>
+<span class="nc" id="L226">                i--;</span>
+            }
+        }
+
+<span class="nc" id="L230">        List&lt;Integer&gt; indexes = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {</span>
+<span class="nc" id="L232">            indexes.add(tripRoute.getIndeks());</span>
+<span class="nc" id="L233">        }</span>
+<span class="nc" id="L234">        Collections.sort(indexes);</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">        if (indexes.size() != 0) {</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">            if (indexes.get(indexes.size() - 1) != indexes.size() - 1) {</span>
+<span class="nc" id="L237">                throw new TripRouteInvalidException(-1);</span>
+            }
+        }
+<span class="nc" id="L240">        repositoryTrasaWycieczki.deleteByNumerIn(ids);</span>
+<span class="nc" id="L241">        updateTripDate(trip.getNumer());</span>
+<span class="nc" id="L242">        updatePowtozonaProperty(trip.getOdznaka());</span>
+<span class="nc" id="L243">        recalculateGetBadgePoints(trip.getOdznaka());</span>
+<span class="nc" id="L244">        return ids;</span>
+    }
+
+    /**
+     * @param getBadgeId Id of user badge
+     */
+    @Transactional
+    protected void updatePowtozonaProperty(int getBadgeId) {
+
+<span class="nc" id="L253">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);</span>
+<span class="nc" id="L254">        List&lt;Integer&gt; routeIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {</span>
+<span class="nc" id="L256">            routeIds.add(tripRoute.getTrasa());</span>
+<span class="nc" id="L257">        }</span>
+<span class="nc" id="L258">        Collections.sort(tripRoutes);</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">            if (routeIds.contains(tripRoute.getTrasa())) {</span>
+<span class="nc" id="L261">                tripRoute.setPowtozona(true);</span>
+            } else {
+<span class="nc" id="L263">                tripRoute.setPowtozona(false);</span>
+            }
+<span class="nc" id="L265">            repositoryTrasaWycieczki.save(tripRoute);</span>
+<span class="nc" id="L266">        }</span>
+
+<span class="nc" id="L268">    }</span>
+
+    /**
+     * @param getBadgeId of user badge
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    private void recalculateGetBadgePoints(Integer getBadgeId) {
+
+<span class="nc" id="L276">        getAllTripRoutesForGetBadge(getBadgeId);</span>
+<span class="nc" id="L277">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);</span>
+
+<span class="nc" id="L279">        ZdobywanaOdznakaEntity getBadge = repositoryZdobywanaOdznaka.findById(getBadgeId)</span>
+<span class="nc" id="L280">                .orElseThrow(() -&gt; new GetBadgeNotFoundException(getBadgeId));</span>
+
+<span class="nc" id="L282">        List&lt;ZdobywanaOdznakaEntity&gt; previousBadges = repositoryZdobywanaOdznaka</span>
+<span class="nc" id="L283">                .findByTurystaAndStatusOrderByDataZdobyciaDesc(getBadge.getTurysta(), 1);</span>
+
+        int points;
+<span class="nc bnc" id="L286" title="All 4 branches missed.">        if (previousBadges.isEmpty() || previousBadges.get(0).getOdznaka().contains(&quot;Za Wytrwałość&quot;)) {</span>
+<span class="nc" id="L287">            points = 0;</span>
+        } else {
+<span class="nc" id="L289">            points = previousBadges.get(0).getPunkty() - repositoryOdznaka.findById(getBadge.getOdznaka())</span>
+<span class="nc" id="L290">                    .orElseThrow(() -&gt; new BadgeNotFoundException(getBadge.getOdznaka())).getWymaganePunkty();</span>
+        }
+
+
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">            if (!tripRoute.isPowtozona()) {</span>
+<span class="nc" id="L296">                TrasaEntity route = repositoryTrasa.findById(tripRoute.getTrasa())</span>
+<span class="nc" id="L297">                        .orElseThrow(() -&gt; new RouteNotFoundException(tripRoute.getTrasa()));</span>
+<span class="nc" id="L298">                points = points + route.getPunkty();</span>
+            }
+<span class="nc" id="L300">        }</span>
+
+<span class="nc" id="L302">        getBadge.setPunkty(points);</span>
+<span class="nc" id="L303">        repositoryZdobywanaOdznaka.save(getBadge);</span>
+<span class="nc" id="L304">    }</span>
+
+    /**
+     * @param id     Id of user badge
+     * @return TripRouteReplyDTO List with trip routes data
+     */
+    private List&lt;TrasaWycieczkiEntity&gt; getAllTripRoutesForGetBadge(Integer id) {
+<span class="nc" id="L311">        List&lt;WycieczkaEntity&gt; trips = repositoryWycieczka.findByOdznaka(id);</span>
+<span class="nc" id="L312">        List&lt;Integer&gt; tripIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">        for (WycieczkaEntity trip : trips) {</span>
+<span class="nc" id="L314">            tripIds.add(trip.getNumer());</span>
+<span class="nc" id="L315">        }</span>
+
+<span class="nc" id="L317">        return repositoryTrasaWycieczki.findByWycieczkaIn(tripIds);</span>
+    }
+
+    /**
+     * @param id     Id of trip route
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    private void updateTripDate(Integer id) {
+
+<span class="nc" id="L326">        WycieczkaEntity trip = repositoryWycieczka.findById(id)</span>
+<span class="nc" id="L327">                .orElseThrow(() -&gt; new RouteNotFoundException(id));</span>
+
+<span class="nc" id="L329">        List&lt;TrasaWycieczkiEntity&gt; tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);</span>
+
+<span class="nc bnc" id="L331" title="All 2 branches missed.">        if (tripRoutes.isEmpty()) {</span>
+<span class="nc" id="L332">            trip.setDataRozpoczecia(null);</span>
+<span class="nc" id="L333">            trip.setDataZakonczenia(null);</span>
+        } else {
+<span class="nc" id="L335">            trip.setDataRozpoczecia(tripRoutes.get(tripRoutes.size() - 1).getData());</span>
+<span class="nc" id="L336">            trip.setDataZakonczenia(tripRoutes.get(0).getData());</span>
+        }
+
+<span class="nc" id="L339">        repositoryWycieczka.save(trip);</span>
+<span class="nc" id="L340">    }</span>
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

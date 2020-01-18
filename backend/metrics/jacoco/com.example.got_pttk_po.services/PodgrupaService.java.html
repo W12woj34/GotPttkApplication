@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PodgrupaService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.services</a> &gt; <span class="el_source">PodgrupaService.java</span></div><h1>PodgrupaService.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.services;
+
+import com.example.got_pttk_po.dto.SubgroupReplyDTO;
+import com.example.got_pttk_po.exceptions.SubgroupNotFoundException;
+import com.example.got_pttk_po.repositories.PodgrupaRepository;
+import com.example.got_pttk_po.utils.ModelMapperUtil;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+@Service
+public class PodgrupaService {
+
+    private final PodgrupaRepository repositoryPodgrupa;
+
+<span class="fc" id="L17">    PodgrupaService(PodgrupaRepository repository) {</span>
+
+<span class="fc" id="L19">        this.repositoryPodgrupa = repository;</span>
+<span class="fc" id="L20">    }</span>
+
+    /**
+     * @return TripReplyDTO List with subgroups data
+     */
+    public List&lt;SubgroupReplyDTO&gt; getAllSubgroups() {
+
+<span class="nc" id="L27">        return repositoryPodgrupa.findAll().stream()</span>
+<span class="nc" id="L28">                .map(el -&gt; ModelMapperUtil.map(el, SubgroupReplyDTO.class))</span>
+<span class="nc" id="L29">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * @param id     Id of mountain group
+     * @return TripReplyDTO List with subgroups data
+     */
+    public List&lt;SubgroupReplyDTO&gt; getAllSubgroupsFromGroup(String id) {
+
+<span class="nc" id="L38">        return repositoryPodgrupa.findByGrupa(id).stream()</span>
+<span class="nc" id="L39">                .map(el -&gt; ModelMapperUtil.map(el, SubgroupReplyDTO.class))</span>
+<span class="nc" id="L40">                .collect(Collectors.toList());</span>
+    }
+
+    /**
+     * @param id     Id of subgroup
+     * @return SubgroupReplyDTO object with subgroup data
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public SubgroupReplyDTO getOneSubgroup(String id) {
+
+<span class="nc" id="L50">        return repositoryPodgrupa.findById(id).map(el -&gt; ModelMapperUtil.map(el, SubgroupReplyDTO.class))</span>
+<span class="nc" id="L51">                .orElseThrow(() -&gt; new SubgroupNotFoundException(id));</span>
+    }
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

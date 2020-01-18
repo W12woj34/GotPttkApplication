@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TripRouteReplyDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.dto</a> &gt; <span class="el_source">TripRouteReplyDTO.java</span></div><h1>TripRouteReplyDTO.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.sql.Date;
+
+@ApiModel(description = &quot;Response data for a trip route&quot;)
+public class TripRouteReplyDTO {
+
+    @ApiModelProperty(notes = &quot;Unique trip route id&quot;, example = &quot;1&quot;)
+    private int numer;
+    @ApiModelProperty(notes = &quot;If route is repeat&quot;, example = &quot;true&quot;)
+    private boolean powtozona;
+    @ApiModelProperty(notes = &quot;Trip route in the trip index&quot;, example = &quot;7&quot;)
+    private int indeks;
+    @ApiModelProperty(notes = &quot;Trip route date&quot;, example = &quot;2011-11-21&quot;)
+    private Date data;
+    @ApiModelProperty(notes = &quot;Trip route trip id&quot;, example = &quot;1&quot;)
+    private int wycieczka;
+    @ApiModelProperty(notes = &quot;Trip route route id&quot;, example = &quot;1&quot;)
+    private int trasa;
+
+<span class="nc" id="L24">    public TripRouteReplyDTO(int numer, boolean powtozona, int indeks, Date data, int wycieczka, int trasa) {</span>
+<span class="nc" id="L25">        this.numer = numer;</span>
+<span class="nc" id="L26">        this.powtozona = powtozona;</span>
+<span class="nc" id="L27">        this.indeks = indeks;</span>
+<span class="nc" id="L28">        this.data = data;</span>
+<span class="nc" id="L29">        this.wycieczka = wycieczka;</span>
+<span class="nc" id="L30">        this.trasa = trasa;</span>
+<span class="nc" id="L31">    }</span>
+
+<span class="nc" id="L33">    public TripRouteReplyDTO() {</span>
+<span class="nc" id="L34">    }</span>
+
+    public int getNumer() {
+<span class="nc" id="L37">        return numer;</span>
+    }
+
+    public void setNumer(int numer) {
+<span class="nc" id="L41">        this.numer = numer;</span>
+<span class="nc" id="L42">    }</span>
+
+    public boolean isPowtozona() {
+<span class="nc" id="L45">        return powtozona;</span>
+    }
+
+    public void setPowtozona(boolean powtozona) {
+<span class="nc" id="L49">        this.powtozona = powtozona;</span>
+<span class="nc" id="L50">    }</span>
+
+    public int getIndeks() {
+<span class="nc" id="L53">        return indeks;</span>
+    }
+
+    public void setIndeks(int indeks) {
+<span class="nc" id="L57">        this.indeks = indeks;</span>
+<span class="nc" id="L58">    }</span>
+
+    public Date getData() {
+<span class="nc" id="L61">        return data;</span>
+    }
+
+    public void setData(Date data) {
+<span class="nc" id="L65">        this.data = data;</span>
+<span class="nc" id="L66">    }</span>
+
+    public int getWycieczka() {
+<span class="nc" id="L69">        return wycieczka;</span>
+    }
+
+    public void setWycieczka(int wycieczka) {
+<span class="nc" id="L73">        this.wycieczka = wycieczka;</span>
+<span class="nc" id="L74">    }</span>
+
+    public int getTrasa() {
+<span class="nc" id="L77">        return trasa;</span>
+    }
+
+    public void setTrasa(int trasa) {
+<span class="nc" id="L81">        this.trasa = trasa;</span>
+<span class="nc" id="L82">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

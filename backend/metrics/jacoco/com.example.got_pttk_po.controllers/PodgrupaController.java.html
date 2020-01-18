@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PodgrupaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">got_pttk_po</a> &gt; <a href="index.source.html" class="el_package">com.example.got_pttk_po.controllers</a> &gt; <span class="el_source">PodgrupaController.java</span></div><h1>PodgrupaController.java</h1><pre class="source lang-java linenums">package com.example.got_pttk_po.controllers;
+
+import java.util.List;
+
+import com.example.got_pttk_po.dto.SubgroupReplyDTO;
+import com.example.got_pttk_po.exceptionHandlers.AppExceptionDTO;
+import com.example.got_pttk_po.services.PodgrupaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin(origins = &quot;http://localhost:4200&quot;)
+@RequestMapping(&quot;/subgroups&quot;)
+@Api(tags = &quot;Mountain subgroups info&quot;)
+class PodgrupaController {
+
+    private final PodgrupaService service;
+
+<span class="fc" id="L24">    PodgrupaController(PodgrupaService service) {</span>
+<span class="fc" id="L25">        this.service = service;</span>
+<span class="fc" id="L26">    }</span>
+
+    @GetMapping(value = &quot;&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = &quot;List of all mountain subgroups&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = &quot;OK&quot;, response = SubgroupReplyDTO.class, responseContainer = &quot;List&quot;),
+            @ApiResponse(code = 500, message = &quot;Internal server error&quot;, response = AppExceptionDTO.class)})
+    ResponseEntity&lt;List&lt;SubgroupReplyDTO&gt;&gt; allSubgroups() {
+
+<span class="nc" id="L35">        return ResponseEntity.ok(service.getAllSubgroups());</span>
+    }
+
+    @GetMapping(value = &quot;/{id}&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = &quot;Specific mountain subgroup&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = &quot;OK&quot;, response = SubgroupReplyDTO.class),
+            @ApiResponse(code = 400, message = &quot;Bad Request&quot;, response = AppExceptionDTO.class),
+            @ApiResponse(code = 500, message = &quot;Internal server error&quot;, response = AppExceptionDTO.class)})
+    ResponseEntity&lt;SubgroupReplyDTO&gt; oneSubgroup(@PathVariable String id) {
+
+<span class="nc" id="L46">        return ResponseEntity.ok(service.getOneSubgroup(id));</span>
+    }
+
+    @GetMapping(value = &quot;/group/{id}&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = &quot;List of all mountain subgroups in specific group&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = &quot;OK&quot;, response = SubgroupReplyDTO.class, responseContainer = &quot;List&quot;),
+            @ApiResponse(code = 400, message = &quot;Bad Request&quot;, response = AppExceptionDTO.class),
+            @ApiResponse(code = 500, message = &quot;Internal server error&quot;, response = AppExceptionDTO.class)})
+    ResponseEntity&lt;List&lt;SubgroupReplyDTO&gt;&gt; allSubgroupsFromGroup(@PathVariable String id) {
+
+<span class="nc" id="L57">        return ResponseEntity.ok(service.getAllSubgroupsFromGroup(id));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
