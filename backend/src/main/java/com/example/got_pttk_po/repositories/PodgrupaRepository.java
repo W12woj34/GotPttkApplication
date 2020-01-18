@@ -8,4 +8,5 @@ import java.util.List;
 public interface PodgrupaRepository extends JpaRepository<PodgrupaEntity, String> {
 
     List<PodgrupaEntity> findByGrupa(String grupa);
+    List<PodgrupaEntity> findByIdIn(List<String> ids);
 }

@@ -352,5 +352,32 @@ public class WycieczkaService {
         return badgesIds;
     }
 
+    /**
+     * @param id Id of trip
+     * @return String List with groups ids
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
+    public List<String> getGroups(Integer id) {
 
+        repositoryWycieczka.findById(id).orElseThrow(() -> new TripNotFoundException(id));
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(id);
+        List<Integer> routesIds = new ArrayList<>();
+        for(TrasaWycieczkiEntity tripRoute : tripRoutes){
+            routesIds.add(tripRoute.getTrasa());
+        }
+        List<TrasaEntity> routes = repositoryTrasa.findByNumerIn(routesIds);
+        List<String> subgroupsIds = new ArrayList<>();
+        for(TrasaEntity route : routes){
+            subgroupsIds.add(route.getPodgrupa());
+        }
+        List<PodgrupaEntity> subgroups = repositoryPodgrupa.findByIdIn(subgroupsIds);
+        List<String> groups = new ArrayList<>();
+        for(PodgrupaEntity subgroup : subgroups){
+            if(!groups.contains(subgroup.getGrupa())){
+                groups.add(subgroup.getGrupa());
+            }
+        }
+        return groups;
+
+    }
 }

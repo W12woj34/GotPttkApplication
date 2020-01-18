@@ -9,4 +9,5 @@ public interface TrasaRepository extends JpaRepository<TrasaEntity, Integer> {
 
     List<TrasaEntity> findByPoczatkowy(String poczatkowy);
     List<TrasaEntity> findByPodgrupa(String podgrupa);
+    List<TrasaEntity> findByNumerIn(List<Integer> ids);
 }
