@@ -23,7 +23,7 @@
   <span class="fill-remaining-space"></span>
 
   <button mat-button [matMenuTriggerFor]="logoutoptions" *ngIf="currentUser">
-    Jan Kowalski
+    {{currentUser.firstName}} {{currentUser.lastName}} ({{currentUser.type}})
     <mat-icon>keyboard_arrow_down</mat-icon>
   </button>
   <mat-menu #logoutoptions="matMenu">
@@ -36,6 +36,6 @@
   </button>
   <mat-menu #loginoptions="matMenu">
     <button mat-menu-item (click)="loginAsTourist()">Zaloguj jako turysta</button>
-    <button mat-menu-item (click)="loginAsGuide()">Zaloguj jako przewodnik</button>
+    <button mat-menu-item (click)="loginAsGuide()">Zaloguj jako przodownik</button>
   </mat-menu>
 </mat-toolbar>
