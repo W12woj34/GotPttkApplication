@@ -252,16 +252,16 @@ public class TrasaWycieczkiService {
 
         List<TrasaWycieczkiEntity> tripRoutes = getAllTripRoutesForGetBadge(getBadgeId);
         List<Integer> routeIds = new ArrayList<>();
-        for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
-            routeIds.add(tripRoute.getTrasa());
-        }
+
         Collections.sort(tripRoutes);
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
+
             if (routeIds.contains(tripRoute.getTrasa())) {
                 tripRoute.setPowtozona(true);
             } else {
                 tripRoute.setPowtozona(false);
             }
+            routeIds.add(tripRoute.getTrasa());
             repositoryTrasaWycieczki.save(tripRoute);
         }
 
