@@ -141,9 +141,9 @@ class WycieczkaController {
             @ApiResponse(code = 200, message = "OK", response = TripReplyDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad Request", response = AppExceptionDTO.class),
             @ApiResponse(code = 500, message = "Internal server error", response = AppExceptionDTO.class)})
-    ResponseEntity<List<TripReplyDTO>> verifyTrips(@RequestParam List<Integer> ids) {
+    ResponseEntity<List<TripReplyDTO>> verifyTrips(@RequestBody TripVerifyDTO dto) {
 
-        return ResponseEntity.ok(service.sendTripsToVerification(ids));
+        return ResponseEntity.ok(service.sendTripsToVerification(dto.getIds()));
     }
 
     @PutMapping(value = "/status/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
