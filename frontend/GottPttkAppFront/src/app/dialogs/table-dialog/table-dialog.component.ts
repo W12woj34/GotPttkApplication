@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
-import {PeriodicElement} from "../../trips/send-trips-for-verification/send-trips-for-verification.component";
+import {Trip} from "../../_models/Trip/trip";
 
 @Component({
   selector: 'app-table-dialog',
@@ -15,9 +15,9 @@ export class TableDialogComponent implements OnInit {
   title: string;
   description: string;
   tableTitle: string;
-  dataSource: MatTableDataSource<PeriodicElement>;
+  dataSource: MatTableDataSource<Trip>;
 
-  displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_group', 'status', 'sugg_score'];
+  displayedColumns: string[] = ['begin_date', 'end_date', 'status', 'sugg_score'];
 
   constructor(
     private dialogRef: MatDialogRef<TableDialogComponent>,
@@ -26,7 +26,7 @@ export class TableDialogComponent implements OnInit {
     this.title = data.title;
     this.description = data.description;
     this.tableTitle = data.tableTitle;
-    this.dataSource = new MatTableDataSource<PeriodicElement>(data.dataSource);
+    this.dataSource = new MatTableDataSource<Trip>(data.dataSource);
   }
 
   ngOnInit() {

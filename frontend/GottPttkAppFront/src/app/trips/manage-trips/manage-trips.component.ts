@@ -1,30 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
 import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
-
-export interface TripElement {
-  position: number;
-  id: number;
-  begin_date: string;
-  end_date: string;
-  mnt_group: string;
-  status: string;
-  score: number;
-}
-
-const ELEMENT_DATA: TripElement[] = [
-  {position: 1, id: 5, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 2, id: 6, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 3, id: 7, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 4, id: 8, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 5, id: 9, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 6, id: 10, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-  {position: 7, id: 11, begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', score: 14},
-];
+import {Trip} from "../../_models/Trip/trip";
+import {TripService} from "../../_services/Trip/trip.service";
+import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-manage-trips',
@@ -35,12 +19,46 @@ export class ManageTripsComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private router: Router,
-              private location: Location) { }
+              private location: Location,
+              private tripService: TripService,
+              private mountainGroupService: MountainGroupService) { }
 
-  displayedColumns: string[] = [ 'begin_date', 'end_date', 'mnt_group', 'status', 'score', 'buttons'];
-  dataSource = new MatTableDataSource<TripElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'status', 'score', 'buttons'];
+  dataSource;
 
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit() {
+    this.getTrips();
+  }
+
+  getTrips() {
+    this.tripService.getTripsForUser(JSON.parse(localStorage.getItem('currentUser')).id)
+      .subscribe(trips => {
+          this.getMountainGroups(trips);
+          this.getPoints(trips);
+      });
+  }
+
+  getMountainGroups(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
+        let array_of_names = [];
+        mountain_group.forEach(mnt_group => {
+          array_of_names.push(mnt_group.name);
+        });
+        trip.mnt_groups = array_of_names.join(', ');
+      })
+    })
+  }
+
+  getPoints(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.tripService.getPointsForTrip(trip.id).subscribe(points => {
+        trip.sugg_score = points;
+      })
+    });
+    this.dataSource = new MatTableDataSource<Trip>(trips);
+    this.dataSource.paginator = this.paginator;
   }
 
   checkIfCanDelete(id: number){

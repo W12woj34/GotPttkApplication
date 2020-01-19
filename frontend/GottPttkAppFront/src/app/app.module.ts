@@ -34,6 +34,7 @@ import { ManageBadgesComponent } from './manage-badges/manage-badges.component';
 import { ChoiceDialogComponent } from './dialogs/choice-dialog/choice-dialog.component';
 import {MatSelectModule} from "@angular/material/select";
 import { BackBarComponent } from './back-bar/back-bar.component';
+import { HttpClientModule }    from '@angular/common/http';
 
 
 @NgModule({
@@ -71,7 +72,8 @@ import { BackBarComponent } from './back-bar/back-bar.component';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
   ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],
