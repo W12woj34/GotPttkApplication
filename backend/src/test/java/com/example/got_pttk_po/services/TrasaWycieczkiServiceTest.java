@@ -46,7 +46,7 @@ public class TrasaWycieczkiServiceTest {
         tripRoute = new TrasaWycieczkiEntity();
         tripRoute.setNumer(1);
         tripRoute.setPowtozona(false);
-        tripRoute.setIndeks(0);
+        tripRoute.setIndeks(1);
         tripRoute.setData(date);
         tripRoute.setWycieczka(1);
         tripRoute.setTrasa(7);
@@ -63,6 +63,7 @@ public class TrasaWycieczkiServiceTest {
         TrasaWycieczkiEntity tripRoute1 = new TrasaWycieczkiEntity();
         tripRoute1.setNumer(1);
         tripRoute1.setWycieczka(1);
+        tripRoute1.setIndeks(1);
         List<TrasaWycieczkiEntity> routeList = new ArrayList<>();
         routeList.add(tripRoute1);
         when(repositoryTrasaWycieczki.findById(1)).thenReturn(Optional.of(tripRoute1));
