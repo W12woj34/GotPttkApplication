@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "../_models/user";
+import {User} from "../_models/User/user";
 import {Router} from "@angular/router";
 
 @Component({
@@ -29,8 +29,8 @@ export class NavBarComponent implements OnInit {
   loginAsTourist() {
     this.currentUser = new User();
     this.currentUser.id = 8;
-    this.currentUser.firstName = 'Bartłomiej'
-    this.currentUser.lastName = 'Kamiński'
+    this.currentUser.firstName = 'Bartłomiej';
+    this.currentUser.lastName = 'Kamiński';
     this.currentUser.type = "Turysta";
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
@@ -38,8 +38,8 @@ export class NavBarComponent implements OnInit {
   loginAsGuide() {
     this.currentUser = new User();
     this.currentUser.id = 2;
-    this.currentUser.firstName = 'Antoni'
-    this.currentUser.lastName = 'Maciejewski'
+    this.currentUser.firstName = 'Antoni';
+    this.currentUser.lastName = 'Maciejewski';
     this.currentUser.type = "Przodownik";
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }

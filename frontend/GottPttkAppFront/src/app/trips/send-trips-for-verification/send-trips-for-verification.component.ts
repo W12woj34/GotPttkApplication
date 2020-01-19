@@ -8,37 +8,9 @@ import {TableDialogComponent} from "../../dialogs/table-dialog/table-dialog.comp
 import {MatPaginator} from "@angular/material/paginator";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-
-export interface PeriodicElement {
-  begin_date: string;
-  end_date: string;
-  mnt_group: string;
-  status: string;
-  sugg_score: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-  {begin_date: '02-11-2019', end_date: '02-11-2019', mnt_group: 'Góry Świętokrzyskie', status: 'Niezweryfikowana', sugg_score: 14},
-];
+import {Trip} from "../../_models/Trip/trip";
+import {TripService} from "../../_services/Trip/trip.service";
+import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
 
 @Component({
   selector: 'app-send-trips-for-verification',
@@ -56,12 +28,14 @@ export class SendTripsForVerificationComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
-              private location: Location) {
+              private location: Location,
+              private tripService: TripService,
+              private mountainGroupService: MountainGroupService) {
   }
 
-  displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_group', 'status', 'sugg_score'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  dataSource;
+  selection = new SelectionModel<Trip>(true, []);
+  displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_groups', 'status', 'sugg_score'];
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -78,8 +52,41 @@ export class SendTripsForVerificationComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.getTrips();
+  }
+
+  getTrips() {
+    this.tripService.getTripsForUserOfStatus(JSON.parse(localStorage.getItem('currentUser')).id,0)
+      .subscribe(trips => {
+        if(trips.length == 0){
+          this.openErrorDialog();
+        } else {
+          this.getMountainGroups(trips);
+          this.getPoints(trips);
+        }
+      });
+  }
+
+  getMountainGroups(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
+        let array_of_names = [];
+        mountain_group.forEach(mnt_group => {
+          array_of_names.push(mnt_group.name);
+        });
+        trip.mnt_groups = array_of_names.join(', ');
+      })
+    })
+  }
+
+  getPoints(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.tripService.getPointsForTrip(trip.id).subscribe(points => {
+        trip.sugg_score = points;
+      })
+    });
+    this.dataSource = new MatTableDataSource<Trip>(trips);
     this.dataSource.paginator = this.paginator;
-    if (ELEMENT_DATA.length == 0) this.openErrorDialog();
   }
 
   openErrorDialog() {
