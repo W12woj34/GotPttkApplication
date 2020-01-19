@@ -58,4 +58,9 @@ export class TripService {
       map(resp_trip => resp_trip.map(resp_trip => new Trip(resp_trip.numer, resp_trip.dataRozpoczecia, resp_trip.dataZakonczenia, null, this.statusAsText(resp_trip.status), null)))
     );
   }
+
+  deleteTrip(trip_id: number) {
+    const url = `${this.tripsUrl}/${trip_id}`;
+    return this.http.delete(url);
+  }
 }

@@ -25,9 +25,11 @@ export class ManageTripsComponent implements OnInit {
 
   displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'status', 'score', 'buttons'];
   dataSource;
+  showSpinner;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   ngOnInit() {
+    this.showSpinner = true;
     this.getTrips();
   }
 
@@ -55,36 +57,28 @@ export class ManageTripsComponent implements OnInit {
     trips.forEach(trip => {
       this.tripService.getPointsForTrip(trip.id).subscribe(points => {
         trip.sugg_score = points;
+        this.checkAllLoaded(trips);
       })
     });
-    this.dataSource = new MatTableDataSource<Trip>(trips);
-    this.dataSource.paginator = this.paginator;
   }
 
-  checkIfCanDelete(id: number){
-
+  checkAllLoaded(trips: Trip[]){
+    let allDone = true;
+    trips.forEach(trip => {
+      if(trip.sugg_score == null) allDone = false;
+      if(allDone) {
+        this.dataSource = new MatTableDataSource<Trip>(trips);
+        this.dataSource.paginator = this.paginator;
+        this.showSpinner = false;
+      }
+    })
   }
 
-  checkIfCanEdit(id: number){
-
+  checkIfCanModfiy(status: string){
+    return status == 'Niezweryfikowana';
   }
 
-  openErrorDialog(title: string, desc:string) {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-
-    dialogConfig.data = {
-      title: title,
-      desc: desc
-    };
-
-    dialogConfig.panelClass = 'custom-dialog-background';
-
-    this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
-  }
-
-  openDeleteDialog() {
+  openDeleteDialog(id: number) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -99,11 +93,17 @@ export class ManageTripsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result == 'yes') {
-       this.deleteTrip()
+       this.deleteTrip(id)
       }})
   }
 
-  deleteTrip() {
+  deleteTrip(id: number) {
+    this.tripService.deleteTrip(id).subscribe();
+
+    const index = this.dataSource.data.indexOf(id);
+    this.dataSource.data.splice(index, 1);
+    this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
+
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
