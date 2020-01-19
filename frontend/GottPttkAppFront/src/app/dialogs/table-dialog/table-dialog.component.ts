@@ -17,7 +17,7 @@ export class TableDialogComponent implements OnInit {
   tableTitle: string;
   dataSource: MatTableDataSource<Trip>;
 
-  displayedColumns: string[] = ['begin_date', 'end_date', 'status', 'sugg_score'];
+  displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'status', 'sugg_score'];
 
   constructor(
     private dialogRef: MatDialogRef<TableDialogComponent>,

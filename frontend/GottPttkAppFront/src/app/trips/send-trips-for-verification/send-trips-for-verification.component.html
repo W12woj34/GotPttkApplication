@@ -3,14 +3,15 @@
 <mat-toolbar class="titleBar">
   <span>Wybierz wycieczki do weryfikacji</span>
   <span class="fill-remaining-space"></span>
-  <button mat-button class="goodButton" *ngIf="!this.selection.isEmpty()" (click)="openSentDialog()" [@fadeInOut]>
+  <button mat-button class="goodButton" *ngIf="!this.selection.isEmpty()" (click)="sendTripsForVerification()" [@fadeInOut]>
     Przekaż {{this.selection.selected.length}} wycieczki
     <mat-icon>send</mat-icon>
   </button>
 </mat-toolbar>
 
-<table mat-table [dataSource]="dataSource">
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
 
+<table mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef>
       <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -61,3 +62,4 @@
 <div class="paginator-on-bottom">
   <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
 </div>
+

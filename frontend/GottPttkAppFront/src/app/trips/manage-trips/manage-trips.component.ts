@@ -62,19 +62,11 @@ export class ManageTripsComponent implements OnInit {
   }
 
   checkIfCanDelete(id: number){
-    if(id==5) {
-      this.openErrorDialog('Nie możesz usunąć tej wycieczki', 'Ta wycieczka została przesłana do weryfikacji lub jest już zweryfikowana.');
-    } else {
-      this.openDeleteDialog();
-    }
+
   }
 
   checkIfCanEdit(id: number){
-    if(id==5) {
-      this.openErrorDialog('Nie możesz edytować tej wycieczki', 'Ta wycieczka została przesłana do weryfikacji lub jest już zweryfikowana.');
-    } else {
-      this.router.navigate(['/editTrip',id])
-    }
+
   }
 
   openErrorDialog(title: string, desc:string) {

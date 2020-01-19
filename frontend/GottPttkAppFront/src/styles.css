@@ -59,7 +59,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 /*Headers styles*/
 h4 {
   margin-top: 0;
-  margin-bottom: 0;
   color: #727272;
   font-weight: normal;
 }
@@ -78,7 +77,6 @@ h2 {
 
 .mat-header-cell {
   background-color: #D7DD90;
-  font-size: large;
 }
 
 .mat-cell {
