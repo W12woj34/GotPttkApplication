@@ -51,6 +51,13 @@ export class TripService {
     );
   }
 
+  getTrip(trip_id: string): Observable<Trip>{
+    const url = `${this.tripsUrl}/${trip_id}`;
+    return this.http.get<ResponseTrip>(url).pipe(
+      map(resp_trip => new Trip(resp_trip.numer, resp_trip.dataRozpoczecia, resp_trip.dataZakonczenia, null, this.statusAsText(resp_trip.status), null))
+    );
+  }
+
   sendTripsForVerification(tripsToSend: SendVerifyTrips) : Observable<Trip[]> {
     const url = `${this.tripsUrl}/verify`;
     const payload = {ids: tripsToSend.ids};
