@@ -160,8 +160,8 @@ public class WycieczkaServiceTest {
 
         when(repositoryWycieczka.findById(trip1.getNumer())).thenReturn(Optional.of(trip1));
         when(repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(trip1.getNumer())).thenReturn(tripRoutes);
-        when(repositoryTrasa.findById(tripRoute1.getNumer())).thenReturn(Optional.of(route1));
-        when(repositoryTrasa.findById(tripRoute2.getNumer())).thenReturn(Optional.of(route2));
+        when(repositoryTrasa.findById(tripRoute1.getTrasa())).thenReturn(Optional.of(route1));
+        when(repositoryTrasa.findById(tripRoute2.getTrasa())).thenReturn(Optional.of(route2));
         when(repositoryPodgrupa.findById(route1.getPodgrupa())).thenReturn(Optional.of(subgroup));
         when(repositoryUprawnieniaPrzodownika.findByGrupaIn(subgroupsIds)).thenReturn(permissions);
 
@@ -213,8 +213,8 @@ public class WycieczkaServiceTest {
 
         when(repositoryWycieczka.findById(trip1.getNumer())).thenReturn(Optional.of(trip1));
         when(repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(trip1.getNumer())).thenReturn(tripRoutes);
-        when(repositoryTrasa.findById(tripRoute1.getNumer())).thenReturn(Optional.of(route1));
-        when(repositoryTrasa.findById(tripRoute2.getNumer())).thenReturn(Optional.of(route2));
+        when(repositoryTrasa.findById(tripRoute1.getTrasa())).thenReturn(Optional.of(route1));
+        when(repositoryTrasa.findById(tripRoute2.getTrasa())).thenReturn(Optional.of(route2));
         when(repositoryPodgrupa.findById(route1.getPodgrupa())).thenThrow(new SubgroupNotFoundException(route1.getPodgrupa()));
 
         SubgroupNotFoundException ex = assertThrows(SubgroupNotFoundException.class, () ->
