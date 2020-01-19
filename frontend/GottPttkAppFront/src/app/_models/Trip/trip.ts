@@ -14,4 +14,5 @@ export class Trip {
   mnt_groups: string;
   status: string;
   sugg_score: number;
+
 }

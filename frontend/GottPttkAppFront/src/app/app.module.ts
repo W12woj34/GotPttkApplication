@@ -35,6 +35,8 @@ import { ChoiceDialogComponent } from './dialogs/choice-dialog/choice-dialog.com
 import {MatSelectModule} from "@angular/material/select";
 import { BackBarComponent } from './back-bar/back-bar.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -54,27 +56,29 @@ import { HttpClientModule }    from '@angular/common/http';
     EditTripComponent,
     ManageBadgesComponent,
     ChoiceDialogComponent,
-    BackBarComponent
+    BackBarComponent,
+    LoadingSpinnerComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatMenuModule,
-    AppRoutingModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatSelectModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatMenuModule,
+        AppRoutingModule,
+        MatIconModule,
+        MatToolbarModule,
+        MatDialogModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatSelectModule,
+        HttpClientModule,
+        MatProgressSpinnerModule
+    ],
   providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
   bootstrap: [AppComponent],
   entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent, ChoiceDialogComponent]
