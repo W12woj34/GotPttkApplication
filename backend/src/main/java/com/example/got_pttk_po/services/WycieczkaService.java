@@ -151,7 +151,6 @@ public class WycieczkaService {
         WycieczkaEntity trip = repositoryWycieczka.findById(id)
                 .orElseThrow(() -> new TripNotFoundException(id));
 
-        changeTripStatus(trip.getNumer(), 3);
         List<String> groupIds = new ArrayList<>();
         List<PodgrupaEntity> subgroups = new ArrayList<>();
         List<String> subgroupIds = new ArrayList<>();
@@ -159,8 +158,8 @@ public class WycieczkaService {
         List<TrasaEntity> routes = new ArrayList<>();
 
         for (TrasaWycieczkiEntity tripRoute : tripRoutes) {
-            routes.add(repositoryTrasa.findById(tripRoute.getWycieczka())
-                    .orElseThrow(() -> new RouteNotFoundException(tripRoute.getWycieczka())));
+            routes.add(repositoryTrasa.findById(tripRoute.getTrasa())
+                    .orElseThrow(() -> new RouteNotFoundException(tripRoute.getTrasa())));
         }
 
         for (TrasaEntity route : routes) {
@@ -198,6 +197,7 @@ public class WycieczkaService {
         for (String leader : leaders) {
             if (fitness.get(leader) == groupIds.size()) {
                 trip.setPrzodownik(leader);
+                changeTripStatus(trip.getNumer(), 3);
                 repositoryWycieczka.save(trip);
                 return ModelMapperUtil.map(trip, TripReplyDTO.class);
             }
