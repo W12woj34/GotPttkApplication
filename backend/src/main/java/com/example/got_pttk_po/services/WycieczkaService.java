@@ -223,6 +223,7 @@ public class WycieczkaService {
 
             }
         }
+
         return sentTrips.stream()
                 .map(el -> ModelMapperUtil.map(el, TripReplyDTO.class))
                 .collect(Collectors.toList());

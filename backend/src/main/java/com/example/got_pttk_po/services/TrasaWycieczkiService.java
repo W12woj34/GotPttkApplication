@@ -100,7 +100,7 @@ public class TrasaWycieczkiService {
             tripRoute.setPowtozona(false);
         }
         if (tripRoutes.isEmpty()) {
-            tripRoute.setIndeks(0);
+            tripRoute.setIndeks(1);
             tripRoute.setData(newTripRoute.getDate());
             tripRoute.setWycieczka(newTripRoute.getTrip());
             tripRoute.setTrasa(newTripRoute.getRoute());
@@ -186,7 +186,7 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
         List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());
-        if (tripRoute.getIndeks() != tripRoutes.size() - 1) {
+        if (tripRoute.getIndeks() != tripRoutes.size()) {
             throw new TripRouteInvalidException(id);
         }
 
