@@ -11,6 +11,8 @@
 
 <mat-divider></mat-divider>
 
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
+
 <div class="columns">
   <div>
     <div>
@@ -22,7 +24,7 @@
     <div>
       <h4>Grupa górska:</h4>
       <mat-form-field>
-        <input matInput value="{{startDate}}" disabled>
+        <input matInput value="{{mountainGroup}}" disabled>
       </mat-form-field>
     </div>
   </div>
@@ -33,13 +35,18 @@
         <input matInput value="{{endDate}}" disabled>
       </mat-form-field>
       <div>
-        <h2>Suma punktów: 20</h2>
+        <h2>Suma punktów: {{totalPoints}}</h2>
       </div>
     </div>
   </div>
 </div>
 
 <table mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="index">
+    <th mat-header-cell *matHeaderCellDef>Lp.</th>
+    <td mat-cell *matCellDef="let element"> {{element.index}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef>Data przejścia</th>
     <td mat-cell *matCellDef="let element"> {{element.date}} </td>
@@ -83,7 +90,7 @@
       </button>
     </th>
     <td mat-cell *matCellDef="let element;">
-      <button mat-button class="badButton">
+      <button mat-button class="badButton" *ngIf="element.index == this.numberOfDataSourceRows" (click)="openDeleteDialog(element.id)">
         Usuń
         <mat-icon>delete_outline</mat-icon>
       </button>
