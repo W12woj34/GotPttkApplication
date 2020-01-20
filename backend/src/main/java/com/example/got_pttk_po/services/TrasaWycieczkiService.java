@@ -121,7 +121,7 @@ public class TrasaWycieczkiService {
                 throw new TripRouteInvalidException(-1);
             }
 
-            tripRoute.setIndeks(tripRoutes.size());
+            tripRoute.setIndeks(tripRoutes.size()+ 1);
             tripRoute.setWycieczka(newTripRoute.getTrip());
             tripRoute.setData(newTripRoute.getDate());
             tripRoute.setTrasa(newTripRoute.getRoute());
