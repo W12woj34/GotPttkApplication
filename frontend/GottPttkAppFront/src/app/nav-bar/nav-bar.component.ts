@@ -44,4 +44,13 @@ export class NavBarComponent implements OnInit {
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
 
+  loginAsUserWithoutBadge() {
+    this.currentUser = new User(16,'Adrian','Ząbek','Turysta');
+    this.currentUser.id = 16;
+    this.currentUser.firstName = 'Adrian';
+    this.currentUser.lastName = 'Ząbek';
+    this.currentUser.type = "Turysta";
+    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+  }
+
 }

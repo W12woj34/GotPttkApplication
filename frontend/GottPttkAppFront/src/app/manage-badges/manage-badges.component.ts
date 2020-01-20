@@ -33,7 +33,7 @@ export class ManageBadgesComponent implements OnInit {
   }
 
   checkIfNextBadgeNeeded() {
-    this.badgeService.getBadgeForUserOfStatus('16', 0).subscribe(badge => {
+    this.badgeService.getBadgeForUserOfStatus(JSON.parse(localStorage.getItem('currentUser')).id, 0).subscribe(badge => {
       if (badge.length == 0) {
         const dialogConfig = new MatDialogConfig();
 
@@ -66,7 +66,7 @@ export class ManageBadgesComponent implements OnInit {
   }
 
   getEarnedBadges() {
-    this.badgeService.getBadgeForUserOfStatus('16', 1).subscribe(badges => {
+    this.badgeService.getBadgeForUserOfStatus(JSON.parse(localStorage.getItem('currentUser')).id, 1).subscribe(badges => {
       this.dataSource = new MatTableDataSource<Badge>(badges);
     })
   }
@@ -79,7 +79,7 @@ export class ManageBadgesComponent implements OnInit {
   }
 
   setSelectedBadge(selectedBadge: string){
-    this.badgeService.setSelectedBadge(selectedBadge,'16').subscribe(() => {
+    this.badgeService.setSelectedBadge(selectedBadge,JSON.parse(localStorage.getItem('currentUser')).id).subscribe(() => {
       window.location.reload();
     });
   }

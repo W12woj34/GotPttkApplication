@@ -44,7 +44,7 @@ export class BadgeService {
 
   setSelectedBadge(selectedBadge: string, touristID: string) {
     const url = `${this.badgesUrl}`;
-    const payload = {badgeId: selectedBadge, touristID: touristID};
+    const payload = {badgeId: selectedBadge, touristId: touristID};
     return this.http.post(url,payload,this.httpOptions);
   }
 }
