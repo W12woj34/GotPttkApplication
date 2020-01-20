@@ -92,7 +92,7 @@ public class TrasaWycieczkiService {
             badgeRouteIds.add(badgeRoute.getTrasa());
         }
 
-        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(newTripRoute.getTrip());
+        List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByIndeksAsc(newTripRoute.getTrip());
 
         if (badgeRouteIds.contains(newTripRoute.getRoute())) {
             tripRoute.setPowtozona(true);
@@ -108,7 +108,7 @@ public class TrasaWycieczkiService {
 
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
-            List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(newTripRoute.getRoute());
+            List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(tripRoutes.get(tripRoutes.size()-1).getTrasa());
             List<Integer> possibleRouteIds = new ArrayList<>();
             for (RouteReplyDTO possibleRoute : possibleRoutes) {
                 possibleRouteIds.add(possibleRoute.getNumer());

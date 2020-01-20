@@ -10,6 +10,7 @@ import java.util.List;
 public interface TrasaWycieczkiRepository extends JpaRepository<TrasaWycieczkiEntity, Integer> {
 
     List<TrasaWycieczkiEntity> findByWycieczkaOrderByDataDesc(Integer id);
+    List<TrasaWycieczkiEntity> findByWycieczkaOrderByIndeksAsc(Integer id);
     List<TrasaWycieczkiEntity> findByWycieczkaIn(Collection<Integer> trips);
     List<TrasaWycieczkiEntity> findByNumerIn(Collection<Integer> ids);
 
