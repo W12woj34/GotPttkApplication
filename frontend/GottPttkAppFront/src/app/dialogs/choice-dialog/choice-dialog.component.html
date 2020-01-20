@@ -1,3 +1,5 @@
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
+
 <h2 mat-dialog-title>{{title}}</h2>
 <div mat-dialog-content>{{description}}</div>
 <mat-form-field>
@@ -8,6 +10,6 @@
   </mat-select>
 </mat-form-field>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close="no">Anuluj</button>
+  <button mat-button mat-dialog-close="canceled">Anuluj</button>
   <button mat-button mat-dialog-close="{{selected}}" class="goodButton">Zatwierdź</button>
 </div>

@@ -3,9 +3,9 @@
 <mat-toolbar class="titleBar">
   <span>Lista twoich wycieczek</span>
   <span class="fill-remaining-space"></span>
-  <a mat-button class="goodButton" routerLink="/addTrip">
+  <button mat-button class="goodButton" (click)="addTripAndOpenEdit()">
     Dodaj wycieczkę <mat-icon>add</mat-icon>
-  </a>
+  </button>
 </mat-toolbar>
 
 <app-loading-spinner [show]="showSpinner"></app-loading-spinner>

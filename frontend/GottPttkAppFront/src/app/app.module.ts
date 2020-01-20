@@ -37,6 +37,9 @@ import { BackBarComponent } from './back-bar/back-bar.component';
 import { HttpClientModule }    from '@angular/common/http';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { AddRouteDialogComponent } from './dialogs/add-route-dialog/add-route-dialog.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -57,30 +60,33 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     ManageBadgesComponent,
     ChoiceDialogComponent,
     BackBarComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    AddRouteDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatTableModule,
-        MatCheckboxModule,
-        MatPaginatorModule,
-        MatButtonModule,
-        MatMenuModule,
-        AppRoutingModule,
-        MatIconModule,
-        MatToolbarModule,
-        MatDialogModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        FormsModule,
-        MatSelectModule,
-        HttpClientModule,
-        MatProgressSpinnerModule
-    ],
-  providers: [{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol}],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatButtonModule,
+    MatMenuModule,
+    AppRoutingModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},{provide: MatPaginatorIntl, useClass: MatPaginatorIntlPol},MatDatepickerModule,MatNativeDateModule],
   bootstrap: [AppComponent],
-  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent, ChoiceDialogComponent]
+  entryComponents : [SimpleErrorDialogComponent, TableDialogComponent, YesNoDialogComponent, ChoiceDialogComponent, AddRouteDialogComponent]
 })
 export class AppModule { }

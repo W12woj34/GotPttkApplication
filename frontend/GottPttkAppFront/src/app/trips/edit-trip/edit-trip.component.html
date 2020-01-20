@@ -1,5 +1,3 @@
-<app-back-bar [mainComponent]="this"></app-back-bar>
-
 <mat-toolbar class="titleBar">
   <span>Edycja wycieczki</span>
   <span class="fill-remaining-space"></span>
@@ -24,7 +22,12 @@
     <div>
       <h4>Grupa górska:</h4>
       <mat-form-field>
-        <input matInput value="{{mountainGroup}}" disabled>
+        <input matInput value="{{mountainGroup}}" disabled *ngIf="allRoutes.length != 0">
+        <mat-select [(value)]="mountainGroup" *ngIf="allRoutes.length == 0">
+          <mat-option *ngFor="let group of all_mnt_groups" [value]="group.name">
+            {{group.name}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </div>
@@ -84,7 +87,7 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>
-      <button mat-button class="goodButton">
+      <button mat-button class="goodButton" *ngIf="mountainGroup != ''" (click)="openAddRouteDialog()" [@fadeInOut]>
         Dodaj trasę
         <mat-icon>add</mat-icon>
       </button>
@@ -102,6 +105,6 @@
 
 </table>
 
-<div class="paginator-on-bottom">
+<div>
   <mat-paginator [pageSize]="15" [pageSizeOptions]="[10,15,20]" showFirstLastButtons></mat-paginator>
 </div>

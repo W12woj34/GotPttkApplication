@@ -4,6 +4,8 @@
   <span>Lista wycieczek do weryfikacji</span>
 </mat-toolbar>
 
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
+
 <table mat-table [dataSource]="dataSource">
 
   <ng-container matColumnDef="first_name">
@@ -31,9 +33,9 @@
     <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="mnt_group">
-    <th mat-header-cell *matHeaderCellDef>Grupa górska</th>
-    <td mat-cell *matCellDef="let element"> {{element.mnt_group}} </td>
+  <ng-container matColumnDef="mnt_groups">
+    <th mat-header-cell *matHeaderCellDef>Grupy górskie</th>
+    <td mat-cell *matCellDef="let element"> {{element.mnt_groups}} </td>
   </ng-container>
 
   <ng-container matColumnDef="verify_button">

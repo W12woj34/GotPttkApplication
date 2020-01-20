@@ -21,12 +21,18 @@ export class TripRouteService {
   getRoutesForTrip(trip_id: string) : Observable<TripRoute[]>{
     const url = `${this.tripRouteUrl}/trip/${trip_id}`;
     return this.http.get<ResponseTripRoute[]>(url).pipe(
-      map(resp_trip_route => resp_trip_route.map(resp_trip_route => new TripRoute(resp_trip_route.numer,resp_trip_route.indeks,resp_trip_route.data,'Zdef.',null,null,null,resp_trip_route.powtozona ? "Tak" : "Nie",null)))
+      map(resp_trip_route => resp_trip_route.map(resp_trip_route => new TripRoute(resp_trip_route.numer,resp_trip_route.indeks,resp_trip_route.data,'Zdef.',null,null,null,resp_trip_route.powtozona ? "Tak" : "Nie",null,resp_trip_route.trasa)))
     );
   }
 
   deleteTripRoute(trip_id: number) {
     const url = `${this.tripRouteUrl}/${trip_id}`;
     return this.http.delete(url);
+  }
+
+  addRouteToTripOnDate(trip_id: string, route_id: number, date: string){
+    const url = `${this.tripRouteUrl}`;
+    const payload = {date: date, route: route_id, trip: parseInt(trip_id)};
+    return this.http.post(url,payload,this.httpOptions);
   }
 }

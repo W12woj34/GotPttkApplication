@@ -9,6 +9,7 @@ import {Trip} from "../../_models/Trip/trip";
 import {TripService} from "../../_services/Trip/trip.service";
 import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
 import {MatPaginator} from "@angular/material/paginator";
+import {BadgeService} from "../../_services/Badge/badge.service";
 
 @Component({
   selector: 'app-manage-trips',
@@ -21,7 +22,8 @@ export class ManageTripsComponent implements OnInit {
               private router: Router,
               private location: Location,
               private tripService: TripService,
-              private mountainGroupService: MountainGroupService) { }
+              private mountainGroupService: MountainGroupService,
+              private badgeService: BadgeService) { }
 
   displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'status', 'score', 'buttons'];
   dataSource;
@@ -36,8 +38,12 @@ export class ManageTripsComponent implements OnInit {
   getTrips() {
     this.tripService.getTripsForUser(JSON.parse(localStorage.getItem('currentUser')).id)
       .subscribe(trips => {
+        if(trips.length != 0) {
           this.getMountainGroups(trips);
           this.getPoints(trips);
+          } else {
+          this.showSpinner = false;
+        }
       });
   }
 
@@ -119,6 +125,15 @@ export class ManageTripsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  addTripAndOpenEdit(){
+    this.showSpinner = true;
+    this.badgeService.getBadgeForUserOfStatus(JSON.parse(localStorage.getItem('currentUser')).id,0).subscribe(badge => {
+      this.tripService.addNewTrip(badge[0].id).subscribe(trip => {
+        this.router.navigate(['/addTrip',trip.id]);
+      });
+    })
   }
 
 }

@@ -19,4 +19,11 @@ export class MountainGroupService {
       map (resp_mnt_group => resp_mnt_group.map(resp_mnt_group => new MountainGroup(resp_mnt_group.nazwa)))
     );
   }
+
+  getAllMountainGroups() : Observable<MountainGroup[]> {
+    const url = `${this.groupsUrl}`;
+    return this.http.get<ResponseMountainGroup[]>(url).pipe(
+      map (resp_mnt_group => resp_mnt_group.map(resp_mnt_group => new MountainGroup(resp_mnt_group.nazwa)))
+    );
+  }
 }

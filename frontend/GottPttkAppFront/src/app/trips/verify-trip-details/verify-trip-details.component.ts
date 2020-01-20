@@ -1,40 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import { Location } from '@angular/common';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
-
-export interface PeriodicElement {
-  position: number;
-  date: string;
-  category: string;
-  start_point: string;
-  end_point: string;
-  is_back: string;
-  is_repeated: string;
-  points: number;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, date: '02-11-2019', category: 'Zdef.', start_point: 'Przedbórze', end_point: 'Fajna Ryba', is_back: 'Nie', is_repeated: 'Nie', points: 10},
-  {position: 2, date: '02-11-2019', category: 'Zdef.', start_point: 'Fajna Ryba', end_point: 'Kozłowa', is_back: 'Nie', is_repeated: 'Tak', points: 0},
-  {position: 3, date: '02-11-2019', category: 'Zdef.', start_point: 'Kozłowa', end_point: 'Buczyna', is_back: 'Nie', is_repeated: 'Nie', points: 6},
-  {position: 4, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 5, date: '02-11-2019', category: 'Zdef.', start_point: 'Fajna Ryba', end_point: 'Kozłowa', is_back: 'Nie', is_repeated: 'Tak', points: 0},
-  {position: 6, date: '02-11-2019', category: 'Zdef.', start_point: 'Kozłowa', end_point: 'Buczyna', is_back: 'Nie', is_repeated: 'Nie', points: 6},
-  {position: 7, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 8, date: '02-11-2019', category: 'Zdef.', start_point: 'Fajna Ryba', end_point: 'Kozłowa', is_back: 'Nie', is_repeated: 'Tak', points: 0},
-  {position: 9, date: '02-11-2019', category: 'Zdef.', start_point: 'Kozłowa', end_point: 'Buczyna', is_back: 'Nie', is_repeated: 'Nie', points: 6},
-  {position: 10, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 11, date: '02-11-2019', category: 'Zdef.', start_point: 'Fajna Ryba', end_point: 'Kozłowa', is_back: 'Nie', is_repeated: 'Tak', points: 0},
-  {position: 12, date: '02-11-2019', category: 'Zdef.', start_point: 'Kozłowa', end_point: 'Buczyna', is_back: 'Nie', is_repeated: 'Nie', points: 6},
-  {position: 13, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 14, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 15, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-  {position: 16, date: '02-11-2019', category: 'Niezdef.', start_point: 'Buczyna', end_point: 'Rączki', is_back: 'Tak', is_repeated: 'Nie', points: 3},
-];
+import {TripRoute} from "../../_models/TripRoute/trip-route";
+import {Trip} from "../../_models/Trip/trip";
+import {TripService} from "../../_services/Trip/trip.service";
+import {TripRouteService} from "../../_services/TripRoute/trip-route.service";
+import {RouteService} from "../../_services/Route/route.service";
 
 @Component({
   selector: 'app-verify-trip-details',
@@ -45,20 +20,75 @@ export class VerifyTripDetailsComponent implements OnInit {
 
   constructor(private router: Router,
               private location: Location,
-              private dialog: MatDialog) { }
-
-  public pointsToSend : any = {};
+              private dialog: MatDialog,
+              private route: ActivatedRoute,
+              private tripService: TripService,
+              private tripRouteService: TripRouteService,
+              private routeService: RouteService) { }
 
   displayedColumns: string[] = ['date', 'category', 'start_point', 'end_point', 'is_back', 'is_repeated', 'points'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource;
+  totalPoints;
+  showSpinner = false;
+
+
+  id = this.route.snapshot.paramMap.get('id');
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    this.showSpinner = true;
+    this.getTripDetails();
+    this.getRoutes();
+  }
+
+  getTripDetails() {
+    this.tripService.getTrip(this.id).subscribe(trip => {
+      this.getPoints(trip);
+    })
+  }
+
+
+  getRoutes() {
+    this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
+      this.getRoutesDetails(routes);
+    })
+  }
+
+  getRoutesDetails(routes: TripRoute[]) {
+    routes.forEach(route => {
+      this.routeService.getRouteDetails(route.route_id).subscribe(route_details => {
+        route.start_point = route_details.start_point;
+        route.end_point = route_details.end_point;
+        route.is_back = route_details.is_back;
+        route.points = route_details.points;
+        this.checkTableDataLoaded(routes);
+      })
+    })
+  }
+
+  checkTableDataLoaded(routes: TripRoute[]) {
+    let allDone = true;
+    routes.forEach(route => {
+      if (route.points == null) allDone = false;
+      if (allDone) {
+        this.dataSource = new MatTableDataSource<TripRoute>(routes);
+        this.dataSource.paginator = this.paginator;
+        this.showSpinner = false;
+      }
+    })
+  }
+
+  getPoints(trip: Trip) {
+    this.tripService.getPointsForTrip(trip.id).subscribe(points => {
+      trip.sugg_score = points;
+      this.totalPoints = trip.sugg_score;
+    });
   }
 
   verifyPositive() {
+    this.tripService.setStatusForTrip(parseInt(this.id),1).subscribe();
+
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;
@@ -83,6 +113,8 @@ export class VerifyTripDetailsComponent implements OnInit {
   }
 
   verifyNegative() {
+    this.tripService.setStatusForTrip(parseInt(this.id),2).subscribe();
+
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

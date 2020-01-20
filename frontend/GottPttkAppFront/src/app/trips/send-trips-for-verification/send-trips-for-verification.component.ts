@@ -129,7 +129,7 @@ export class SendTripsForVerificationComponent implements OnInit {
     const succTrips : Trip[] = [];
 
     this.selection.selected.forEach(selectedTrip =>{
-      succTrips.push(new Trip(selectedTrip.id,selectedTrip.begin_date,selectedTrip.end_date,selectedTrip.mnt_groups,'Przekazana do wer.',selectedTrip.sugg_score));
+      succTrips.push(new Trip(selectedTrip.id,selectedTrip.begin_date,selectedTrip.end_date,selectedTrip.mnt_groups,'Przekazana do wer.',selectedTrip.sugg_score,selectedTrip.badge));
     });
 
     dialogConfig.disableClose = true;

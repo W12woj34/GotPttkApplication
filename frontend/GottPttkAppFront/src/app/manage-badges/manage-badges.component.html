@@ -4,6 +4,8 @@
   <span>Twoje odznaki</span>
 </mat-toolbar>
 
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
+
 <mat-divider></mat-divider>
 
 <div class="columns">
@@ -11,14 +13,14 @@
     <h4>Poprzednio zdobyte odznaki:</h4>
     <div class="customTableSize">
       <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="badge_name">
           <th mat-header-cell *matHeaderCellDef>Odznaka</th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.badge_name}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="earn_date">
+        <ng-container matColumnDef="earnDate">
           <th mat-header-cell *matHeaderCellDef>Data zdobycia</th>
-          <td mat-cell *matCellDef="let element"> {{element.earn_date}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.earnDate}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
@@ -28,10 +30,8 @@
   </div>
   <div class="right">
     <h4>Aktualnie zdobywana odznaka:</h4>
-    <h2>Mała srebrna</h2>
+    <h2>{{currentBadge}}</h2>
     <h4>Zdobyto punktów:</h4>
-    <h2>180/360</h2>
-    <h4>Dodatkowe wymagania:</h4>
-    <h2>Brak</h2>
+    <h2>{{earnedPoints}}/{{maxPoints}}</h2>
   </div>
 </div>

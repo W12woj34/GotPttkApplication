@@ -17,7 +17,7 @@ const routes : Routes = [
   {path : 'verifyTrips', component: VerifyTripsMainComponent},
   {path : 'verifyTripDetails/:id', component: VerifyTripDetailsComponent},
   {path : 'manageTrips', component: ManageTripsComponent},
-  {path : 'addTrip', component: AddTripComponent},
+  {path : 'addTrip/:id', component: AddTripComponent},
   {path : 'editTrip/:id', component: EditTripComponent },
   {path : 'manageBadges', component: ManageBadgesComponent}
 ];

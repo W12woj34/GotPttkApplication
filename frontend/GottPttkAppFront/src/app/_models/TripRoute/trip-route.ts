@@ -8,8 +8,9 @@ export class TripRoute {
   is_back: string;
   is_repeated: string;
   points: number;
+  route_id: number;
 
-  constructor(id: number, index: number, date: string, category: string, start_point: string, end_point: string, is_back: string, is_repeated: string, points: number) {
+  constructor(id: number, index: number, date: string, category: string, start_point: string, end_point: string, is_back: string, is_repeated: string, points: number, route_id: number) {
     this.id = id;
     this.index = index;
     this.date = date;
@@ -19,5 +20,6 @@ export class TripRoute {
     this.is_back = is_back;
     this.is_repeated = is_repeated;
     this.points = points;
+    this.route_id = route_id;
   }
 }

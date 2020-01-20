@@ -1,0 +1,74 @@
+<app-loading-spinner [show]="showSpinner"></app-loading-spinner>
+
+<h2 mat-dialog-title>Wybierz trasę do dodania</h2>
+
+<mat-form-field *ngIf="lastRouteID == null">
+  <mat-select [(value)]="mountainSubgroup" (selectionChange)="onSubgroupSelect()" *ngIf="lastRouteID == null" placeholder="Wybierz podgrupę">
+    <mat-option *ngFor="let subgroup of all_mnt_subgroups" [value]="subgroup.name">
+      {{subgroup.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngIf="lastRouteID == null"></div>
+
+<mat-form-field>
+  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" [min]="minDate" placeholder="Wybierz datę przejścia trasy">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker [startAt]="minDate"></mat-datepicker>
+</mat-form-field>
+
+
+<div class="customTableHeight">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null;"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="start_point">
+      <th mat-header-cell *matHeaderCellDef>Punkt początkowy</th>
+      <td mat-cell *matCellDef="let element"> {{element.start_point}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="end_point">
+      <th mat-header-cell *matHeaderCellDef>Punkty końcowy</th>
+      <td mat-cell *matCellDef="let element"> {{element.end_point}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="is_back">
+      <th mat-header-cell *matHeaderCellDef>Czy powrotna?</th>
+      <td mat-cell *matCellDef="let element"> {{element.is_back}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mnt_subgroup">
+      <th mat-header-cell *matHeaderCellDef>Podgrupa</th>
+      <td mat-cell *matCellDef="let element"> {{element.mnt_subgroup}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="length">
+      <th mat-header-cell *matHeaderCellDef>Długość</th>
+      <td mat-cell *matCellDef="let element"> {{element.length}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <th mat-header-cell *matHeaderCellDef>Punkty</th>
+      <td mat-cell *matCellDef="let element"> {{element.points}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Anuluj</button>
+  <button mat-button class="goodButton" mat-dialog-close="Added" *ngIf="!this.selection.isEmpty() && selectedDate != null" [@fadeInOut] (click)="addRoute()">Dodaj trasę</button>
+</div>
+

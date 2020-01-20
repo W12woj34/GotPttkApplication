@@ -1,0 +1,6 @@
+.customTableHeight {
+  max-height: 300px;
+  width: 600px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
