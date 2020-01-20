@@ -106,6 +106,9 @@ public class TrasaWycieczkiServiceTest {
 
     @Test
     public void shouldChangeTripRouteDate() {
+        WycieczkaEntity trip = new WycieczkaEntity();
+        trip.setNumer(0);
+        tripRoute.setWycieczka(0);
         List<TrasaWycieczkiEntity> list = new ArrayList<>();
         TrasaWycieczkiEntity tripRoute2 = new TrasaWycieczkiEntity();
         Date date2 = new Date(1234323);
@@ -121,6 +124,7 @@ public class TrasaWycieczkiServiceTest {
         when(repositoryTrasaWycieczki.findById(tripRoute.getNumer())).thenReturn(Optional.of(tripRoute));
         when(repositoryTrasaWycieczki
                 .findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka())).thenReturn(list);
+        when(repositoryWycieczka.findById(tripRoute.getWycieczka())).thenReturn(Optional.of(trip));
         TripRouteUpdateDTO data = new TripRouteUpdateDTO(newDate);
         TripRouteReplyDTO modifyTripRoute = service.modifyTripRoute(data, tripRoute.getNumer());
 
