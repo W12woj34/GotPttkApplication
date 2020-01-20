@@ -154,6 +154,11 @@ public class TrasaWycieczkiService {
         return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
     }
 
+    /**
+     * @param date Date of trip route
+     * @param tripRoute Entity of trip route
+     * @throws RuntimeException when one of given or needed elements don't exist
+     */
     private void checkDate(Date date, TrasaWycieczkiEntity tripRoute){
         List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());
         for (int i = 0; i < tripRoutes.size(); i++) {
