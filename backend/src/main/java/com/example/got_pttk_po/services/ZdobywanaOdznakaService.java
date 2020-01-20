@@ -3,6 +3,7 @@ package com.example.got_pttk_po.services;
 import com.example.got_pttk_po.dto.BadgeReplyDTO;
 import com.example.got_pttk_po.dto.GetBadgeReplyDTO;
 import com.example.got_pttk_po.entities.OdznakaEntity;
+import com.example.got_pttk_po.entities.TrasaWycieczkiEntity;
 import com.example.got_pttk_po.entities.WycieczkaEntity;
 import com.example.got_pttk_po.entities.ZdobywanaOdznakaEntity;
 import com.example.got_pttk_po.exceptions.*;
@@ -14,6 +15,7 @@ import com.example.got_pttk_po.utils.ModelMapperUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -155,8 +157,29 @@ public class ZdobywanaOdznakaService {
                     .orElseThrow(() -> new BadgeNotFoundException(badgeId)).getWymaganePunkty());
         }
 
+        chooseId(badge);
         repositoryZdobywanaOdznaka.save(badge);
         return ModelMapperUtil.map(badge, GetBadgeReplyDTO.class);
+    }
+
+    /**
+     * @param getBadge TrasaWycieczkiEntity object
+     * @return TrasaWycieczkiEntity object
+     */
+    private ZdobywanaOdznakaEntity chooseId(ZdobywanaOdznakaEntity getBadge) {
+        List<ZdobywanaOdznakaEntity> allGetBadges = repositoryZdobywanaOdznaka.findAll();
+        if (allGetBadges.size() == 0) {
+            getBadge.setId(1);
+
+        } else {
+            List<Integer> allGetBadgesIds = new ArrayList<>();
+            for (ZdobywanaOdznakaEntity oneGetBadge : allGetBadges) {
+                allGetBadgesIds.add(oneGetBadge.getId());
+            }
+            Collections.sort(allGetBadgesIds);
+            getBadge.setId(allGetBadgesIds.get(allGetBadgesIds.size() - 1) + 1);
+        }
+        return getBadge;
     }
 
     /**

@@ -131,6 +131,8 @@ public class WycieczkaService {
             trip.setStatus(0);
             trip.setOdznaka(newTripGetBadge);
 
+            chooseId(trip);
+
             repositoryWycieczka.save(trip);
             return ModelMapperUtil.map(trip, TripReplyDTO.class);
         } else {
@@ -139,6 +141,22 @@ public class WycieczkaService {
         }
 
 
+    }
+
+    private WycieczkaEntity chooseId(WycieczkaEntity trip) {
+        List<WycieczkaEntity> allTrips = repositoryWycieczka.findAll();
+        if (allTrips.size() == 0) {
+            trip.setNumer(1);
+
+        } else {
+            List<Integer> allTripsIds = new ArrayList<>();
+            for (WycieczkaEntity oneTrip : allTrips) {
+                allTripsIds.add(oneTrip.getNumer());
+            }
+            Collections.sort(allTripsIds);
+            trip.setNumer(allTripsIds.get(allTripsIds.size() - 1) + 1);
+        }
+        return trip;
     }
 
     /**

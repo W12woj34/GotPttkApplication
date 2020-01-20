@@ -84,7 +84,7 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity tripRoute = new TrasaWycieczkiEntity();
         WycieczkaEntity trip = repositoryWycieczka.findById(newTripRoute.getTrip())
                 .orElseThrow(() -> new TripNotFoundException(newTripRoute.getTrip()));
-
+        chooseId(tripRoute);
         List<TrasaWycieczkiEntity> badgeRoutes = getAllTripRoutesForGetBadge(trip.getOdznaka());
 
         List<Integer> badgeRouteIds = new ArrayList<>();
@@ -109,7 +109,7 @@ public class TrasaWycieczkiService {
 
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
-            List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(tripRoutes.get(tripRoutes.size()-1).getTrasa());
+            List<RouteReplyDTO> possibleRoutes = serviceTrasa.getPossibleRoutes(tripRoutes.get(tripRoutes.size() - 1).getTrasa());
             List<Integer> possibleRouteIds = new ArrayList<>();
             for (RouteReplyDTO possibleRoute : possibleRoutes) {
                 possibleRouteIds.add(possibleRoute.getNumer());
@@ -122,17 +122,38 @@ public class TrasaWycieczkiService {
                 throw new TripRouteInvalidException(-1);
             }
 
-            tripRoute.setIndeks(tripRoutes.size()+ 1);
+            tripRoute.setIndeks(tripRoutes.size() + 1);
             tripRoute.setWycieczka(newTripRoute.getTrip());
             tripRoute.setData(newTripRoute.getDate());
             tripRoute.setTrasa(newTripRoute.getRoute());
 
             checkDate(newTripRoute.getDate(), tripRoute);
 
+
             repositoryTrasaWycieczki.save(tripRoute);
             updateTripDate(tripRoute.getWycieczka());
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         }
+    }
+
+    /**
+     * @param tripRoute TrasaWycieczkiEntity object
+     * @return TrasaWycieczkiEntity object
+     */
+    private TrasaWycieczkiEntity chooseId(TrasaWycieczkiEntity tripRoute) {
+        List<TrasaWycieczkiEntity> allTripRoutes = repositoryTrasaWycieczki.findAll();
+        if (allTripRoutes.size() == 0) {
+            tripRoute.setNumer(1);
+
+        } else {
+            List<Integer> allTripRoutesIds = new ArrayList<>();
+            for (TrasaWycieczkiEntity oneTripRoute : allTripRoutes) {
+                allTripRoutesIds.add(oneTripRoute.getNumer());
+            }
+            Collections.sort(allTripRoutesIds);
+            tripRoute.setNumer(allTripRoutesIds.get(allTripRoutesIds.size() - 1) + 1);
+        }
+        return tripRoute;
     }
 
     /**
@@ -155,11 +176,11 @@ public class TrasaWycieczkiService {
     }
 
     /**
-     * @param date Date of trip route
+     * @param date      Date of trip route
      * @param tripRoute Entity of trip route
      * @throws RuntimeException when one of given or needed elements don't exist
      */
-    private void checkDate(Date date, TrasaWycieczkiEntity tripRoute){
+    private void checkDate(Date date, TrasaWycieczkiEntity tripRoute) {
         List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());
         for (int i = 0; i < tripRoutes.size(); i++) {
 
@@ -319,7 +340,7 @@ public class TrasaWycieczkiService {
     }
 
     /**
-     * @param id     Id of user badge
+     * @param id Id of user badge
      * @return TripRouteReplyDTO List with trip routes data
      */
     private List<TrasaWycieczkiEntity> getAllTripRoutesForGetBadge(Integer id) {
@@ -333,7 +354,7 @@ public class TrasaWycieczkiService {
     }
 
     /**
-     * @param id     Id of trip route
+     * @param id Id of trip route
      * @throws RuntimeException when one of given or needed elements don't exist
      */
     private void updateTripDate(Integer id) {
