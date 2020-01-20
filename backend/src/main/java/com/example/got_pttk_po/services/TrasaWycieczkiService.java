@@ -127,6 +127,8 @@ public class TrasaWycieczkiService {
             tripRoute.setData(newTripRoute.getDate());
             tripRoute.setTrasa(newTripRoute.getRoute());
 
+            checkDate(newTripRoute.getDate(), tripRoute);
+
             repositoryTrasaWycieczki.save(tripRoute);
             updateTripDate(tripRoute.getWycieczka());
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
@@ -145,39 +147,44 @@ public class TrasaWycieczkiService {
         TrasaWycieczkiEntity tripRoute = repositoryTrasaWycieczki.findById(id)
                 .orElseThrow(() -> new TripRouteNotFoundException(id));
 
+        checkDate(newDate, tripRoute);
+
+        repositoryTrasaWycieczki.save(tripRoute);
+        updateTripDate(tripRoute.getWycieczka());
+        return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
+    }
+
+    private void checkDate(Date date, TrasaWycieczkiEntity tripRoute){
         List<TrasaWycieczkiEntity> tripRoutes = repositoryTrasaWycieczki.findByWycieczkaOrderByDataDesc(tripRoute.getWycieczka());
         for (int i = 0; i < tripRoutes.size(); i++) {
 
             if (tripRoutes.get(i).getNumer() == tripRoute.getNumer()) {
                 if (i == 0) {
                     if (i + 1 != tripRoutes.size()) {
-                        if (newDate.compareTo(tripRoutes.get(i + 1).getData()) > 0) {
-                            throw new TripRouteInvalidException(id);
+                        if (date.compareTo(tripRoutes.get(i + 1).getData()) > 0) {
+                            throw new TripRouteInvalidException(tripRoute.getNumer());
                         }
-                        tripRoute.setData(newDate);
+                        tripRoute.setData(date);
                     } else {
-                        tripRoute.setData(newDate);
+                        tripRoute.setData(date);
                     }
 
                 } else {
                     if (i + 1 != tripRoutes.size()) {
-                        if (newDate.compareTo(tripRoutes.get(i + 1).getData()) > 0 ||
-                                newDate.compareTo(tripRoutes.get(i - 1).getData()) < 0) {
-                            throw new TripRouteInvalidException(id);
+                        if (date.compareTo(tripRoutes.get(i + 1).getData()) > 0 ||
+                                date.compareTo(tripRoutes.get(i - 1).getData()) < 0) {
+                            throw new TripRouteInvalidException(tripRoute.getNumer());
                         }
-                        tripRoute.setData(newDate);
+                        tripRoute.setData(date);
                     } else {
-                        if (newDate.compareTo(tripRoutes.get(i - 1).getData()) < 0) {
-                            throw new TripRouteInvalidException(id);
+                        if (date.compareTo(tripRoutes.get(i - 1).getData()) < 0) {
+                            throw new TripRouteInvalidException(tripRoute.getNumer());
                         }
-                        tripRoute.setData(newDate);
+                        tripRoute.setData(date);
                     }
                 }
             }
         }
-        repositoryTrasaWycieczki.save(tripRoute);
-        updateTripDate(tripRoute.getWycieczka());
-        return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
     }
 
     /**
