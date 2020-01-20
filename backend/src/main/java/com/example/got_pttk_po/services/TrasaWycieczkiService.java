@@ -105,6 +105,7 @@ public class TrasaWycieczkiService {
             tripRoute.setWycieczka(newTripRoute.getTrip());
             tripRoute.setTrasa(newTripRoute.getRoute());
             repositoryTrasaWycieczki.save(tripRoute);
+            updateTripDate(tripRoute.getWycieczka());
 
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
@@ -127,6 +128,7 @@ public class TrasaWycieczkiService {
             tripRoute.setTrasa(newTripRoute.getRoute());
 
             repositoryTrasaWycieczki.save(tripRoute);
+            updateTripDate(tripRoute.getWycieczka());
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         }
     }
@@ -174,6 +176,7 @@ public class TrasaWycieczkiService {
             }
         }
         repositoryTrasaWycieczki.save(tripRoute);
+        updateTripDate(tripRoute.getWycieczka());
         return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
     }
 
