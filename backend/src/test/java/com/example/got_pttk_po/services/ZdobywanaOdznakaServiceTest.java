@@ -60,7 +60,7 @@ public class ZdobywanaOdznakaServiceTest {
         when( repositoryOdznaka.findByNazwaIn(new ArrayList<>())).thenReturn(new ArrayList<>());
         when( repositoryOdznaka.findById(newGetBadge.getBadgeId())).thenReturn(Optional.of(badge));
         GetBadgeReplyDTO addGetBadge = service.addGetBadge(newGetBadge.getTouristId(), newGetBadge.getBadgeId());
-        
+
         assertThat(addGetBadge.getOdznaka()).isEqualTo(getBadge.getOdznaka());
         assertThat(addGetBadge.getPunkty()).isEqualTo(0);
         assertThat(addGetBadge.getDataZdobycia()).isEqualTo(null);

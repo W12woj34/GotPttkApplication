@@ -355,7 +355,10 @@ public class WycieczkaService {
         for (TrasaWycieczkiEntity route : routes) {
             routeIds.add(route.getNumer());
         }
-        serviceTrasaWycieczki.deleteTripRoutes(routeIds);
+        if(!routeIds.isEmpty()){
+            serviceTrasaWycieczki.deleteTripRoutes(routeIds);
+        }
+ ;
     }
 
     /**
