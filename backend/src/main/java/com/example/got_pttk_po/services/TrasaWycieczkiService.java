@@ -106,6 +106,8 @@ public class TrasaWycieczkiService {
             tripRoute.setTrasa(newTripRoute.getRoute());
             repositoryTrasaWycieczki.save(tripRoute);
             updateTripDate(tripRoute.getWycieczka());
+            recalculateGetBadgePoints(trip.getOdznaka());
+
 
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         } else {
@@ -132,6 +134,7 @@ public class TrasaWycieczkiService {
 
             repositoryTrasaWycieczki.save(tripRoute);
             updateTripDate(tripRoute.getWycieczka());
+            recalculateGetBadgePoints(trip.getOdznaka());
             return ModelMapperUtil.map(tripRoute, TripRouteReplyDTO.class);
         }
     }
