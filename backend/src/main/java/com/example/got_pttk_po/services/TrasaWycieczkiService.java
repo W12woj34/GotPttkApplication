@@ -325,8 +325,8 @@ public class TrasaWycieczkiService {
         if (previousBadges.isEmpty() || previousBadges.get(0).getOdznaka().contains("Za Wytrwałość")) {
             points = 0;
         } else {
-            points = previousBadges.get(0).getPunkty() - repositoryOdznaka.findById(getBadge.getOdznaka())
-                    .orElseThrow(() -> new BadgeNotFoundException(getBadge.getOdznaka())).getWymaganePunkty();
+            points = previousBadges.get(0).getPunkty() - repositoryOdznaka.findById(previousBadges.get(0).getOdznaka())
+                    .orElseThrow(() -> new BadgeNotFoundException(previousBadges.get(0).getOdznaka())).getWymaganePunkty();
         }
 
 
