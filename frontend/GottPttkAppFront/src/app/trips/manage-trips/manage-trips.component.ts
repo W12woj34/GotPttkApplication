@@ -104,23 +104,28 @@ export class ManageTripsComponent implements OnInit {
   }
 
   deleteTrip(id: number) {
-    this.tripService.deleteTrip(id).subscribe();
-
-    const index = this.dataSource.data.indexOf(id);
-    this.dataSource.data.splice(index, 1);
-    this.dataSource._updateChangeSubscription(); // <-- Refresh the datasource
-
+    this.showSpinner = true;
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.disableClose = true;
-
-    dialogConfig.data = {
-      title: 'Wycieczka została usunięta.',
-    };
-
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+    this.tripService.deleteTrip(id).subscribe(result => {
+      if(result == id) {
+        const index = this.dataSource.data.indexOf(id);
+        this.dataSource.data.splice(index, 1);
+        this.dataSource._updateChangeSubscription();
+        this.showSpinner = false;
+        dialogConfig.data = {
+          title: 'Wycieczka została usunięta.',
+        };
+        this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+      } else {
+        dialogConfig.data = {
+          title: 'Wystąpił problem podczas usuwania wycieczki.',
+        };
+        this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+      }
+    });
   }
 
   goBack(): void {

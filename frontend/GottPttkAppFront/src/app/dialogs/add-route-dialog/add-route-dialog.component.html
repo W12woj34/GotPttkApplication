@@ -68,7 +68,7 @@
   </table>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Anuluj</button>
-  <button mat-button class="goodButton" mat-dialog-close="Added" *ngIf="!this.selection.isEmpty() && selectedDate != null" [@fadeInOut] (click)="addRoute()">Dodaj trasę</button>
+  <button mat-button mat-dialog-close="cancel">Anuluj</button>
+  <button mat-button class="goodButton" *ngIf="!this.selection.isEmpty() && selectedDate != null" [@fadeInOut] (click)="addRoute()">Dodaj trasę</button>
 </div>
 

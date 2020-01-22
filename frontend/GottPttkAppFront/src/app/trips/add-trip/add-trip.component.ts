@@ -46,7 +46,6 @@ export class AddTripComponent implements OnInit {
   totalPoints;
 
   dataSource;
-  numberOfDataSourceRows: number = 0;
   allRoutes: TripRoute[] = [];
   displayedColumns: string[] = ['index', 'date', 'category', 'start_point', 'end_point', 'is_back', 'is_repeated', 'points', 'actions'];
 
@@ -71,10 +70,12 @@ export class AddTripComponent implements OnInit {
     })
   }
 
-
   getRoutes() {
     this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
       if (routes.length == 0) {
+        this.allRoutes = [];
+        this.dataSource = new MatTableDataSource<TripRoute>();
+        this.dataSource.paginator = this.paginator;
         this.mountainGroupService.getAllMountainGroups().subscribe(groups => {
           this.all_mnt_groups = groups;
         });
@@ -85,7 +86,6 @@ export class AddTripComponent implements OnInit {
 
   getRoutesDetails(routes: TripRoute[]) {
     routes.forEach(route => {
-      this.numberOfDataSourceRows++;
       this.routeService.getRouteDetails(route.route_id).subscribe(route_details => {
         route.start_point = route_details.start_point;
         route.end_point = route_details.end_point;
@@ -151,40 +151,49 @@ export class AddTripComponent implements OnInit {
   }
 
   deleteRoute(id: number) {
-    this.tripRouteService.deleteTripRoute(id).subscribe();
-
+    this.showSpinner = true;
     const dialogConfig = new MatDialogConfig();
-
     dialogConfig.disableClose = true;
-
-    dialogConfig.data = {
-      title: 'Trasa została usunięta.',
-    };
-
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(() => {
-      window.location.reload();
-    })
+    this.tripRouteService.deleteTripRoute(id).subscribe(result =>{
+      if(result == id) {
+        this.showSpinner = false;
+        dialogConfig.data = {
+          title: 'Trasa została usunięta pomyślnie.',
+        };
+        const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(() => {
+          this.ngOnInit();
+        })
+      } else{
+        this.showSpinner = false;
+        dialogConfig.data = {
+          title: 'Wystąpił błąd podczas usuwania trasy.',
+        };
+        const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(() => {
+          this.ngOnInit();
+        })
+      }
+    });
   }
 
   openAddRouteDialog() {
     const dialogConfig = new MatDialogConfig();
 
-    if (this.numberOfDataSourceRows != 0) {
+    if (this.allRoutes.length != 0) {
       dialogConfig.data = {
         lastRouteID: this.allRoutes[this.allRoutes.length - 1].route_id,
         lastRouteDate: this.allRoutes[this.allRoutes.length - 1].date,
-        tripID: this.id,
+        tripID: parseInt(this.id),
       };
       dialogConfig.panelClass = 'custom-dialog-background';
 
       const dialogRef = this.dialog.open(AddRouteDialogComponent, dialogConfig);
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result == 'Added') window.location.reload();
+      dialogRef.afterClosed().subscribe(() => {
+        this.ngOnInit();
       })
     } else {
       dialogConfig.data = {
@@ -196,7 +205,7 @@ export class AddTripComponent implements OnInit {
       const dialogRef = this.dialog.open(AddRouteDialogComponent, dialogConfig);
 
       dialogRef.afterClosed().subscribe(result => {
-        if (result == 'Added') window.location.reload();
+        if(result != 'cancel') this.ngOnInit();
       })
     }
   }
@@ -207,7 +216,7 @@ export class AddTripComponent implements OnInit {
     dialogConfig.disableClose = true;
 
     dialogConfig.data = {
-      title: 'Pomyślnie edytowano wycieczkę w książeczce'
+      title: 'Pomyślnie dodano wycieczkę do książeczki.'
     };
 
     dialogConfig.panelClass = 'custom-dialog-background';

@@ -93,7 +93,7 @@
       </button>
     </th>
     <td mat-cell *matCellDef="let element;">
-      <button mat-button class="badButton" *ngIf="element.index == this.numberOfDataSourceRows" (click)="openDeleteDialog(element.id)">
+      <button mat-button class="badButton" *ngIf="element.index == this.allRoutes.length" (click)="openDeleteDialog(element.id)">
         Usuń
         <mat-icon>delete_outline</mat-icon>
       </button>

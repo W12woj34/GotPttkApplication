@@ -3,7 +3,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Location} from "@angular/common";
 import {TripService} from "../../_services/Trip/trip.service";
 import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
@@ -24,7 +24,8 @@ export class VerifyTripsMainComponent implements OnInit {
               private tripService: TripService,
               private mountainGroupService: MountainGroupService,
               private badgeService: BadgeService,
-              private userService: UserService) {
+              private userService: UserService,
+              private router: Router) {
   }
 
   showSpinner = false;
@@ -48,7 +49,7 @@ export class VerifyTripsMainComponent implements OnInit {
     const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(() => {
-      this.goBack();
+      this.router.navigate(['/dashboard']);
     })
   }
 
@@ -72,7 +73,7 @@ export class VerifyTripsMainComponent implements OnInit {
   getUsersInfo(trips: VerifyTrip[]) {
     trips.forEach(trip => {
       this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badge => {
-        this.userService.getUserInfo(badge[0].tourist).subscribe(user => {
+        this.userService.getUserInfo(badge.tourist).subscribe(user => {
           trip.first_name = user.firstName;
           trip.last_name = user.lastName;
           trip.username = user.id;

@@ -26,7 +26,7 @@ export class AddRouteDialogComponent implements OnInit {
   minDate;
 
   lastRouteID: number;
-  tripID: string;
+  tripID: number;
   tripGroup: string;
   @Input() selectedDate;
 
@@ -87,7 +87,24 @@ export class AddRouteDialogComponent implements OnInit {
   }
 
   addRoute(){
-    const dateToSend = this.selectedDate.toISOString().slice(0,10);
-    this.tripRouteService.addRouteToTripOnDate(this.tripID,this.selection.selected[0].id,dateToSend).subscribe();
+    this.showSpinner = true;
+    const dateToSend = this.formatDate(this.selectedDate);
+    this.tripRouteService.addRouteToTripOnDate(this.tripID,this.selection.selected[0].id,dateToSend).subscribe(result =>{
+      if(result.data == dateToSend && result.wycieczka == this.tripID && result.trasa == this.selection.selected[0].id){
+        this.dialogRef.close();
+      }
+    });
+  }
+
+  formatDate(date) {
+    let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }

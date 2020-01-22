@@ -25,10 +25,10 @@ export class BadgeService {
     );
   }
 
-  getBadgeInfoForBadgeID(badge_id: number) : Observable<Badge[]>{
+  getBadgeInfoForBadgeID(badge_id: number) : Observable<Badge>{
     const url = `${this.badgesUrl}/${badge_id}`;
-    return this.http.get<ResponseBadge[]>(url).pipe(
-      map (resp_badge => resp_badge.map(resp_badge => new Badge(resp_badge.dataZdobycia,resp_badge.id,resp_badge.odznaka,resp_badge.punkty,resp_badge.referat,resp_badge.status,resp_badge.turysta)))
+    return this.http.get<ResponseBadge>(url).pipe(
+      map (resp_badge => new Badge(resp_badge.dataZdobycia,resp_badge.id,resp_badge.odznaka,resp_badge.punkty,resp_badge.referat,resp_badge.status,resp_badge.turysta))
     );
   }
 

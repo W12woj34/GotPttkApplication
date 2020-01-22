@@ -30,9 +30,9 @@ export class TripRouteService {
     return this.http.delete(url);
   }
 
-  addRouteToTripOnDate(trip_id: string, route_id: number, date: string){
+  addRouteToTripOnDate(trip_id: number, route_id: number, date: string) : Observable<ResponseTripRoute> {
     const url = `${this.tripRouteUrl}`;
-    const payload = {date: date, route: route_id, trip: parseInt(trip_id)};
-    return this.http.post(url,payload,this.httpOptions);
+    const payload = {date: date, route: route_id, trip: trip_id};
+    return this.http.post<ResponseTripRoute>(url,payload,this.httpOptions);
   }
 }
