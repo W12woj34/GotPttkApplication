@@ -12,6 +12,7 @@ import {Trip} from "../../_models/Trip/trip";
 import {TripService} from "../../_services/Trip/trip.service";
 import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
 import {SendVerifyTrips} from "../../_sendModels/sendVerifyTrips/send-verify-trips";
+import {BadgeService} from "../../_services/Badge/badge.service";
 
 @Component({
   selector: 'app-send-trips-for-verification',
@@ -31,13 +32,14 @@ export class SendTripsForVerificationComponent implements OnInit {
               private route: ActivatedRoute,
               private location: Location,
               private tripService: TripService,
-              private mountainGroupService: MountainGroupService) {
+              private mountainGroupService: MountainGroupService,
+              private badgeService: BadgeService) {
   }
 
   showSpinner = false;
   dataSource;
   selection = new SelectionModel<Trip>(true, []);
-  displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_groups', 'status', 'sugg_score'];
+  displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_groups', 'badgeName', 'status', 'sugg_score'];
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -66,6 +68,7 @@ export class SendTripsForVerificationComponent implements OnInit {
         } else {
           this.getMountainGroups(trips);
           this.getPoints(trips);
+          this.getBadgeNames(trips);
         }
       });
   }
@@ -111,6 +114,14 @@ export class SendTripsForVerificationComponent implements OnInit {
     });
   }
 
+  getBadgeNames(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badgeInfo => {
+        trip.badgeName = badgeInfo.badge_name;
+      })
+    })
+  }
+
   checkAllLoaded(trips: Trip[]){
     let allDone = true;
     trips.forEach(trip => {
@@ -129,7 +140,7 @@ export class SendTripsForVerificationComponent implements OnInit {
     const succTrips : Trip[] = [];
 
     this.selection.selected.forEach(selectedTrip =>{
-      succTrips.push(new Trip(selectedTrip.id,selectedTrip.begin_date,selectedTrip.end_date,selectedTrip.mnt_groups,'Przekazana do wer.',selectedTrip.sugg_score,selectedTrip.badge));
+      succTrips.push(new Trip(selectedTrip.id,selectedTrip.begin_date,selectedTrip.end_date,selectedTrip.mnt_groups,'Przekazana do wer.',selectedTrip.sugg_score,selectedTrip.badge,null));
     });
 
     dialogConfig.disableClose = true;

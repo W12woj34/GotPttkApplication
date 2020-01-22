@@ -30,7 +30,7 @@ export class VerifyTripsMainComponent implements OnInit {
 
   showSpinner = false;
   dataSource;
-  displayedColumns: string[] = ['first_name', 'last_name', 'username', 'begin_date', 'end_date', 'mnt_groups', 'verify_button'];
+  displayedColumns: string[] = ['first_name', 'last_name', 'username', 'begin_date', 'end_date', 'mnt_groups', 'badgeName', 'verify_button'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -60,10 +60,11 @@ export class VerifyTripsMainComponent implements OnInit {
 
   getTripsForVerification() {
     this.tripService.getTripsForVerification('2').subscribe(trips => {
-      if(trips.length != 0) {
-      this.getMountainGroups(trips);
+      if (trips.length != 0) {
+        this.getMountainGroups(trips);
         this.getUsersInfo(trips);
-        } else {
+        this.getBadgeNames(trips);
+      } else {
         this.showSpinner = false;
         this.openErrorDialog();
       }
@@ -95,11 +96,19 @@ export class VerifyTripsMainComponent implements OnInit {
     })
   }
 
-  checkAllLoaded(trips: VerifyTrip[]){
+  getBadgeNames(trips: VerifyTrip[]) {
+    trips.forEach(trip => {
+      this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badgeInfo => {
+        trip.badgeName = badgeInfo.badge_name;
+      })
+    })
+  }
+
+  checkAllLoaded(trips: VerifyTrip[]) {
     let allDone = true;
     trips.forEach(trip => {
-      if(trip.mnt_groups == null) allDone = false;
-      if(allDone) {
+      if (trip.mnt_groups == null) allDone = false;
+      if (allDone) {
         this.dataSource = new MatTableDataSource<VerifyTrip>(trips);
         this.dataSource.paginator = this.paginator;
         this.showSpinner = false;

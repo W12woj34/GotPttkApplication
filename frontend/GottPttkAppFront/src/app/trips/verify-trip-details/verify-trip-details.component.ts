@@ -10,6 +10,7 @@ import {Trip} from "../../_models/Trip/trip";
 import {TripService} from "../../_services/Trip/trip.service";
 import {TripRouteService} from "../../_services/TripRoute/trip-route.service";
 import {RouteService} from "../../_services/Route/route.service";
+import {BadgeService} from "../../_services/Badge/badge.service";
 
 @Component({
   selector: 'app-verify-trip-details',
@@ -24,13 +25,14 @@ export class VerifyTripDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private tripService: TripService,
               private tripRouteService: TripRouteService,
-              private routeService: RouteService) { }
+              private routeService: RouteService,
+              private badgeService: BadgeService) { }
 
   displayedColumns: string[] = ['date', 'category', 'start_point', 'end_point', 'is_back', 'is_repeated', 'points'];
   dataSource;
   totalPoints;
+  associatedBadge;
   showSpinner = false;
-
 
   id = this.route.snapshot.paramMap.get('id');
 
@@ -45,9 +47,9 @@ export class VerifyTripDetailsComponent implements OnInit {
   getTripDetails() {
     this.tripService.getTrip(this.id).subscribe(trip => {
       this.getPoints(trip);
+      this.getAssociatedBadgeName(trip);
     })
   }
-
 
   getRoutes() {
     this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
@@ -84,6 +86,12 @@ export class VerifyTripDetailsComponent implements OnInit {
       trip.sugg_score = points;
       this.totalPoints = trip.sugg_score;
     });
+  }
+
+  getAssociatedBadgeName(verifiedTrip: Trip){
+    this.badgeService.getBadgeInfoForBadgeID(verifiedTrip.badge).subscribe(badgeInfo => {
+      this.associatedBadge = badgeInfo.badge_name;
+    })
   }
 
   verifyPositive() {

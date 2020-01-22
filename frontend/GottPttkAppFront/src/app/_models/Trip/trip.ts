@@ -1,5 +1,5 @@
 export class Trip {
-  constructor(id: number, begin_date: string, end_date: string, mnt_groups: string, status: string, sugg_score: number, badge: number) {
+  constructor(id: number, begin_date: string, end_date: string, mnt_groups: string, status: string, sugg_score: number, badge: number, badgeName: string) {
     this.id = id;
     this.begin_date = begin_date;
     this.end_date = end_date;
@@ -7,6 +7,7 @@ export class Trip {
     this.status = status;
     this.sugg_score = sugg_score;
     this.badge = badge;
+    this.badgeName = badgeName;
   }
 
   id: number;
@@ -16,5 +17,6 @@ export class Trip {
   status: string;
   sugg_score: number;
   badge: number;
+  badgeName: string;
 
 }

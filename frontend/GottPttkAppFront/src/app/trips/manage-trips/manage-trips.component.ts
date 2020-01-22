@@ -25,7 +25,7 @@ export class ManageTripsComponent implements OnInit {
               private mountainGroupService: MountainGroupService,
               private badgeService: BadgeService) { }
 
-  displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'status', 'score', 'buttons'];
+  displayedColumns: string[] = ['begin_date', 'end_date', 'mnt_groups', 'badgeName', 'status', 'score', 'buttons'];
   dataSource;
   showSpinner;
 
@@ -41,6 +41,7 @@ export class ManageTripsComponent implements OnInit {
         if(trips.length != 0) {
           this.getMountainGroups(trips);
           this.getPoints(trips);
+          this.getBadgeNames(trips);
           } else {
           this.showSpinner = false;
         }
@@ -66,6 +67,14 @@ export class ManageTripsComponent implements OnInit {
         this.checkAllLoaded(trips);
       })
     });
+  }
+
+  getBadgeNames(trips: Trip[]) {
+    trips.forEach(trip => {
+      this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badgeInfo => {
+        trip.badgeName = badgeInfo.badge_name;
+      })
+    })
   }
 
   checkAllLoaded(trips: Trip[]){

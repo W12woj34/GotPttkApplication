@@ -15,6 +15,7 @@ import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.co
 import {AddRouteDialogComponent} from "../../dialogs/add-route-dialog/add-route-dialog.component";
 import {MountainGroup} from "../../_models/MountainGroup/mountain-group";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {BadgeService} from "../../_services/Badge/badge.service";
 
 @Component({
   selector: 'app-edit-trip',
@@ -36,15 +37,13 @@ export class EditTripComponent implements OnInit {
               private tripService: TripService,
               private mountainGroupService: MountainGroupService,
               private tripRouteService: TripRouteService,
-              private routeService: RouteService) {
+              private routeService: RouteService,
+              private badgeService: BadgeService) {
   }
 
   showSpinner = false;
 
-  startDate = '';
-  endDate = '';
-  mountainGroup = '';
-  totalPoints;
+  editedTrip : Trip = new Trip(null,null,null,null,null,null,null,null);
 
   dataSource;
   allRoutes: TripRoute[] = [];
@@ -64,13 +63,12 @@ export class EditTripComponent implements OnInit {
 
   getTripDetails() {
     this.tripService.getTrip(this.id).subscribe(trip => {
-      this.startDate = trip.begin_date;
-      this.endDate = trip.end_date;
-      this.getMountainGroups(trip);
-      this.getPoints(trip);
+      this.editedTrip = trip;
+      this.getMountainGroups(this.editedTrip);
+      this.getPoints(this.editedTrip);
+      this.getAssociatedBadgeName(this.editedTrip);
     })
   }
-
 
   getRoutes() {
     this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
@@ -98,6 +96,12 @@ export class EditTripComponent implements OnInit {
     })
   }
 
+  getAssociatedBadgeName(editedTrip: Trip){
+    this.badgeService.getBadgeInfoForBadgeID(editedTrip.badge).subscribe(badgeInfo => {
+      editedTrip.badgeName = badgeInfo.badge_name;
+    })
+  }
+
   checkTableDataLoaded(routes: TripRoute[]) {
     let allDone = true;
     routes.forEach(route => {
@@ -114,21 +118,19 @@ export class EditTripComponent implements OnInit {
     })
   }
 
-  getMountainGroups(trip: Trip) {
-    this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
+  getMountainGroups(editedTrip: Trip) {
+    this.mountainGroupService.getMountainGroupsForTrip(editedTrip.id).subscribe(mountain_group => {
       let array_of_names = [];
       mountain_group.forEach(mnt_group => {
         array_of_names.push(mnt_group.name);
       });
-      trip.mnt_groups = array_of_names.join(', ');
-      this.mountainGroup = trip.mnt_groups;
+      editedTrip.mnt_groups = array_of_names.join(', ');
     });
   }
 
-  getPoints(trip: Trip) {
-    this.tripService.getPointsForTrip(trip.id).subscribe(points => {
-      trip.sugg_score = points;
-      this.totalPoints = trip.sugg_score;
+  getPoints(editedTrip: Trip) {
+    this.tripService.getPointsForTrip(editedTrip.id).subscribe(points => {
+      this.editedTrip.sugg_score = points;
     });
   }
 
@@ -199,7 +201,7 @@ export class EditTripComponent implements OnInit {
       })
     } else {
       dialogConfig.data = {
-        tripGroup: this.mountainGroup,
+        tripGroup: this.editedTrip.mnt_groups,
         tripID: this.id,
       };
       dialogConfig.panelClass = 'custom-dialog-background';

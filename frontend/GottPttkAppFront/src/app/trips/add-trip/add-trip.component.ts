@@ -6,15 +6,16 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
 import {Location} from '@angular/common';
 import {TripService} from "../../_services/Trip/trip.service";
+import {Trip} from "../../_models/Trip/trip";
 import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
 import {TripRouteService} from "../../_services/TripRoute/trip-route.service";
-import {RouteService} from "../../_services/Route/route.service";
 import {TripRoute} from "../../_models/TripRoute/trip-route";
-import {MountainGroup} from "../../_models/MountainGroup/mountain-group";
-import {Trip} from "../../_models/Trip/trip";
+import {RouteService} from "../../_services/Route/route.service";
 import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
 import {AddRouteDialogComponent} from "../../dialogs/add-route-dialog/add-route-dialog.component";
+import {MountainGroup} from "../../_models/MountainGroup/mountain-group";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {BadgeService} from "../../_services/Badge/badge.service";
 
 @Component({
   selector: 'app-add-trip',
@@ -28,6 +29,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   ]),]
 })
 export class AddTripComponent implements OnInit {
+
   constructor(private dialog: MatDialog,
               private router: Router,
               private location: Location,
@@ -35,15 +37,13 @@ export class AddTripComponent implements OnInit {
               private tripService: TripService,
               private mountainGroupService: MountainGroupService,
               private tripRouteService: TripRouteService,
-              private routeService: RouteService) {
+              private routeService: RouteService,
+              private badgeService: BadgeService) {
   }
 
   showSpinner = false;
 
-  startDate = '';
-  endDate = '';
-  mountainGroup = '';
-  totalPoints;
+  editedTrip : Trip = new Trip(null,null,null,null,null,null,null,null);
 
   dataSource;
   allRoutes: TripRoute[] = [];
@@ -51,7 +51,7 @@ export class AddTripComponent implements OnInit {
 
   id = this.route.snapshot.paramMap.get('id');
 
-  all_mnt_groups: MountainGroup[];
+  all_mnt_groups : MountainGroup[];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -63,16 +63,16 @@ export class AddTripComponent implements OnInit {
 
   getTripDetails() {
     this.tripService.getTrip(this.id).subscribe(trip => {
-      this.startDate = trip.begin_date;
-      this.endDate = trip.end_date;
-      this.getMountainGroups(trip);
-      this.getPoints(trip);
+      this.editedTrip = trip;
+      this.getMountainGroups(this.editedTrip);
+      this.getPoints(this.editedTrip);
+      this.getAssociatedBadgeName(this.editedTrip);
     })
   }
 
   getRoutes() {
     this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
-      if (routes.length == 0) {
+      if(routes.length == 0) {
         this.allRoutes = [];
         this.dataSource = new MatTableDataSource<TripRoute>();
         this.dataSource.paginator = this.paginator;
@@ -96,13 +96,19 @@ export class AddTripComponent implements OnInit {
     })
   }
 
+  getAssociatedBadgeName(editedTrip: Trip){
+    this.badgeService.getBadgeInfoForBadgeID(editedTrip.badge).subscribe(badgeInfo => {
+      editedTrip.badgeName = badgeInfo.badge_name;
+    })
+  }
+
   checkTableDataLoaded(routes: TripRoute[]) {
     let allDone = true;
     routes.forEach(route => {
       if (route.points == null) allDone = false;
       if (allDone) {
         this.allRoutes = routes;
-        this.allRoutes.sort(function (obj1, obj2) {
+        this.allRoutes.sort(function(obj1,obj2 ){
           return obj1.index - obj2.index;
         });
         this.dataSource = new MatTableDataSource<TripRoute>(this.allRoutes);
@@ -112,21 +118,19 @@ export class AddTripComponent implements OnInit {
     })
   }
 
-  getMountainGroups(trip: Trip) {
-    this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
+  getMountainGroups(editedTrip: Trip) {
+    this.mountainGroupService.getMountainGroupsForTrip(editedTrip.id).subscribe(mountain_group => {
       let array_of_names = [];
       mountain_group.forEach(mnt_group => {
         array_of_names.push(mnt_group.name);
       });
-      trip.mnt_groups = array_of_names.join(', ');
-      this.mountainGroup = trip.mnt_groups;
+      editedTrip.mnt_groups = array_of_names.join(', ');
     });
   }
 
-  getPoints(trip: Trip) {
-    this.tripService.getPointsForTrip(trip.id).subscribe(points => {
-      trip.sugg_score = points;
-      this.totalPoints = trip.sugg_score;
+  getPoints(editedTrip: Trip) {
+    this.tripService.getPointsForTrip(editedTrip.id).subscribe(points => {
+      this.editedTrip.sugg_score = points;
     });
   }
 
@@ -197,7 +201,7 @@ export class AddTripComponent implements OnInit {
       })
     } else {
       dialogConfig.data = {
-        tripGroup: this.mountainGroup,
+        tripGroup: this.editedTrip.mnt_groups,
         tripID: this.id,
       };
       dialogConfig.panelClass = 'custom-dialog-background';
@@ -216,7 +220,7 @@ export class AddTripComponent implements OnInit {
     dialogConfig.disableClose = true;
 
     dialogConfig.data = {
-      title: 'Pomyślnie dodano wycieczkę do książeczki.'
+      title: 'Pomyślnie dodano wycieczkę do książeczki'
     };
 
     dialogConfig.panelClass = 'custom-dialog-background';

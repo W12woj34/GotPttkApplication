@@ -16,14 +16,14 @@
     <div>
       <h4>Data rozpoczęcia wycieczki:</h4>
       <mat-form-field>
-        <input matInput value="{{startDate}}" disabled>
+        <input matInput value="{{this.editedTrip.begin_date}}" disabled>
       </mat-form-field>
     </div>
     <div>
       <h4>Grupa górska:</h4>
       <mat-form-field>
-        <input matInput value="{{mountainGroup}}" disabled *ngIf="allRoutes.length != 0">
-        <mat-select [(value)]="mountainGroup" *ngIf="allRoutes.length == 0">
+        <input matInput value="{{this.editedTrip.mnt_groups}}" disabled *ngIf="allRoutes.length != 0">
+        <mat-select [(value)]="this.editedTrip.mnt_groups" *ngIf="allRoutes.length == 0">
           <mat-option *ngFor="let group of all_mnt_groups" [value]="group.name">
             {{group.name}}
           </mat-option>
@@ -35,11 +35,19 @@
     <div class="right">
       <h4>Data zakończenia wycieczki:</h4>
       <mat-form-field>
-        <input matInput value="{{endDate}}" disabled>
+        <input matInput value="{{this.editedTrip.end_date}}" disabled>
       </mat-form-field>
       <div>
-        <h2>Suma punktów: {{totalPoints}}</h2>
+        <h2>Suma punktów: {{this.editedTrip.sugg_score}}</h2>
       </div>
+    </div>
+  </div>
+  <div>
+    <div class="right">
+      <h4>Odznaka:</h4>
+      <mat-form-field>
+        <input matInput value="{{this.editedTrip.badgeName}}" disabled>
+      </mat-form-field>
     </div>
   </div>
 </div>
@@ -87,7 +95,7 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>
-      <button mat-button class="goodButton" *ngIf="mountainGroup != ''" (click)="openAddRouteDialog()" [@fadeInOut]>
+      <button mat-button class="goodButton" *ngIf="this.editedTrip.mnt_groups != ''" (click)="openAddRouteDialog()" [@fadeInOut]>
         Dodaj trasę
         <mat-icon>add</mat-icon>
       </button>

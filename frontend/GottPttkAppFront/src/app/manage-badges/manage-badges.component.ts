@@ -42,7 +42,7 @@ export class ManageBadgesComponent implements OnInit {
         dialogConfig.data = {
           title: 'Wybierz następną zdobywaną odznakę',
           desc: 'Możesz wybrać, na którą odznakę będziesz teraz zbierać punkty w swojej książeczce.',
-          userID: '16',
+          userID: JSON.parse(localStorage.getItem('currentUser')).id,
         };
 
         dialogConfig.panelClass = 'custom-dialog-background';

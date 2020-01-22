@@ -27,8 +27,8 @@ export class NavBarComponent implements OnInit {
   }
 
   loginAsTourist() {
-    this.currentUser = new User(8,'Bartłomiej','Kamiński','Turysta');
-    this.currentUser.id = 8;
+    this.currentUser = new User("8",'Bartłomiej','Kamiński','Turysta');
+    this.currentUser.id = "8";
     this.currentUser.firstName = 'Bartłomiej';
     this.currentUser.lastName = 'Kamiński';
     this.currentUser.type = "Turysta";
@@ -36,8 +36,8 @@ export class NavBarComponent implements OnInit {
   }
 
   loginAsGuide() {
-    this.currentUser = new User(2,'Antoni','Maciejewski','Przodownik');
-    this.currentUser.id = 2;
+    this.currentUser = new User("2",'Antoni','Maciejewski','Przodownik');
+    this.currentUser.id = "2";
     this.currentUser.firstName = 'Antoni';
     this.currentUser.lastName = 'Maciejewski';
     this.currentUser.type = "Przodownik";
@@ -45,8 +45,8 @@ export class NavBarComponent implements OnInit {
   }
 
   loginAsUserWithoutBadge() {
-    this.currentUser = new User(16,'Adrian','Ząbek','Turysta');
-    this.currentUser.id = 16;
+    this.currentUser = new User("16",'Adrian','Ząbek','Turysta');
+    this.currentUser.id = "16";
     this.currentUser.firstName = 'Adrian';
     this.currentUser.lastName = 'Ząbek';
     this.currentUser.type = "Turysta";

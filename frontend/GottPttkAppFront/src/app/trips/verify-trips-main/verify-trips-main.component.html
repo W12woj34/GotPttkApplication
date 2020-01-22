@@ -38,6 +38,11 @@
     <td mat-cell *matCellDef="let element"> {{element.mnt_groups}} </td>
   </ng-container>
 
+  <ng-container matColumnDef="badgeName">
+    <th mat-header-cell *matHeaderCellDef>Odznaka</th>
+    <td mat-cell *matCellDef="let element"> {{element.badgeName}} </td>
+  </ng-container>
+
   <ng-container matColumnDef="verify_button">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let element">

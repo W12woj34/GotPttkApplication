@@ -17,7 +17,7 @@ export class UserService {
   getUserInfo(user_id: string) : Observable<User>{
     const url = `${this.usersUrl}/${user_id}`;
     return this.http.get<ResponseUser>(url).pipe(
-      map (resp_user => new User(parseInt(resp_user.id),resp_user.imie,resp_user.nazwisko,''))
+      map (resp_user => new User(resp_user.id,resp_user.imie,resp_user.nazwisko,''))
     );
   }
 }
