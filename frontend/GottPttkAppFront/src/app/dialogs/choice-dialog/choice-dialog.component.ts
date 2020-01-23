@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {BadgeService} from "../../_services/Badge/badge.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {BadgeService} from '../../_services/Badge/badge.service';
 
 @Component({
   selector: 'app-choice-dialog',
@@ -14,7 +14,7 @@ export class ChoiceDialogComponent implements OnInit {
   selected: string;
   userID: string;
 
-  options : string[] = [];
+  options: string[] = [];
   showSpinner = false;
 
   constructor(
@@ -27,15 +27,15 @@ export class ChoiceDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPossibleBadges()
+    this.getPossibleBadges();
   }
 
-  getPossibleBadges(){
+  getPossibleBadges() {
     this.badgeService.getPossibleBadges(this.userID).subscribe(badges => {
       badges.forEach(badge => {
         this.options.push(badge.nazwa);
       });
       this.showSpinner = false;
-    })
+    });
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {User} from "../_models/User/user";
-import {Router} from "@angular/router";
+import {User} from '../_models/User/user';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,11 +11,11 @@ export class NavBarComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(private router: Router,) {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
-    if(localStorage.getItem('currentUser')) {
+    if (localStorage.getItem('currentUser')) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
   }
@@ -27,29 +27,29 @@ export class NavBarComponent implements OnInit {
   }
 
   loginAsTourist() {
-    this.currentUser = new User("8",'Bartłomiej','Kamiński','Turysta');
-    this.currentUser.id = "8";
+    this.currentUser = new User('8', 'Bartłomiej', 'Kamiński', 'Turysta');
+    this.currentUser.id = '8';
     this.currentUser.firstName = 'Bartłomiej';
     this.currentUser.lastName = 'Kamiński';
-    this.currentUser.type = "Turysta";
+    this.currentUser.type = 'Turysta';
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
 
   loginAsGuide() {
-    this.currentUser = new User("2",'Antoni','Maciejewski','Przodownik');
-    this.currentUser.id = "2";
+    this.currentUser = new User('2', 'Antoni', 'Maciejewski', 'Przodownik');
+    this.currentUser.id = '2';
     this.currentUser.firstName = 'Antoni';
     this.currentUser.lastName = 'Maciejewski';
-    this.currentUser.type = "Przodownik";
+    this.currentUser.type = 'Przodownik';
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
 
   loginAsUserWithoutBadge() {
-    this.currentUser = new User("16",'Adrian','Ząbek','Turysta');
-    this.currentUser.id = "16";
+    this.currentUser = new User('16', 'Adrian', 'Ząbek', 'Turysta');
+    this.currentUser.id = '16';
     this.currentUser.firstName = 'Adrian';
     this.currentUser.lastName = 'Ząbek';
-    this.currentUser.type = "Turysta";
+    this.currentUser.type = 'Turysta';
     localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
   }
 

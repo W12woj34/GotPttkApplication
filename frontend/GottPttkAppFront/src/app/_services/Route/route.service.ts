@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ResponseRoute} from "../../_responseModels/ResponseRoute/response-route";
-import {Observable} from "rxjs";
-import {Route} from "../../_models/Route/route";
-import {map} from "rxjs/operators";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ResponseRoute} from '../../_responseModels/ResponseRoute/response-route';
+import {Observable} from 'rxjs';
+import {Route} from '../../_models/Route/route';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,24 +18,29 @@ export class RouteService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  getRouteDetails(route_id: number) : Observable<Route>{
-    const url = `${this.routeUrl}/${route_id}`;
+  getRouteDetails(routeId: number): Observable<Route> {
+    const url = `${this.routeUrl}/${routeId}`;
     return this.http.get<ResponseRoute>(url).pipe(
-      map (resp_route => new Route(resp_route.numer,resp_route.poczatkowy,resp_route.koncowy,resp_route.czyWGore ? "Nie" : "Tak",resp_route.punkty,resp_route.podgrupa,resp_route.dlugosc))
+      map (respRoute => new Route(respRoute.numer, respRoute.poczatkowy, respRoute.koncowy,
+        respRoute.czyWGore ? 'Nie' : 'Tak', respRoute.punkty, respRoute.podgrupa, respRoute.dlugosc))
     );
   }
 
-  getPossibleRoutes(route_id: number) : Observable<Route[]>{
-    const url = `${this.routeUrl}/possible/${route_id}`;
+  getPossibleRoutes(routeId: number): Observable<Route[]> {
+    const url = `${this.routeUrl}/possible/${routeId}`;
     return this.http.get<ResponseRoute[]>(url).pipe(
-      map (resp_route => resp_route.map(resp_route => new Route(resp_route.numer,resp_route.poczatkowy,resp_route.koncowy,resp_route.czyWGore ? "Nie" : "Tak",resp_route.punkty,resp_route.podgrupa,resp_route.dlugosc)))
+      map (respRoutes => respRoutes.map(respRoute => new Route(respRoute.numer, respRoute.poczatkowy,
+        respRoute.koncowy, respRoute.czyWGore ? 'Nie' : 'Tak', respRoute.punkty, respRoute.podgrupa,
+        respRoute.dlugosc)))
     );
   }
 
-  getRoutesForSubgroup(subgroup_id: string) : Observable<Route[]> {
-    const url = `${this.routeUrl}/subgroup/${subgroup_id}`;
+  getRoutesForSubgroup(subgroupId: string): Observable<Route[]> {
+    const url = `${this.routeUrl}/subgroup/${subgroupId}`;
     return this.http.get<ResponseRoute[]>(url).pipe(
-      map (resp_route => resp_route.map(resp_route => new Route(resp_route.numer,resp_route.poczatkowy,resp_route.koncowy,resp_route.czyWGore ? "Nie" : "Tak",resp_route.punkty,resp_route.podgrupa,resp_route.dlugosc)))
+      map (respRoutes => respRoutes.map(respRoute => new Route(respRoute.numer, respRoute.poczatkowy,
+        respRoute.koncowy, respRoute.czyWGore ? 'Nie' : 'Tak', respRoute.punkty, respRoute.podgrupa,
+        respRoute.dlugosc)))
     );
   }
 }

@@ -1,18 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {MatTableDataSource} from "@angular/material/table";
-import {SelectionModel} from "@angular/cdk/collections";
-import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
-import {TableDialogComponent} from "../../dialogs/table-dialog/table-dialog.component";
-import {MatPaginator} from "@angular/material/paginator";
-import {ActivatedRoute} from "@angular/router";
-import {Location} from "@angular/common";
-import {Trip} from "../../_models/Trip/trip";
-import {TripService} from "../../_services/Trip/trip.service";
-import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
-import {SendVerifyTrips} from "../../_sendModels/sendVerifyTrips/send-verify-trips";
-import {BadgeService} from "../../_services/Badge/badge.service";
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatTableDataSource} from '@angular/material/table';
+import {SelectionModel} from '@angular/cdk/collections';
+import {SimpleErrorDialogComponent} from '../../dialogs/simple-error-dialog/simple-error-dialog.component';
+import {TableDialogComponent} from '../../dialogs/table-dialog/table-dialog.component';
+import {MatPaginator} from '@angular/material/paginator';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Location} from '@angular/common';
+import {Trip} from '../../_models/Trip/trip';
+import {TripService} from '../../_services/Trip/trip.service';
+import {MountainGroupService} from '../../_services/MountainGroup/mountain-group.service';
+import {SendVerifyTrips} from '../../_sendModels/sendVerifyTrips/send-verify-trips';
+import {BadgeService} from '../../_services/Badge/badge.service';
 
 @Component({
   selector: 'app-send-trips-for-verification',
@@ -23,13 +23,14 @@ import {BadgeService} from "../../_services/Badge/badge.service";
       opacity: 0
     })),
     transition('void <=> *', animate(100)),
-  ]),]
+  ])]
 })
 
 export class SendTripsForVerificationComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private route: ActivatedRoute,
+              private router: Router,
               private location: Location,
               private tripService: TripService,
               private mountainGroupService: MountainGroupService,
@@ -39,12 +40,14 @@ export class SendTripsForVerificationComponent implements OnInit {
   showSpinner = false;
   dataSource;
   selection = new SelectionModel<Trip>(true, []);
-  displayedColumns: string[] = ['select', 'begin_date', 'end_date', 'mnt_groups', 'badgeName', 'status', 'sugg_score'];
+  displayedColumns: string[] = ['select', 'beginDate', 'endDate', 'mntGroups', 'badgeName', 'status', 'suggScore'];
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    return numSelected == numRows;
+    return numSelected === numRows;
   }
 
   masterToggle() {
@@ -52,8 +55,6 @@ export class SendTripsForVerificationComponent implements OnInit {
       this.selection.clear() :
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
-
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
     this.showSpinner = true;
@@ -63,7 +64,7 @@ export class SendTripsForVerificationComponent implements OnInit {
   getTrips() {
     this.tripService.getTripsForUserOfStatus(JSON.parse(localStorage.getItem('currentUser')).id, 0)
       .subscribe(trips => {
-        if (trips.length == 0) {
+        if (trips.length === 0) {
           this.openErrorDialog();
         } else {
           this.getMountainGroups(trips);
@@ -83,64 +84,67 @@ export class SendTripsForVerificationComponent implements OnInit {
     const tripsToSend = new SendVerifyTrips(idsTable);
     this.tripService.sendTripsForVerification(tripsToSend).subscribe(successTrips => {
       this.showSpinner = false;
-      if (successTrips.length == this.selection.selected.length) {
+      if (successTrips.length === this.selection.selected.length) {
         this.openSuccessAllSentDialog();
       } else {
         this.getMountainGroups(successTrips);
         this.getPoints(successTrips);
         this.openSomeFailedDialog(successTrips);
       }
-    })
+    });
   }
 
   getMountainGroups(trips: Trip[]) {
     trips.forEach(trip => {
-      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
-        let array_of_names = [];
-        mountain_group.forEach(mnt_group => {
-          array_of_names.push(mnt_group.name);
+      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountainGroups => {
+        const mountainGroupNames = [];
+        mountainGroups.forEach(mountainGroup => {
+          mountainGroupNames.push(mountainGroup.name);
         });
-        trip.mnt_groups = array_of_names.join(', ');
-      })
-    })
+        trip.mntGroups = mountainGroupNames.join(', ');
+      });
+    });
   }
 
   getPoints(trips: Trip[]) {
     trips.forEach(trip => {
       this.tripService.getPointsForTrip(trip.id).subscribe(points => {
-        trip.sugg_score = points;
+        trip.suggScore = points;
         this.checkAllLoaded(trips);
-      })
+      });
     });
   }
 
   getBadgeNames(trips: Trip[]) {
     trips.forEach(trip => {
       this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badgeInfo => {
-        trip.badgeName = badgeInfo.badge_name;
-      })
-    })
+        trip.badgeName = badgeInfo.badgeName;
+      });
+    });
   }
 
-  checkAllLoaded(trips: Trip[]){
+  checkAllLoaded(trips: Trip[]) {
     let allDone = true;
     trips.forEach(trip => {
-      if(trip.sugg_score == null) allDone = false;
-      if(allDone) {
+      if (trip.suggScore == null) {
+        allDone = false;
+      }
+      if (allDone) {
         this.dataSource = new MatTableDataSource<Trip>(trips);
         this.dataSource.paginator = this.paginator;
         this.showSpinner = false;
       }
-    })
+    });
   }
 
   openSuccessAllSentDialog() {
     const dialogConfig = new MatDialogConfig();
 
-    const succTrips : Trip[] = [];
+    const succTrips: Trip[] = [];
 
-    this.selection.selected.forEach(selectedTrip =>{
-      succTrips.push(new Trip(selectedTrip.id,selectedTrip.begin_date,selectedTrip.end_date,selectedTrip.mnt_groups,'Przekazana do wer.',selectedTrip.sugg_score,selectedTrip.badge,null));
+    this.selection.selected.forEach(selectedTrip => {
+      succTrips.push(new Trip(selectedTrip.id, selectedTrip.beginDate, selectedTrip.endDate, selectedTrip.mntGroups,
+        'Przekazana do wer.', selectedTrip.suggScore, selectedTrip.badge, null));
     });
 
     dialogConfig.disableClose = true;
@@ -160,14 +164,14 @@ export class SendTripsForVerificationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       window.location.reload();
-    })
+    });
   }
 
   openSomeFailedDialog(successTrips: Trip[]) {
-    const failedTrips  : Trip[] = [];
+    const failedTrips: Trip[] = [];
 
     this.selection.selected.forEach(selectedTrip => {
-      if(-1 == successTrips.findIndex(succTrip => succTrip.id == selectedTrip.id)){
+      if (-1 === successTrips.findIndex(succTrip => succTrip.id === selectedTrip.id)) {
         failedTrips.push(selectedTrip);
       }
     });
@@ -191,7 +195,7 @@ export class SendTripsForVerificationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       window.location.reload();
-    })
+    });
   }
 
   openErrorDialog() {
@@ -209,13 +213,13 @@ export class SendTripsForVerificationComponent implements OnInit {
     const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(() => {
-      this.goBack();
-    })
-
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
+
 
 }

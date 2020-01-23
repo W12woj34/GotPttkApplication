@@ -16,15 +16,15 @@
     <div>
       <h4>Data rozpoczęcia wycieczki:</h4>
       <mat-form-field>
-        <input matInput value="{{this.editedTrip.begin_date}}" disabled>
+        <input matInput value="{{this.editedTrip.beginDate}}" disabled>
       </mat-form-field>
     </div>
     <div>
       <h4>Grupa górska:</h4>
       <mat-form-field>
-        <input matInput value="{{this.editedTrip.mnt_groups}}" disabled *ngIf="allRoutes.length != 0">
-        <mat-select [(value)]="this.editedTrip.mnt_groups" *ngIf="allRoutes.length == 0">
-          <mat-option *ngFor="let group of all_mnt_groups" [value]="group.name">
+        <input matInput value="{{this.editedTrip.mntGroups}}" disabled *ngIf="allRoutes.length != 0">
+        <mat-select [(value)]="this.editedTrip.mntGroups" *ngIf="allRoutes.length == 0">
+          <mat-option *ngFor="let group of allMntGroups" [value]="group.name">
             {{group.name}}
           </mat-option>
         </mat-select>
@@ -35,10 +35,10 @@
     <div class="right">
       <h4>Data zakończenia wycieczki:</h4>
       <mat-form-field>
-        <input matInput value="{{this.editedTrip.end_date}}" disabled>
+        <input matInput value="{{this.editedTrip.endDate}}" disabled>
       </mat-form-field>
       <div>
-        <h2>Suma punktów: {{this.editedTrip.sugg_score}}</h2>
+        <h2>Suma punktów: {{this.editedTrip.suggScore}}</h2>
       </div>
     </div>
   </div>
@@ -68,24 +68,24 @@
     <td mat-cell *matCellDef="let element"> {{element.category}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="start_point">
+  <ng-container matColumnDef="startPoint">
     <th mat-header-cell *matHeaderCellDef>Punkt początkowy</th>
-    <td mat-cell *matCellDef="let element"> {{element.start_point}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.startPoint}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="end_point">
+  <ng-container matColumnDef="endPoint">
     <th mat-header-cell *matHeaderCellDef>Punkt końcowy</th>
-    <td mat-cell *matCellDef="let element"> {{element.end_point}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.endPoint}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="is_back">
+  <ng-container matColumnDef="isBack">
     <th mat-header-cell *matHeaderCellDef>Czy powrotna?</th>
-    <td mat-cell *matCellDef="let element"> {{element.is_back}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.isBack}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="is_repeated">
+  <ng-container matColumnDef="isRepeated">
     <th mat-header-cell *matHeaderCellDef>Czy powtórzona?</th>
-    <td mat-cell *matCellDef="let element"> {{element.is_repeated}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.isRepeated}} </td>
   </ng-container>
 
   <ng-container matColumnDef="points">
@@ -95,7 +95,7 @@
 
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>
-      <button mat-button class="goodButton" *ngIf="this.editedTrip.mnt_groups != ''" (click)="openAddRouteDialog()" [@fadeInOut]>
+      <button mat-button class="goodButton" *ngIf="this.editedTrip.mntGroups != ''" (click)="openAddRouteDialog()" [@fadeInOut]>
         Dodaj trasę
         <mat-icon>add</mat-icon>
       </button>

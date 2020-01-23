@@ -3,23 +3,24 @@ export class TripRoute {
   index: number;
   date: string;
   category: string;
-  start_point: string;
-  end_point: string;
-  is_back: string;
-  is_repeated: string;
+  startPoint: string;
+  endPoint: string;
+  isBack: string;
+  isRepeated: string;
   points: number;
-  route_id: number;
+  routeId: number;
 
-  constructor(id: number, index: number, date: string, category: string, start_point: string, end_point: string, is_back: string, is_repeated: string, points: number, route_id: number) {
+  constructor(id: number, index: number, date: string, category: string, startPoint: string, endPoint: string,
+              isBack: string, isRepeated: string, points: number, routeId: number) {
     this.id = id;
     this.index = index;
     this.date = date;
     this.category = category;
-    this.start_point = start_point;
-    this.end_point = end_point;
-    this.is_back = is_back;
-    this.is_repeated = is_repeated;
+    this.startPoint = startPoint;
+    this.endPoint = endPoint;
+    this.isBack = isBack;
+    this.isRepeated = isRepeated;
     this.points = points;
-    this.route_id = route_id;
+    this.routeId = routeId;
   }
 }

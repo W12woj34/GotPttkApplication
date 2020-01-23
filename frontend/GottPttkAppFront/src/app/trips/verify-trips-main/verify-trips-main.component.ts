@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Location} from "@angular/common";
-import {TripService} from "../../_services/Trip/trip.service";
-import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
-import {BadgeService} from "../../_services/Badge/badge.service";
-import {UserService} from "../../_services/User/user.service";
-import {VerifyTrip} from "../../_models/VerifyTrip/verify-trip";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {SimpleErrorDialogComponent} from '../../dialogs/simple-error-dialog/simple-error-dialog.component';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Location} from '@angular/common';
+import {TripService} from '../../_services/Trip/trip.service';
+import {MountainGroupService} from '../../_services/MountainGroup/mountain-group.service';
+import {BadgeService} from '../../_services/Badge/badge.service';
+import {UserService} from '../../_services/User/user.service';
+import {VerifyTrip} from '../../_models/VerifyTrip/verify-trip';
 
 @Component({
   selector: 'app-verify-trips-main',
@@ -30,7 +30,7 @@ export class VerifyTripsMainComponent implements OnInit {
 
   showSpinner = false;
   dataSource;
-  displayedColumns: string[] = ['first_name', 'last_name', 'username', 'begin_date', 'end_date', 'mnt_groups', 'badgeName', 'verify_button'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'username', 'beginDate', 'endDate', 'mntGroups', 'badgeName', 'verifyButton'];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -50,7 +50,7 @@ export class VerifyTripsMainComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.router.navigate(['/dashboard']);
-    })
+    });
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class VerifyTripsMainComponent implements OnInit {
 
   getTripsForVerification() {
     this.tripService.getTripsForVerification('2').subscribe(trips => {
-      if (trips.length != 0) {
+      if (trips.length !== 0) {
         this.getMountainGroups(trips);
         this.getUsersInfo(trips);
         this.getBadgeNames(trips);
@@ -68,56 +68,58 @@ export class VerifyTripsMainComponent implements OnInit {
         this.showSpinner = false;
         this.openErrorDialog();
       }
-    })
+    });
   }
 
   getUsersInfo(trips: VerifyTrip[]) {
     trips.forEach(trip => {
       this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badge => {
         this.userService.getUserInfo(badge.tourist).subscribe(user => {
-          trip.first_name = user.firstName;
-          trip.last_name = user.lastName;
+          trip.firstName = user.firstName;
+          trip.lastName = user.lastName;
           trip.username = user.id;
-        })
-      })
-    })
+        });
+      });
+    });
   }
 
   getMountainGroups(trips: VerifyTrip[]) {
     trips.forEach(trip => {
-      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountain_group => {
-        let array_of_names = [];
-        mountain_group.forEach(mnt_group => {
-          array_of_names.push(mnt_group.name);
+      this.mountainGroupService.getMountainGroupsForTrip(trip.id).subscribe(mountainGroups => {
+        const mountainGroupNames = [];
+        mountainGroups.forEach(mountainGroup => {
+          mountainGroupNames.push(mountainGroup.name);
         });
-        trip.mnt_groups = array_of_names.join(', ');
+        trip.mntGroups = mountainGroupNames.join(', ');
         this.checkAllLoaded(trips);
-      })
-    })
+      });
+    });
   }
 
   getBadgeNames(trips: VerifyTrip[]) {
     trips.forEach(trip => {
       this.badgeService.getBadgeInfoForBadgeID(trip.badge).subscribe(badgeInfo => {
-        trip.badgeName = badgeInfo.badge_name;
-      })
-    })
+        trip.badgeName = badgeInfo.badgeName;
+      });
+    });
   }
 
   checkAllLoaded(trips: VerifyTrip[]) {
     let allDone = true;
     trips.forEach(trip => {
-      if (trip.mnt_groups == null) allDone = false;
+      if (trip.mntGroups == null) {
+        allDone = false;
+      }
       if (allDone) {
         this.dataSource = new MatTableDataSource<VerifyTrip>(trips);
         this.dataSource.paginator = this.paginator;
         this.showSpinner = false;
       }
-    })
+    });
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 
 }

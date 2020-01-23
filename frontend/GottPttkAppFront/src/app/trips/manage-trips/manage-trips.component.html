@@ -12,19 +12,19 @@
 
 <table mat-table [dataSource]="dataSource">
 
-  <ng-container matColumnDef="begin_date">
+  <ng-container matColumnDef="beginDate">
     <th mat-header-cell *matHeaderCellDef>Data rozpoczęcia</th>
-    <td mat-cell *matCellDef="let element"> {{element.begin_date}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.beginDate}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="end_date">
+  <ng-container matColumnDef="endDate">
     <th mat-header-cell *matHeaderCellDef>Data zakończenia</th>
-    <td mat-cell *matCellDef="let element"> {{element.end_date}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.endDate}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="mnt_groups">
+  <ng-container matColumnDef="mntGroups">
     <th mat-header-cell *matHeaderCellDef>Grupa górska</th>
-    <td mat-cell *matCellDef="let element"> {{element.mnt_groups}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.mntGroups}} </td>
   </ng-container>
 
   <ng-container matColumnDef="badgeName">
@@ -39,7 +39,7 @@
 
   <ng-container matColumnDef="score">
     <th mat-header-cell *matHeaderCellDef>Punkty</th>
-    <td mat-cell *matCellDef="let element"> {{element.sugg_score}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.suggScore}} </td>
   </ng-container>
 
   <ng-container matColumnDef="buttons">

@@ -1,21 +1,21 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {ActivatedRoute, Router} from "@angular/router";
-import {SimpleErrorDialogComponent} from "../../dialogs/simple-error-dialog/simple-error-dialog.component";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {ActivatedRoute, Router} from '@angular/router';
+import {SimpleErrorDialogComponent} from '../../dialogs/simple-error-dialog/simple-error-dialog.component';
 import {Location} from '@angular/common';
-import {TripService} from "../../_services/Trip/trip.service";
-import {Trip} from "../../_models/Trip/trip";
-import {MountainGroupService} from "../../_services/MountainGroup/mountain-group.service";
-import {TripRouteService} from "../../_services/TripRoute/trip-route.service";
-import {TripRoute} from "../../_models/TripRoute/trip-route";
-import {RouteService} from "../../_services/Route/route.service";
-import {YesNoDialogComponent} from "../../dialogs/yes-no-dialog/yes-no-dialog.component";
-import {AddRouteDialogComponent} from "../../dialogs/add-route-dialog/add-route-dialog.component";
-import {MountainGroup} from "../../_models/MountainGroup/mountain-group";
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {BadgeService} from "../../_services/Badge/badge.service";
+import {TripService} from '../../_services/Trip/trip.service';
+import {Trip} from '../../_models/Trip/trip';
+import {MountainGroupService} from '../../_services/MountainGroup/mountain-group.service';
+import {TripRouteService} from '../../_services/TripRoute/trip-route.service';
+import {TripRoute} from '../../_models/TripRoute/trip-route';
+import {RouteService} from '../../_services/Route/route.service';
+import {YesNoDialogComponent} from '../../dialogs/yes-no-dialog/yes-no-dialog.component';
+import {AddRouteDialogComponent} from '../../dialogs/add-route-dialog/add-route-dialog.component';
+import {MountainGroup} from '../../_models/MountainGroup/mountain-group';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {BadgeService} from '../../_services/Badge/badge.service';
 
 @Component({
   selector: 'app-edit-trip',
@@ -26,7 +26,7 @@ import {BadgeService} from "../../_services/Badge/badge.service";
       opacity: 0
     })),
     transition('void <=> *', animate(100)),
-  ]),]
+  ])]
 })
 export class EditTripComponent implements OnInit {
 
@@ -43,15 +43,15 @@ export class EditTripComponent implements OnInit {
 
   showSpinner = false;
 
-  editedTrip : Trip = new Trip(null,null,null,null,null,null,null,null);
+  editedTrip: Trip = new Trip(null, null, null, null, null, null, null, null);
 
   dataSource;
   allRoutes: TripRoute[] = [];
-  displayedColumns: string[] = ['index', 'date', 'category', 'start_point', 'end_point', 'is_back', 'is_repeated', 'points', 'actions'];
+  displayedColumns: string[] = ['index', 'date', 'category', 'startPoint', 'endPoint', 'isBack', 'isRepeated', 'points', 'actions'];
 
   id = this.route.snapshot.paramMap.get('id');
 
-  all_mnt_groups : MountainGroup[];
+  allMntGroups: MountainGroup[];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -67,70 +67,74 @@ export class EditTripComponent implements OnInit {
       this.getMountainGroups(this.editedTrip);
       this.getPoints(this.editedTrip);
       this.getAssociatedBadgeName(this.editedTrip);
-    })
+    });
   }
 
   getRoutes() {
     this.tripRouteService.getRoutesForTrip(this.id).subscribe(routes => {
-      if(routes.length == 0) {
+      if (routes.length === 0) {
         this.allRoutes = [];
         this.dataSource = new MatTableDataSource<TripRoute>();
         this.dataSource.paginator = this.paginator;
         this.mountainGroupService.getAllMountainGroups().subscribe(groups => {
-          this.all_mnt_groups = groups;
+          this.allMntGroups = groups;
         });
         this.showSpinner = false;
-      } else this.getRoutesDetails(routes);
-    })
+      } else {
+        this.getRoutesDetails(routes);
+      }
+    });
   }
 
   getRoutesDetails(routes: TripRoute[]) {
     routes.forEach(route => {
-      this.routeService.getRouteDetails(route.route_id).subscribe(route_details => {
-        route.start_point = route_details.start_point;
-        route.end_point = route_details.end_point;
-        route.is_back = route_details.is_back;
-        route.points = route_details.points;
+      this.routeService.getRouteDetails(route.routeId).subscribe(routeDetails => {
+        route.startPoint = routeDetails.startPoint;
+        route.endPoint = routeDetails.endPoint;
+        route.isBack = routeDetails.isBack;
+        route.points = routeDetails.points;
         this.checkTableDataLoaded(routes);
-      })
-    })
+      });
+    });
   }
 
-  getAssociatedBadgeName(editedTrip: Trip){
+  getAssociatedBadgeName(editedTrip: Trip) {
     this.badgeService.getBadgeInfoForBadgeID(editedTrip.badge).subscribe(badgeInfo => {
-      editedTrip.badgeName = badgeInfo.badge_name;
-    })
+      editedTrip.badgeName = badgeInfo.badgeName;
+    });
   }
 
   checkTableDataLoaded(routes: TripRoute[]) {
     let allDone = true;
     routes.forEach(route => {
-      if (route.points == null) allDone = false;
+      if (route.points == null) {
+        allDone = false;
+      }
       if (allDone) {
         this.allRoutes = routes;
-        this.allRoutes.sort(function(obj1,obj2 ){
+        this.allRoutes.sort( (obj1, obj2) => {
           return obj1.index - obj2.index;
         });
         this.dataSource = new MatTableDataSource<TripRoute>(this.allRoutes);
         this.dataSource.paginator = this.paginator;
         this.showSpinner = false;
       }
-    })
+    });
   }
 
   getMountainGroups(editedTrip: Trip) {
-    this.mountainGroupService.getMountainGroupsForTrip(editedTrip.id).subscribe(mountain_group => {
-      let array_of_names = [];
-      mountain_group.forEach(mnt_group => {
-        array_of_names.push(mnt_group.name);
+    this.mountainGroupService.getMountainGroupsForTrip(editedTrip.id).subscribe(mountainGroups => {
+      const mntGroupNames = [];
+      mountainGroups.forEach(mountainGroup => {
+        mntGroupNames.push(mountainGroup.name);
       });
-      editedTrip.mnt_groups = array_of_names.join(', ');
+      editedTrip.mntGroups = mntGroupNames.join(', ');
     });
   }
 
   getPoints(editedTrip: Trip) {
     this.tripService.getPointsForTrip(editedTrip.id).subscribe(points => {
-      this.editedTrip.sugg_score = points;
+      this.editedTrip.suggScore = points;
     });
   }
 
@@ -148,10 +152,10 @@ export class EditTripComponent implements OnInit {
     const dialogRef = this.dialog.open(YesNoDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'yes') {
-        this.deleteRoute(id)
+      if (result === 'yes') {
+        this.deleteRoute(id);
       }
-    })
+    });
   }
 
   deleteRoute(id: number) {
@@ -160,8 +164,8 @@ export class EditTripComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.panelClass = 'custom-dialog-background';
 
-    this.tripRouteService.deleteTripRoute(id).subscribe(result =>{
-      if(result == id) {
+    this.tripRouteService.deleteTripRoute(id).subscribe(result => {
+      if (result === id) {
         this.showSpinner = false;
         dialogConfig.data = {
           title: 'Trasa została usunięta pomyślnie.',
@@ -169,8 +173,8 @@ export class EditTripComponent implements OnInit {
         const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(() => {
           this.ngOnInit();
-        })
-      } else{
+        });
+      } else {
         this.showSpinner = false;
         dialogConfig.data = {
           title: 'Wystąpił błąd podczas usuwania trasy.',
@@ -178,7 +182,7 @@ export class EditTripComponent implements OnInit {
         const dialogRef = this.dialog.open(SimpleErrorDialogComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(() => {
           this.ngOnInit();
-        })
+        });
       }
     });
   }
@@ -186,11 +190,11 @@ export class EditTripComponent implements OnInit {
   openAddRouteDialog() {
     const dialogConfig = new MatDialogConfig();
 
-    if (this.allRoutes.length != 0) {
+    if (this.allRoutes.length !== 0) {
       dialogConfig.data = {
-        lastRouteID: this.allRoutes[this.allRoutes.length - 1].route_id,
+        lastRouteID: this.allRoutes[this.allRoutes.length - 1].routeId,
         lastRouteDate: this.allRoutes[this.allRoutes.length - 1].date,
-        tripID: parseInt(this.id),
+        tripID: Number(this.id),
       };
       dialogConfig.panelClass = 'custom-dialog-background';
 
@@ -198,10 +202,10 @@ export class EditTripComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(() => {
         this.ngOnInit();
-      })
+      });
     } else {
       dialogConfig.data = {
-        tripGroup: this.editedTrip.mnt_groups,
+        tripGroup: this.editedTrip.mntGroups,
         tripID: this.id,
       };
       dialogConfig.panelClass = 'custom-dialog-background';
@@ -209,8 +213,10 @@ export class EditTripComponent implements OnInit {
       const dialogRef = this.dialog.open(AddRouteDialogComponent, dialogConfig);
 
       dialogRef.afterClosed().subscribe(result => {
-        if(result != 'cancel') this.ngOnInit();
-      })
+        if (result !== 'cancel') {
+          this.ngOnInit();
+        }
+      });
     }
   }
 
@@ -229,11 +235,7 @@ export class EditTripComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.router.navigate(['/manageTrips']);
-    })
-  }
-
-  goBack(): void {
-    this.location.back();
+    });
   }
 
 }

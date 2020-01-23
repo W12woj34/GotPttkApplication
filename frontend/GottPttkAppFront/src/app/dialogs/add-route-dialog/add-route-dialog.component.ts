@@ -1,12 +1,12 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {RouteService} from "../../_services/Route/route.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {Route} from "../../_models/Route/route";
-import {SelectionModel} from "@angular/cdk/collections";
-import {animate, state, style, transition, trigger} from "@angular/animations";
-import {TripRouteService} from "../../_services/TripRoute/trip-route.service";
-import {MountainSubgroupService} from "../../_services/MountainSubgroup/mountain-subgroup.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {RouteService} from '../../_services/Route/route.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {Route} from '../../_models/Route/route';
+import {SelectionModel} from '@angular/cdk/collections';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {TripRouteService} from '../../_services/TripRoute/trip-route.service';
+import {MountainSubgroupService} from '../../_services/MountainSubgroup/mountain-subgroup.service';
 
 @Component({
   selector: 'app-add-route-dialog',
@@ -17,7 +17,7 @@ import {MountainSubgroupService} from "../../_services/MountainSubgroup/mountain
       opacity: 0
     })),
     transition('void <=> *', animate(100)),
-  ]),]
+  ])]
 })
 export class AddRouteDialogComponent implements OnInit {
 
@@ -30,12 +30,12 @@ export class AddRouteDialogComponent implements OnInit {
   tripGroup: string;
   @Input() selectedDate;
 
-  all_mnt_subgroups;
+  allMntSubgroups;
   mountainSubgroup;
 
   dataSource;
   selection = new SelectionModel<Route>(false, []);
-  displayedColumns: string[] = ['select','start_point', 'end_point', 'is_back', 'mnt_subgroup', 'length', 'points'];
+  displayedColumns: string[] = ['select', 'startPoint', 'endPoint', 'isBack', 'mntSubgroup', 'length', 'points'];
 
   constructor(
     private dialogRef: MatDialogRef<AddRouteDialogComponent>,
@@ -45,65 +45,72 @@ export class AddRouteDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data) {
     this.lastRouteID = data.lastRouteID;
     this.minDate = data.lastRouteDate;
-    this.tripID = data.tripID;
+    this.tripID = Number(data.tripID);
     this.tripGroup = data.tripGroup;
   }
 
   ngOnInit() {
     this.showSpinner = true;
-    if(this.lastRouteID != null) {
-      this.getPossibleRoutesForLastRoute()
+    if (this.lastRouteID != null) {
+      this.getPossibleRoutesForLastRoute();
     } else {
       this.getPossibleSubgroups();
     }
   }
 
-  getPossibleRoutesForLastRoute(){
+  getPossibleRoutesForLastRoute() {
     this.routeService.getPossibleRoutes(this.lastRouteID).subscribe(routes => {
       this.dataSource = new MatTableDataSource<Route>(routes);
       this.showSpinner = false;
-    })
+    });
   }
 
-  getPossibleSubgroups(){
+  getPossibleSubgroups() {
     this.mountainSubgroupService.getMountainSubgroupsForGroup(this.tripGroup).subscribe(subgroups => {
-      this.all_mnt_subgroups = subgroups;
+      this.allMntSubgroups = subgroups;
       this.mountainSubgroup = subgroups[0];
       this.showSpinner = false;
-    })
+    });
   }
 
-  onSubgroupSelect(){
+  onSubgroupSelect() {
     this.showSpinner = true;
     this.selection.clear();
     let subGroupID = '';
-    this.all_mnt_subgroups.forEach(subgroup => {
-      if(subgroup.name == this.mountainSubgroup) subGroupID = subgroup.id;
+    this.allMntSubgroups.forEach(subgroup => {
+      if (subgroup.name === this.mountainSubgroup) {
+        subGroupID = subgroup.id;
+      }
     });
     this.routeService.getRoutesForSubgroup(subGroupID).subscribe(routes => {
       this.dataSource = new MatTableDataSource<Route>(routes);
       this.showSpinner = false;
-    })
-  }
-
-  addRoute(){
-    this.showSpinner = true;
-    const dateToSend = this.formatDate(this.selectedDate);
-    this.tripRouteService.addRouteToTripOnDate(this.tripID,this.selection.selected[0].id,dateToSend).subscribe(result =>{
-      if(result.data == dateToSend && result.wycieczka == this.tripID && result.trasa == this.selection.selected[0].id){
-        this.dialogRef.close();
-      }
     });
   }
 
-  formatDate(date) {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+  addRoute() {
+    this.showSpinner = true;
+    const dateToSend = this.formatDate(this.selectedDate);
+    this.tripRouteService.addRouteToTripOnDate(this.tripID, this.selection.selected[0].id, dateToSend).subscribe(
+      result => {
+        if (result.data === dateToSend && result.wycieczka === this.tripID && result.trasa === this.selection.selected[0].id) {
+          this.dialogRef.close();
+        }
+      });
+  }
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
+  formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) {
+      month = '0' + month;
+    }
+    if (day.length < 2) {
+      day = '0' + day;
+    }
 
     return [year, month, day].join('-');
   }
