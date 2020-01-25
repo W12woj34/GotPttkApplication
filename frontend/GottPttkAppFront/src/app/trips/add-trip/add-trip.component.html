@@ -23,8 +23,8 @@
       <h4>Grupa górska:</h4>
       <mat-form-field>
         <input matInput value="{{this.editedTrip.mntGroups}}" disabled *ngIf="allRoutes.length != 0">
-        <mat-select [(value)]="this.editedTrip.mntGroups" *ngIf="allRoutes.length == 0">
-          <mat-option *ngFor="let group of allMntGroups" [value]="group.name">
+        <mat-select id="groupSelect" [(value)]="this.editedTrip.mntGroups" *ngIf="allRoutes.length == 0">
+          <mat-option id="{{group.name}}" *ngFor="let group of allMntGroups" [value]="group.name">
             {{group.name}}
           </mat-option>
         </mat-select>
